@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISSP Practice Exam</title>
+<style>
+  :root{
+    --red:#ff3b4e;
+    --blue:#2f6bff;
+    --bg:#0a0508;
+    --panel:#160c11;
+    --panel2:#1f1219;
+    --panel3:#241419;
+    --text:#f2e9ec;
+    --text-dim:#b8a3ab;
+    --border:#33222a;
+    --green:#2fbf6a;
+    --radius:16px;
+    --shadow: 0 8px 24px rgba(0,0,0,0.45);
+    --grad: linear-gradient(135deg, var(--red), var(--blue));
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Thai", sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:24px 16px 80px;
+  }
+  .hidden{display:none !important;}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin-bottom:20px;
+  }
+  .card.panel2{background:var(--panel2);}
+  h1,h2,h3{margin:0 0 8px;font-weight:700;}
+  h1{font-size:1.8rem;}
+  .subhead{color:var(--text-dim);margin-bottom:24px;font-size:0.95rem;}
+  .grad-text{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  label{display:block;font-weight:600;margin-bottom:8px;font-size:0.95rem;}
+  .field{margin-bottom:22px;}
+  input[type=text]{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    font-size:1rem;
+  }
+  input[type=text]:focus{outline:2px solid var(--blue);}
+  select{
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel2);
+    color:var(--text);
+    font-size:0.95rem;
+  }
+  .btn{
+    border:none;
+    border-radius:12px;
+    padding:12px 22px;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    color:#fff;
+    background:var(--grad);
+    box-shadow:0 4px 14px rgba(255,59,78,0.25);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(47,107,255,0.3);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
+  .btn.secondary{
+    background:var(--panel3);
+    box-shadow:none;
+    border:1px solid var(--border);
+  }
+  .btn.small{padding:8px 14px;font-size:0.85rem;border-radius:10px;}
+  .btn.danger{background:linear-gradient(135deg,#ff3b4e,#b8202f);}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+  .row.between{justify-content:space-between;}
+  .domain-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:10px;
+    margin-top:10px;
+  }
+  .domain-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:10px 12px;
+    cursor:pointer;
+  }
+  .domain-item input{width:18px;height:18px;accent-color:var(--red);}
+  .domain-item .dcount{margin-left:auto;color:var(--text-dim);font-size:0.8rem;}
+  .toggle-group{display:flex;gap:8px;flex-wrap:wrap;}
+  .toggle-opt{
+    flex:1;
+    min-width:130px;
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    text-align:left;
+  }
+  .toggle-opt.active{
+    border-color:transparent;
+    background:var(--grad);
+  }
+  .toggle-opt .t-title{font-weight:700;font-size:0.95rem;}
+  .toggle-opt .t-desc{font-size:0.78rem;color:var(--text-dim);margin-top:4px;}
+  .toggle-opt.active .t-desc{color:rgba(255,255,255,0.85);}
+  .lang-en{}
+  .lang-th{}
+  .bi-block .lang-en{display:block;}
+  .bi-block .lang-th{display:block;color:var(--text-dim);font-style:italic;margin-top:2px;}
+  .warning{color:var(--red);font-size:0.85rem;margin-top:6px;min-height:1.2em;}
+
+  /* Quiz screen */
+  #screen-quiz .quiz-header{margin-bottom:14px;}
+  .timer-track{
+    width:100%;
+    height:10px;
+    border-radius:6px;
+    background:var(--panel3);
+    overflow:hidden;
+    margin-bottom:6px;
+    border:1px solid var(--border);
+  }
+  .timer-bar{
+    height:100%;
+    width:100%;
+    background:var(--grad);
+    border-radius:6px;
+    transition:width 0.2s linear, background .3s ease;
+  }
+  .timer-bar.urgent{
+    background:var(--red);
+    animation:pulse 0.8s infinite;
+  }
+  @keyframes pulse{
+    0%{opacity:1;}
+    50%{opacity:0.45;}
+    100%{opacity:1;}
+  }
+  .qmeta{display:flex;justify-content:space-between;color:var(--text-dim);font-size:0.85rem;margin-bottom:10px;}
+  .question-text{font-size:1.15rem;font-weight:600;margin-bottom:18px;}
+  .options-list{display:flex;flex-direction:column;gap:10px;}
+  .option{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    cursor:pointer;
+    font-size:0.98rem;
+  }
+  .option:hover{border-color:var(--blue);}
+  .option.selected-neutral{border-color:var(--blue);background:#182338;}
+  .option.correct{border-color:var(--green);background:#123322;}
+  .option.incorrect{border-color:var(--red);background:#331419;}
+  .option.disabled{cursor:default;}
+  .option.disabled:hover{border-color:var(--border);}
+  .explain-box{
+    margin-top:16px;
+    padding:14px 16px;
+    background:var(--panel3);
+    border-left:4px solid var(--blue);
+    border-radius:10px;
+    font-size:0.92rem;
+  }
+  .quiz-actions{display:flex;justify-content:space-between;margin-top:20px;gap:10px;}
+
+  /* Results screen */
+  .results-top{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+  .dial-wrap{flex:0 0 auto;}
+  .stats-wrap{flex:1;min-width:220px;}
+  .banner{
+    border-radius:12px;
+    padding:14px 16px;
+    font-weight:700;
+    margin-bottom:18px;
+  }
+  .banner.pass{background:rgba(47,191,106,0.15);border:1px solid var(--green);color:var(--green);}
+  .banner.fail{background:rgba(255,59,78,0.12);border:1px solid var(--red);color:var(--red);}
+  .stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.95rem;}
+  .stat-row:last-child{border-bottom:none;}
+  .review-item{
+    background:var(--panel2);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .review-item .rq{font-weight:600;margin-bottom:8px;}
+  .review-item .ans-row{font-size:0.88rem;margin-top:4px;}
+  .review-item .your-ans{color:var(--red);}
+  .review-item .correct-ans{color:var(--green);}
+  .footer-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+
+  #printReport{display:none;}
+
+  @media print{
+    body *{visibility:hidden;}
+    #printReport, #printReport *{visibility:visible;}
+    #printReport{
+      display:block !important;
+      position:absolute;
+      left:0;top:0;
+      width:100%;
+      color:#000;
+      background:#fff;
+    }
+    @page{margin:1cm;}
+    .print-q{page-break-inside:avoid;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #ccc;}
+    .print-q .pen{font-weight:600;}
+    .print-q .pth{color:#333;font-style:italic;}
+    .print-badge{font-weight:700;}
+    .print-badge.correct{color:#0a7a2f;}
+    .print-badge.incorrect{color:#b8202f;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+
+  <!-- START SCREEN -->
+  <section id="screen-start" class="card">
+    <h1 class="grad-text" data-t="appTitle">CISSP Practice Exam</h1>
+    <div class="subhead"><span data-t="createdBy">Created by</span> <span id="creatorName"></span></div>
+
+    <div class="field">
+      <label data-t="nameLabel">Your Name</label>
+      <input type="text" id="inputName" data-t-ph="namePlaceholder" placeholder="Enter your name to begin" autocomplete="off">
+      <div class="warning" id="warnName"></div>
+    </div>
+
+    <div class="field">
+      <div class="row between">
+        <label data-t="domainsLabel" style="margin-bottom:0;">Select Domains</label>
+        <div class="row">
+          <button class="btn small secondary" id="btnSelectAll" data-t="selectAll">Select All</button>
+          <button class="btn small secondary" id="btnClearAll" data-t="clearAll">Clear All</button>
+        </div>
+      </div>
+      <div class="domain-grid" id="domainGrid"></div>
+      <div class="warning" id="warnDomains"></div>
+    </div>
+
+    <div class="field">
+      <label data-t="questionCountLabel">Number of Questions</label>
+      <select id="selectCount"></select>
+    </div>
+
+    <div class="field">
+      <label data-t="orderLabel">Question Order</label>
+      <div class="toggle-group">
+        <div class="toggle-opt active" data-order="sequential">
+          <div class="t-title" data-t="sequential">Sequential</div>
+        </div>
+        <div class="toggle-opt" data-order="random">
+          <div class="t-title" data-t="random">Random</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label data-t="modeLabel">Quiz Mode</label>
+      <div class="toggle-group">
+        <div class="toggle-opt active" data-mode="practice">
+          <div class="t-title" data-t="practiceMode">Practice Mode</div>
+          <div class="t-desc" data-t="practiceDesc">Instant feedback after each question, with explanations.</div>
+        </div>
+        <div class="toggle-opt" data-mode="exam">
+          <div class="t-title" data-t="examMode">Exam Mode</div>
+          <div class="t-desc" data-t="examDesc">No feedback until the end, just like the real exam.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label data-t="languageLabel">Language</label>
+      <div class="toggle-group">
+        <div class="toggle-opt active" data-lang="en">
+          <div class="t-title">EN</div>
+        </div>
+        <div class="toggle-opt" data-lang="th">
+          <div class="t-title">TH</div>
+        </div>
+        <div class="toggle-opt" data-lang="enth">
+          <div class="t-title">EN+TH</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn" id="btnStart" data-t="startButton" style="width:100%;font-size:1.05rem;padding:16px;">Start Quiz</button>
+  </section>
+
+  <!-- QUIZ SCREEN -->
+  <section id="screen-quiz" class="card hidden">
+    <div class="quiz-header">
+      <div class="timer-track"><div class="timer-bar" id="timerBar"></div></div>
+      <div class="qmeta">
+        <span><span data-t="questionOf">Question</span> <span id="qNum">1</span> <span data-t="ofWord">of</span> <span id="qTotal">1</span></span>
+        <span id="qDomainLabel"></span>
+      </div>
+    </div>
+    <div class="question-text" id="questionText"></div>
+    <div class="options-list" id="optionsList"></div>
+    <div class="explain-box hidden" id="explainBox"></div>
+    <div class="quiz-actions">
+      <button class="btn danger" id="btnFinishNow" data-t="finishNow">Finish Now</button>
+      <button class="btn hidden" id="btnNext" data-t="next">Next</button>
+    </div>
+  </section>
+
+  <!-- RESULTS SCREEN -->
+  <section id="screen-results" class="card hidden">
+    <h1 data-t="resultsTitle">Results</h1>
+    <div id="resultBanner"></div>
+    <div class="results-top">
+      <div class="dial-wrap" id="dialWrap"></div>
+      <div class="stats-wrap">
+        <div class="stat-row"><span data-t="correctStat">Correct</span><strong id="statCorrect">0</strong></div>
+        <div class="stat-row"><span data-t="incorrectStat">Incorrect</span><strong id="statIncorrect">0</strong></div>
+        <div class="stat-row"><span data-t="skippedLabel">Skipped</span><strong id="statSkipped">0</strong></div>
+        <div class="stat-row"><span data-t="scoreStat">Score</span><strong id="statScore">0%</strong></div>
+      </div>
+    </div>
+    <div class="footer-actions">
+      <button class="btn secondary" id="btnPrint" data-t="printButton">Print / Save PDF</button>
+      <button class="btn" id="btnRestart" data-t="restartButton">New Attempt</button>
+    </div>
+    <h2 style="margin-top:28px;" data-t="reviewTitle">Review Incorrect Answers</h2>
+    <div id="reviewList"></div>
+  </section>
+
+  <div id="printReport"></div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG
+   ========================================================= */
+const CREATOR_NAME = "Got";
+// Paste your Google Apps Script Web App URL below to enable remote logging.
+// Leave blank to disable remote tracking (local backup still saves).
+const TRACKING_URL = "";
+const SECONDS_PER_QUESTION = 90;
+const URGENT_THRESHOLD = 15;
+const EXAM_TIMEOUT_ADVANCE_MS = 900;
+
+/* =========================================================
+   DATA
+   ========================================================= */
+const QUESTION_BANK = [{"id":1,"dom":1,"question":"A security manager discovers that several employees are using personal devices to access company resources without authorization. Which of the following policies should be implemented FIRST to address this issue?","options":["Data Loss Prevention (DLP) policy.","Bring Your Own Device (BYOD) policy","Acceptable Use Policy (AUP).","Incident Response Plan (IRP)."],"correct_idx":2,"explanation":"An Acceptable Use Policy (AUP) defines the rules and expectations for using company resources, including the prohibition of unauthorized devices. A BYOD policy could be implemented later to allow personal devices under certain conditions, but the AUP sets the initial boundary.","question_th":null,"options_th":null,"explanation_th":null},{"id":2,"dom":1,"question":"An organization is concerned about maintaining business operations during a disaster. Which of the following plans is MOST critical for ensuring the organization can continue functioning?","options":["Incident Response Plan (IRP)","Disaster Recovery Plan (DRP)","Business Continuity Plan (BCP)","Security Awareness Training Plan"],"correct_idx":2,"explanation":"A Business Continuity Plan (BCP) focuses on maintaining essential business functions during and after a disruption. While a DRP focuses on IT recovery, the BCP encompasses all aspects of the business.","question_th":null,"options_th":null,"explanation_th":null},{"id":3,"dom":1,"question":"An organization is implementing a cloud strategy and needs to ensure that sensitive data stored in various cloud services remains protected. Which of the following solutions would BEST provide monitoring and security for cloud activity?","options":["Implement a SIEM (Security Information and Event Management) system.","Deploy a CASB (Cloud Access Security Broker)","Establish a comprehensive incident response plan.","Enforce multi-factor authentication for all cloud services."],"correct_idx":1,"explanation":"A CASB is specifically designed to monitor and secure cloud activity, ensuring data remains protected across various cloud services and providing visibility into potential threats. While a SIEM, incident response plan, and MFA are important, they do not offer the same level of cloud-specific monitoring and control.","question_th":null,"options_th":null,"explanation_th":null},{"id":23,"dom":1,"question":"A CISO is concerned about insider threats. Which of the following security controls would be MOST effective in mitigating this risk?","options":["Implementing a strong password policy.","Conducting background checks on all new employees.","Implementing a data loss prevention (DLP) system and monitoring user activity.","Encrypting all sensitive data at rest and in transit."],"correct_idx":2,"explanation":"DLP systems can detect and prevent sensitive data from being exfiltrated by malicious insiders. Monitoring user activity can also help identify anomalous behavior that may indicate an insider threat.","question_th":null,"options_th":null,"explanation_th":null},{"id":47,"dom":1,"question":"A U.S.-based cloud service provider (CSP) is expanding its services to cater to a global clientele, including organizations within the European Union. This expansion necessitates storing and processing vast quantities of Personally Identifiable Information (PII) belonging to EU citizens. The CSP's legal and compliance team is meticulously reviewing their data handling practices, security controls, and contractual obligations to ensure strict adherence to all relevant international data protection regulations. They are particularly concerned about the stringent requirements for data minimization, purpose limitation, consent, data subject rights (such as the 'right to be forgotten'), and the potential for substantial fines in cases of non-compliance. What is the most critical and comprehensive initial step the CSP must undertake to ensure full compliance with these international data protection laws, specifically regarding the handling of EU citizens' PII, and proactively mitigate associated legal and financial risks?","options":["Implement strong end-to-end encryption for all EU citizen PII, both at rest and in transit, to ensure data confidentiality.","Conduct a thorough data mapping exercise to identify all locations where EU citizen PII is collected, processed, and stored, and assess its purpose and necessity.","Obtain explicit consent from all EU data subjects for the collection and processing of their PII, and establish a clear consent management system.","Develop and implement a robust breach notification process that complies with the 72-hour reporting requirement for data breaches involving EU citizen PII."],"correct_idx":1,"explanation":"The best answer is 'Conduct a thorough data mapping exercise to identify all locations where EU citizen PII is collected, processed, and stored, and assess its purpose and necessity.' Before a CSP can ensure compliance with comprehensive data protection laws like GDPR, it must first understand *what* PII it collects, *where* it is stored, *how* it is processed, and *why* it is collected (purpose limitation) [29]. Data mapping is the fundamental initial step that provides this visibility, enabling the organization to then apply appropriate controls, manage consent, and implement retention policies effectively [29]. Without this mapping, any subsequent compliance efforts would be guesswork. The 'Best Distractor' is 'Obtain explicit consent from all EU data subjects for the collection and processing of their PII, and establish a clear consent management system.' While obtaining explicit consent is a crucial requirement under GDPR and a core aspect of PII handling [30], it cannot be effectively or comprehensively achieved without first understanding the full scope of data being collected and processed, which data mapping provides. Data mapping is a prerequisite for informed consent management. This question primarily tests concepts from CISSP Domain 1: Security and Risk Management, specifically legal and regulatory issues pertaining to PII and privacy laws (e.g., GDPR).","question_th":null,"options_th":null,"explanation_th":null},{"id":48,"dom":1,"question":"A U.S.-based e-commerce company collects and processes personally identifiable information (PII) from customers worldwide, including those in the European Union. Recently, a minor data breach occurred, exposing a limited set of customer email addresses. The legal team is debating the appropriate breach notification procedure, specifically concerning the differing requirements under U.S. state laws and the GDPR. The CISO needs to ensure compliance and minimize legal exposure.\n\nWhat is the CISO's most prudent guidance regarding breach notification for all affected customers, and why is this approach generally preferred in a global context?","options":["Follow the most stringent U.S. state notification law as a baseline, as it simplifies compliance across all domestic operations and provides a consistent standard.","Prioritize notification to affected EU customers within 72 hours as mandated by GDPR, and then address U.S. state laws based on their specific timelines.","Notify all affected customers globally according to the strictest notification timeline and content requirements among all applicable regulations (U.S. state laws and GDPR).","Await legal counsel's full assessment of the breach's impact and specific jurisdictional requirements before initiating any notification, to avoid premature or incorrect disclosures."],"correct_idx":2,"explanation":"The most prudent guidance is to notify all affected customers globally according to the strictest requirements among all applicable regulations. In a globalized environment, applying the most stringent standard holistically ensures compliance with all jurisdictions simultaneously, minimizing legal risk and potential penalties [29]. This 'highest common denominator' approach simplifies operational complexity by establishing a single, comprehensive notification process rather than managing disparate, potentially conflicting requirements. It also demonstrates due care and a commitment to customer privacy globally, which can mitigate reputational damage [15]. Following only the most stringent U.S. state law would likely lead to non-compliance with GDPR for EU citizens, given GDPR's stricter 72-hour timeline and broader definition of PII [29, 46]. Prioritizing only EU customers first is better but still implies a two-tiered, potentially inefficient, and legally risky approach for U.S. customers. Awaiting a full legal assessment before any notification could cause delays that push the organization beyond strict regulatory timelines (like GDPR's 72 hours), leading to further non-compliance penalties [46]. The CISO's role is to advise on security strategy to reduce liability and risk, and a 'strictest standard globally' approach best achieves this for breach notification in a complex regulatory landscape.","question_th":null,"options_th":null,"explanation_th":null},{"id":49,"dom":1,"question":"A U.S.-based technology company is developing a cutting-edge quantum-resistant encryption algorithm, which is considered highly sensitive intellectual property. The company is exploring partnerships with research institutions in various countries, some of which are subject to U.S. export control regulations concerning advanced cryptographic technologies. The CISO is responsible for ensuring compliance while enabling global collaboration.\n\nFrom a regulatory and risk management perspective, what is the most crucial consideration for the CISO when developing a strategy for international collaboration involving this encryption algorithm?","options":["The potential for unintended information disclosure during collaboration due to varying security standards and cultural differences in partner countries.","The classification of the quantum-resistant encryption algorithm under U.S. export control regulations and the specific licensing requirements for each target country.","The strength and robustness of the partner institutions' physical security controls and data handling practices to protect the intellectual property on their premises.","The long-term intellectual property rights and patent protections in each partner country, to ensure the company retains full ownership and commercialization rights globally."],"correct_idx":1,"explanation":"The most crucial consideration is the classification of the quantum-resistant encryption algorithm under U.S. export control regulations and the specific licensing requirements for each target country. The scenario explicitly mentions 'some of which are subject to U.S. export control regulations concerning advanced cryptographic technologies' [26]. Non-compliance with export controls can lead to severe legal penalties, fines, and reputational damage for the company. This is a non-negotiable regulatory hurdle that must be fully understood and navigated before any international collaboration proceeds [26, 27]. It directly impacts the legality and feasibility of the partnerships. The potential for unintended information disclosure due to varying security standards is a significant operational risk that needs to be managed, but it is secondary to the foundational legal constraint of export controls. The strength of partner institutions' physical security is an important due diligence step for protecting intellectual property [15, 71], but again, it assumes the collaboration is legally permissible in the first place. Long-term intellectual property rights and patent protections are crucial legal and business considerations for commercialization, but they relate to ownership and commercial viability, not the immediate legal permissibility of exporting the technology for collaboration, which is the direct regulatory concern highlighted by 'export control regulations' [27, 72]. The question focuses on regulatory and risk management, making export control the primary and immediate concern.","question_th":null,"options_th":null,"explanation_th":null},{"id":50,"dom":1,"question":"A U.S.-based technology company provides a SaaS platform to customers globally, including individuals within the European Union. Their legal team is reviewing data handling practices to ensure compliance with relevant privacy regulations. The company collects various types of user information during account registration, service usage, and support interactions. According to the General Data Protection Regulation (GDPR), which of the following is an individual right that *must* be facilitated by the company regarding the personal data they collect from EU citizens?","options":["The right to request immediate and permanent physical destruction of all data collected, regardless of retention policies.","The right to be informed about the collection and use of their personal data, including the purpose of processing.","The right to demand full financial compensation for any data breach impacting their personal information.","The right to access and modify any personal data, even if it is stored in encrypted, immutable audit logs."],"correct_idx":1,"explanation":"The best answer is 'The right to be informed about the collection and use of their personal data, including the purpose of processing.' The GDPR is a comprehensive data protection regulation that grants several fundamental rights to individuals concerning their personal data [6]. Among these, the 'right to be informed' (also known as transparency) is a cornerstone, requiring organizations to clearly communicate what data is collected, why, and how it will be used [16]. The option 'The right to request immediate and permanent physical destruction of all data collected, regardless of retention policies' is a distractor that plays on the 'right to erasure' (or 'right to be forgotten') [17]. While GDPR grants a right to erasure, it is not absolute and is subject to legitimate grounds for retention (e.g., legal obligations, public interest) [17]. An organization cannot be forced to destroy data if legal or regulatory requirements mandate its retention. The other options propose rights that are either not absolute or not explicitly defined in the GDPR in the manner described.","question_th":null,"options_th":null,"explanation_th":null},{"id":43,"dom":2,"question":"A FinTech company is developing a new mobile payment application that handles sensitive transaction data. The Chief Information Security Officer (CISO) is acutely aware that the security of data, particularly customer financial information, is paramount. They recognize that data at rest (e.g., on the mobile device or backend servers), data in transit (e.g., during payment processing), and data in use (e.g., while being actively processed by the application) each present unique challenges. The CISO wants to embed security measures early in the Software Development Life Cycle (SDLC) to ensure end-to-end data confidentiality, integrity, and availability. Which approach represents the *most effective* integration of data protection into the application's design and development, aligning with a 'security by design' philosophy?","options":["Implementing strong cryptographic libraries (e.g., OpenSSL) to encrypt all data at rest and in transit, and relying on secure network protocols like HTTPS for communication.","Conducting regular penetration testing and vulnerability scanning throughout the development lifecycle to identify and remediate data-related security flaws before deployment.","Adopting secure coding practices (e.g., input validation, parameterized queries) to prevent common web application vulnerabilities that could lead to data compromise.","Incorporating data flow analysis and threat modeling (e.g., STRIDE) during the design phase to identify potential data exposure points and integrate appropriate controls for each data state."],"correct_idx":3,"explanation":"The most effective approach is incorporating data flow analysis and threat modeling (e.g., STRIDE) during the design phase [66, 69-71]. A 'security by design' philosophy dictates that security should be built into the application from the ground up, not added as an afterthought [72, 73]. Threat modeling, particularly methodologies like STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) [66, 69], allows developers to proactively identify potential data exposure points and vulnerabilities for data at rest, in transit, and in use, and then design in appropriate controls for each state during the *design phase* of the SDLC [66, 69-71, 74].\n\nImplementing strong cryptographic libraries and relying on secure network protocols (first option) are crucial *technical implementations* [9, 33, 51], but they are specific solutions that would result from, not define, the 'security by design' process. Conducting regular penetration testing and vulnerability scanning (second option) are vital for *identifying existing flaws* [75-77], but they are reactive/detective measures that occur later in the SDLC; they don't ensure security is *designed in* from the start. Adopting secure coding practices (third option) is essential for preventing common vulnerabilities [24, 73], but it's a coding-phase activity and doesn't encompass the holistic design-time analysis of data states across the entire application architecture as threat modeling does. The managerial mindset emphasizes proactive, upstream activities in the SDLC that embed security fundamentally, reducing overall risk, rather than reactive testing or isolated technical implementations [72, 73].","question_th":null,"options_th":null,"explanation_th":null},{"id":62,"dom":2,"question":"A cloud service provider (CSP) is undergoing a security assessment which reveals data centers are in countries with weak data protection laws. Which action should the CSP take to address this risk effectively?","options":["Implement data residency controls.","Obtain cyber insurance.","Conduct regular penetration testing.","Provide customers with transparent information about data protection practices."],"correct_idx":0,"explanation":"Data residency controls directly address the risk by ensuring data storage in jurisdictions with adequate protections. This helps with compliance and protects data. Other options are useful, but do not directly mitigate the risk.","question_th":null,"options_th":null,"explanation_th":null},{"id":65,"dom":2,"question":"A cloud service provider (CSP) offers object storage for large datasets, which includes sensitive customer financial records. As part of their shared responsibility model, the CSP provides server-side encryption for data at rest, but the customer (a financial institution) is responsible for data in transit and in use. The financial institution's CISO is evaluating additional security controls to ensure comprehensive protection of this sensitive data throughout its entire lifecycle within the cloud environment. Considering the primary security objective of maintaining confidentiality for data stored and processed by the CSP, which of the following controls is most crucial for the financial institution to implement on its side?","options":["Deploying a Cloud Access Security Broker (CASB) to monitor and enforce security policies for data movement between the financial institution's network and the cloud object storage.","Implementing strong client-side encryption for all data *before* it is uploaded to the CSP's object storage, managing the encryption keys within the financial institution's control.","Establishing robust multi-factor authentication (MFA) for all users accessing the cloud object storage, ensuring only authorized individuals can log in.","Negotiating a Data Processing Agreement (DPA) with the CSP that clearly outlines their responsibilities for data protection, retention, and incident response in line with regulatory requirements."],"correct_idx":1,"explanation":"This is the best answer because implementing strong client-side encryption for data *before* it is uploaded to the CSP ensures that the data is encrypted *at the source* and remains encrypted while stored in the CSP's object storage, even though the CSP offers server-side encryption [3]. Critically, by managing the encryption keys *within the financial institution's control*, the organization maintains full custody of its data's confidentiality, independent of the CSP's controls, which is paramount for sensitive financial records. This addresses the 'data at rest' aspect from the customer's side. The best distractor, 'Deploying a Cloud Access Security Broker (CASB) to monitor and enforce security policies for data movement between the financial institution's network and the cloud object storage,' is an excellent control for providing visibility and control over cloud activity, particularly for data in transit and detecting policy violations [11, 38, 39]. While a CASB can enforce policies and even prevent data exfiltration, it operates on data *as it moves* or *is accessed*. It does not inherently provide the foundational confidentiality for data *at rest* within the CSP's storage if that data was uploaded unencrypted or if the customer relies solely on the CSP's server-side encryption with keys managed by the CSP [38]. Client-side encryption with customer-managed keys offers a stronger, more independent layer of data confidentiality for data at rest within the CSP's domain [38].","question_th":null,"options_th":null,"explanation_th":null},{"id":66,"dom":2,"question":"A cloud service provider (CSP) offers various database services, including a NoSQL key-value store (e.g., DynamoDB) and traditional relational databases. A new client, a social media company, is planning to store massive amounts of semi-structured user interaction data (likes, shares, comments) in the CSP's NoSQL key-value store. The client's CISO is focused on data integrity and availability, given the real-time nature of the data and its eventual use in recommendation engines. The CISO needs to understand how data integrity is enforced in such a non-relational database model, particularly concerning relationships between data elements. In the context of a NoSQL key-value store, which mechanism is typically used to enforce referential integrity across related data elements, ensuring consistency when data is referenced by a foreign key?","options":["Database schemas, which define the structure and relationships of data tables, enforcing integrity constraints at the time of table creation.","Foreign keys, which are columns in one table that uniquely identify rows of another table, ensuring referential integrity through predefined relationships.","Application-level logic, where developers implement custom code to enforce data relationships and consistency during data input and updates.","Built-in referential integrity constraints, managed by the database management system (DBMS), automatically preventing actions that would violate data relationships."],"correct_idx":2,"explanation":"This is the best answer because NoSQL databases, like key-value stores (e.g., DynamoDB), fundamentally differ from relational databases in their data model and do not typically support traditional SQL foreign key constraints or strict schemas for referential integrity [49]. Instead, enforcing data relationships and consistency (including referential integrity) in NoSQL environments is often handled through *application-level logic* [49, 50]. Developers write specific code to manage these relationships, ensuring that if data in one part of the store depends on data in another, the application enforces that consistency. The best distractor, 'Foreign keys, which are columns in one table that uniquely identify rows of another table, ensuring referential integrity through predefined relationships,' is a core mechanism for enforcing referential integrity in *relational databases* [50]. However, the question explicitly specifies a *NoSQL key-value store* and highlights its structural difference from relational databases. Applying the concept of foreign keys directly, as implemented in relational databases, would be incorrect in this context, as NoSQL databases employ different approaches for data consistency and relationship management [49, 50].","question_th":null,"options_th":null,"explanation_th":null},{"id":70,"dom":2,"question":"A cloud service provider suffers a major security breach, and some customer data is potentially compromised.  As a customer of this provider, what is the most critical initial action your company should take from an asset security standpoint?","options":["Immediately terminate the contract with the cloud service provider.","Conduct an internal assessment to determine the potential impact on your data and systems.","Publicly disclose the breach to your customers to maintain transparency.","Demand a full audit report from the cloud service provider outlining the details of the incident."],"correct_idx":1,"explanation":"The immediate priority should be to understand the potential impact of the breach on your organization's assets. This involves identifying which data might have been compromised and assessing the potential consequences. While terminating the contract might be a later decision, and transparency with customers is important, the internal assessment is crucial for understanding the immediate risks. Demanding an audit is necessary but might take time, and the internal assessment can proceed in parallel.","question_th":null,"options_th":null,"explanation_th":null},{"id":71,"dom":2,"question":"A cloud storage provider suffers a major service outage due to a ransomware attack. Multiple customers, including a law firm with highly sensitive client data, are affected. The law firm's business continuity plan (BCP) relies on the cloud provider's guarantees of high availability. \n\nWhich of the following steps should the law firm have taken to BEST mitigate the impact of this type of event?","options":["Implemented multi-factor authentication for all cloud accounts to prevent unauthorized access.","Regularly tested their incident response plan to ensure a swift and effective response to security incidents.","Diversified their data storage by using multiple cloud providers or on-premise backups.","Negotiated a higher service level agreement (SLA) with the cloud provider to guarantee faster recovery times."],"correct_idx":2,"explanation":"The correct answer is <b>c) Diversified their data storage by using multiple cloud providers or on-premise backups.<\/b>\n\n<b>Why it's the best mitigation:<\/b> Relying solely on a single cloud provider creates a single point of failure. Data diversification provides redundancy and ensures business continuity even if one provider is compromised.\n<b>Why other options are less ideal:<\/b><ul><li>Multi-factor authentication (a) reduces the risk of unauthorized access but doesn't protect against service outages.<\/li><li>Incident response planning (b) is important, but it's more effective when combined with proactive measures to reduce the impact of incidents.<\/li><li>A higher SLA (d) might offer compensation for downtime, but it doesn't prevent the outage itself.<\/li><\/ul>","question_th":null,"options_th":null,"explanation_th":null},{"id":72,"dom":2,"question":"A cloud-based Software as a Service (SaaS) provider stores customer data in a multi-tenant environment. To meet stringent regulatory compliance requirements related to data residency, they need to ensure that data belonging to customers in a specific geographic region is exclusively stored within data centers located in that region. Which of the following architectural considerations is MOST critical for achieving this?","options":["Implementing strong encryption with geographically restricted key management.","Utilizing logical separation techniques such as tagging and access control lists within a globally distributed cloud infrastructure.","Provisioning dedicated cloud instances and storage buckets within the specified geographic region for customers subject to the data residency requirements.","Employing a hybrid cloud model where geographically sensitive data is stored on private, on-premises infrastructure within the required region."],"correct_idx":2,"explanation":"The most direct and reliable way to ensure data residency is by physically isolating the data within the required geographic region. Provisioning dedicated cloud instances and storage buckets within that region guarantees that the data does not reside elsewhere in the multi-tenant environment. While encryption with geographically restricted keys and logical separation add layers of security, they do not inherently guarantee that the data is physically located within the specified region. A hybrid cloud model introduces complexities in managing and securing data across different infrastructures.","question_th":null,"options_th":null,"explanation_th":null},{"id":73,"dom":2,"question":"A cloud-based software-as-a-service (SaaS) provider, 'CloudSafe,' stores vast amounts of customer data. Mia, a data privacy officer, is reviewing 'CloudSafe's' data collection practices to ensure strict compliance with global privacy regulations, including GDPR, which mandates explicit user agreement for data processing. Mia is particularly concerned about the initial phase where customer data is first obtained and integrated into 'CloudSafe's' systems. To uphold ethical data handling and avoid potential legal repercussions, Mia needs to focus on a critical control that directly governs the legitimacy of collecting customer information. Which control should Mia primarily focus on to ensure compliance during the data collection practices, especially concerning user rights and regulatory mandates?","options":["Establishing clear data retention policies to govern how long collected data is stored.","Implementing robust data classification to categorize the sensitivity of collected data.","Ensuring explicit consent is obtained from users before collecting their data.","Conducting regular data remanence checks to prevent residual data on media."],"correct_idx":2,"explanation":"When focusing on data collection practices, especially in the context of user rights and regulatory mandates like GDPR, the most crucial control is obtaining explicit consent from the user to collect their data [9]. This directly addresses the legitimacy of data acquisition, a foundational aspect of privacy regulations [9, 29]. The 'Best Distractor' is establishing clear data retention policies. While retention policies are vital for defining how long data should be kept and are part of the data lifecycle [6, 9, 10], they pertain to the *storage* and *archival* phases, not the initial *collection* phase that ensures the data was legitimately obtained in the first place [29, 30]. Data classification categorizes data's sensitivity, influencing its protection [3, 6, 7], and data remanence checks address data at the end-of-life cycle [3, 31], neither of which directly governs the legality of the initial collection.","question_th":null,"options_th":null,"explanation_th":null},{"id":5,"dom":3,"question":"\"Archival Secure,\" a digital forensics firm, is tasked with ensuring the absolute integrity of massive evidentiary datasets transferred from various sources to their secure long-term storage. These datasets are often hundreds of terabytes in size. They need a cryptographic mechanism that can quickly generate a unique digital fingerprint for each dataset before and after transfer, to detect even the slightest, accidental, or malicious modification. Due to the high volume and size of the data, the chosen method must be computationally efficient while providing strong collision resistance.","options":["Utilizing SHA-256 to generate a hash for each dataset, which offers strong collision resistance and is widely accepted for data integrity verification in forensic contexts.","Employing MD5 for its speed and widespread compatibility in generating hash values, which provides a quick integrity check for large volumes of data.","Applying SHA-1 due to its balance of speed and security for large files, making it a suitable choice for initial integrity checks before more rigorous verification.","Implementing a digital signature using RSA on each dataset to ensure both integrity and non-repudiation, leveraging asymmetric cryptography for its robust security properties."],"correct_idx":0,"explanation":"The correct answer is using SHA-256. SHA-256 (Secure Hash Algorithm 256-bit) is a cryptographic hash function that meets the requirements for strong collision resistance and computational efficiency [12, 37, 42, 43]. It generates a fixed-length output (a 'digital fingerprint') for any input size, making it ideal for verifying the integrity of large datasets [44]. The slight modification to input will result in a drastically different hash, reliably detecting changes [44]. SHA-256 is currently considered cryptographically secure for integrity purposes and is widely accepted in forensic and security contexts for its balance of performance and security.\n\nEmploying MD5 for its speed is a strong distractor. While MD5 is very fast, it is cryptographically broken due to known collision vulnerabilities [37, 42, 45], meaning different inputs can produce the same hash, undermining its reliability for integrity verification, especially in a forensic context where 'absolute integrity' is required. SHA-1 is also considered cryptographically weak and vulnerable to collision attacks [37, 42, 46], making it unsuitable where strong integrity is paramount. Implementing a digital signature using RSA, while providing integrity and non-repudiation, is more computationally intensive (asymmetric cryptography) than a simple hash function [12, 30]. For verifying integrity of 'massive evidentiary datasets' where speed and efficiency are important, a strong hash function like SHA-256 is the most appropriate and efficient choice when non-repudiation (sender identity proof) is not the primary requirement.\n\nThis question primarily tests your knowledge of cryptographic hashing algorithms, their properties, and their suitability for specific security goals, a key component of CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":7,"dom":3,"question":"\"CipherGuard Solutions,\" a cybersecurity firm, has detected a persistent, sophisticated attack against one of its client's web servers. The attacker is suspected of using a \"Known Plaintext Attack\" by intercepting encrypted session data and correlating it with known, unencrypted login page content. The goal is to derive the session encryption key to hijack active user sessions. The client's web application uses a custom TLS implementation. The Security Operations Center (SOC) team needs to recommend the *most effective and immediate countermeasure* to neutralize this specific threat, focusing on invalidating the attacker's advantage.","options":["Immediately rotating all active session encryption keys and forcing all users to re-authenticate, followed by patching the custom TLS implementation with a standard, well-vetted cryptographic library.","Deploying a Web Application Firewall (WAF) configured to inspect and filter all inbound traffic for known exploit patterns associated with session hijacking.","Implementing multi-factor authentication (MFA) for all user logins to prevent unauthorized access, even if session keys are compromised.","Analyzing historical network traffic for patterns of anomalous data transfer and establishing a baseline for legitimate encrypted traffic to detect future known plaintext attacks."],"correct_idx":0,"explanation":"The correct answer is immediately rotating active session keys and forcing re-authentication, followed by patching. a Known Plaintext Attack (KPA) leverages known pairs of plaintext and ciphertext to deduce the encryption key [39]. If the attacker has derived the session key, the most immediate and effective countermeasure is to invalidate that key by rotating it and forcing re-authentication. This cuts off the attacker's current access and renders their derived key useless. Patching the custom TLS implementation with a standard, vetted library is a crucial *long-term remediation* to prevent future KPAs and improve overall cryptographic hygiene.\n\nThe option of deploying a Web Application Firewall (WAF) is a plausible but incorrect distractor for this specific attack. While a WAF can protect against many web application attacks (like SQL injection or XSS) [40] and might have some rules for session management, its primary function is not to directly counter a KPA aimed at key derivation and session hijacking through cryptographic analysis. A KPA targets the underlying cryptographic weaknesses or operational flaws, not necessarily specific HTTP request patterns that a WAF typically filters. MFA prevents unauthorized *initial* login [41], not necessarily hijacking *active* sessions. Analyzing historical traffic is a *detective* control, not an *immediate countermeasure* to an active key compromise.\n\nThis question assesses your ability to apply knowledge of cryptanalytic attacks to determine the most effective and immediate security response, a critical skill in CISSP Domain 3 and Security Operations (Domain 7).","question_th":null,"options_th":null,"explanation_th":null},{"id":9,"dom":3,"question":"\"CriticalFlow Systems\" operates a municipal water treatment plant, relying on a complex network of Industrial Control Systems (ICS) and SCADA devices. Many of these devices are legacy systems with proprietary software, lacking modern security features, and cannot be patched without significant downtime and risk to continuous operations. A recent vulnerability scan identified several critical remote access vulnerabilities on an older SCADA controller. The plant manager emphasizes that human safety and uninterrupted water supply are paramount. CISO David must recommend a security measure that most effectively mitigates the identified vulnerabilities while minimizing disruption to the critical service.","options":["Physically isolating the vulnerable SCADA controller by moving it to a segmented and air-gapped network, removing all external connectivity, and implementing strict physical access controls to its local console.","Implementing a robust host-based intrusion detection system (HIDS) on the SCADA controller to monitor for anomalous behavior and alert operators to potential intrusions.","Developing and applying custom vendor-approved patches for the identified vulnerabilities, scheduling a maintenance window for their deployment during off-peak hours.","Upgrading all legacy SCADA devices to modern, patchable equivalents with built-in security features and automated patch management capabilities, phasing in the replacements over the next fiscal year's budget cycle."],"correct_idx":0,"explanation":"The correct answer is physical isolation through air gapping. For critical legacy ICS/SCADA systems that cannot be patched or upgraded without significant risk to human safety and continuous operations, physical isolation is often the most effective and least disruptive immediate mitigation strategy [6, 29]. By moving the controller to an air-gapped network segment (removing all external connectivity) and securing its physical access, the identified remote access vulnerabilities are rendered largely inaccessible to external attackers, preserving system functionality while minimizing service disruption. This directly addresses the paramount concerns of human safety and uninterrupted water supply [5].\n\nUpgrading all legacy SCADA devices to modern equivalents is a plausible, long-term ideal solution but is not the *most effective immediate* mitigation for an *identified critical vulnerability* on an *unpatchable legacy system* under strict operational constraints. Such a large-scale upgrade would involve significant cost, planning, and potential downtime, which the scenario explicitly seeks to minimize. Implementing a HIDS is detective, not preventive, and may not even be compatible with proprietary legacy ICS/SCADA systems. Developing custom patches is typically not feasible for proprietary systems and is rarely a 'most effective' immediate solution without vendor support. The CISSP mindset often prioritizes practical, effective risk reduction, especially when human safety and operational continuity are at stake.\n\nThis question tests your ability to apply architectural security principles to a challenging Industrial Control Systems environment, a key element of CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":10,"dom":3,"question":"\"DynamicNet Corp\" is overhauling its enterprise network infrastructure, moving from a traditional, hardware-centric architecture to a Software-Defined Network (SDN) to enhance agility, automation, and granular control over traffic flow. Their primary security concern is protecting the *centralized control plane* that dictates network behavior, as well as ensuring secure and efficient *data plane* forwarding. The network architect, John, needs to propose a security design that specifically addresses the unique attack vectors introduced by SDN's centralized intelligence and programmability.","options":["Implementing strong authentication and authorization mechanisms for access to the SDN controller, encrypting all communication between the controller and network devices, and ensuring data plane devices only process legitimate flow rules from the controller.","Deploying a distributed firewall on every network device to independently filter traffic at the data plane, thereby reducing reliance on the centralized SDN controller for security decisions.","Utilizing traditional VLANs and ACLs at the access layer of the network to segment user and device traffic, and installing intrusion prevention systems (IPS) at network choke points.","Focusing solely on securing the physical infrastructure and network cabling, as the programmability of SDN shifts all logical security concerns to the software layer, reducing hardware-related vulnerabilities."],"correct_idx":0,"explanation":"The correct answer addresses the unique security challenges of SDN. In SDN, the centralized controller (control plane) is a single point of failure and a high-value target. Therefore, implementing strong authentication and authorization for access to the SDN controller [41], and encrypting its communications [48], is paramount. Additionally, ensuring that data plane devices (switches/routers) only accept and process legitimate flow rules from the authenticated controller is crucial to prevent unauthorized traffic manipulation. This directly secures the core programmable elements of SDN.\n\nThe option recommending deploying a distributed firewall on every network device is a plausible but less optimal distractor. While distributed firewalls provide granular control, relying on them to independently filter traffic at the data plane would undermine the centralized control and automation benefits of SDN. It would also likely introduce significant management overhead and potentially conflict with the controller's intended traffic policies. Traditional VLANs/ACLs/IPS are important but do not specifically address the *new* attack surface introduced by SDN's centralized control [26]. Focusing solely on physical security ignores the significant logical security implications of SDN.\n\nThis question tests your specialized understanding of Software-Defined Networking architecture and its unique security considerations, a key area within CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":12,"dom":3,"question":"\"Fortress Data Solutions\" operates a Tier IV data center, storing critical national infrastructure data. Recent intelligence reports indicate a surge in sophisticated, state-sponsored physical intrusion attempts targeting similar facilities globally, utilizing advanced tools and tactics to bypass conventional security. The CEO, prioritizing business continuity and national security, has allocated a substantial budget to enhance physical security. The Head of Security, Alex, must recommend a holistic and resilient physical security strategy that accounts for detection, delay, and response, and provides the utmost protection, ensuring multi-layered defenses that deter even the most determined adversary.","options":["Establishing a multi-layered perimeter defense with hardened fencing, strategically placed surveillance cameras with AI-powered analytics, and robust entry control points utilizing multi-factor biometric authentication, all integrated with a centralized security operations center for rapid response.","Focusing primarily on internal controls, such as hardened server cabinets, continuous monitoring of environmental controls, and strict employee background checks, assuming external perimeter security is already sufficient.","Deploying an extensive network of vibration sensors and pressure plates throughout the facility and its immediate surroundings, integrated with an automated alarm system that directly contacts local law enforcement.","Implementing a highly visible security presence with armed guards, K-9 units, and frequent vehicle patrols around the clock, acting as the primary deterrent and initial response force."],"correct_idx":0,"explanation":"The correct answer is the multi-layered physical security approach. This option comprehensively addresses the 'holistic and resilient' requirements by combining deterrent (hardened fencing, visible measures), detection (AI-powered surveillance, sensors implied by monitoring), delay (hardened entry points), and response (integrated SOC for rapid action) across external and internal layers. It embodies the defense-in-depth principle for physical security [20, 21], which is paramount for a critical national infrastructure data center facing state-sponsored threats. Physical security is a fundamental principle, as there is no security without physical security [22].\n\nThe option recommending a focus primarily on internal controls is a plausible but incorrect distractor. While hardened server cabinets, environmental monitoring, and background checks are vital internal security measures, they neglect the critical importance of robust external perimeter defenses [23, 24]. Assuming external security is sufficient, especially against sophisticated state-sponsored threats, is a critical oversight. A physical security strategy must always begin from the outermost perimeter and extend inwards to provide adequate layered protection. This question emphasizes a holistic and multi-layered approach to physical security, which is a key aspect of CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":14,"dom":3,"question":"\"HybridCloud Solutions Inc.\" is migrating its on-premises customer relationship management (CRM) application, containing highly sensitive customer PII, to a hybrid cloud environment. The database will remain on-premises (IaaS), the application layer will be hosted on a public cloud PaaS, and a new customer-facing portal will be developed as a SaaS solution from a third-party vendor. The CISO, Emily, is responsible for designing a secure architecture that ensures end-to-end data protection, consistent access control, and effective threat monitoring across this complex hybrid landscape, specifically focusing on the interfaces and data flows between these distinct cloud service models and on-premise infrastructure.","options":["Implementing a robust Cloud Access Security Broker (CASB) to enforce security policies, monitor cloud activity, and provide data loss prevention (DLP) across the PaaS and SaaS components, while securing the on-premises IaaS database with traditional network segmentation and encryption.","Prioritizing the use of end-to-end encryption for all data in transit between on-premises and public cloud components, assuming that encryption will adequately address all security concerns across the hybrid architecture.","Establishing a dedicated virtual private cloud (VPC) for each cloud service model (IaaS and PaaS) to provide network isolation, coupled with granular access control lists (ACLs) at every ingress and egress point.","Relying primarily on the security features and shared responsibility models provided by each cloud vendor, conducting periodic third-party audits to ensure compliance with security best practices."],"correct_idx":0,"explanation":"The correct answer is implementing a Cloud Access Security Broker (CASB) combined with traditional on-premises security. This option provides the most comprehensive and effective architectural solution for securing a complex hybrid cloud environment that spans IaaS, PaaS, and SaaS. A CASB acts as a security policy enforcement point between cloud service consumers and cloud service providers [47], offering critical capabilities like data loss prevention (DLP), threat protection, and consistent policy enforcement and monitoring across different cloud service models, particularly where direct control is limited (PaaS/SaaS). This complements the traditional security measures needed for the on-premises IaaS database.\n\nPrioritizing end-to-end encryption for all data in transit is a strong distractor. While encryption is absolutely critical for data confidentiality in transit, it does not address all security concerns. It doesn't inherently provide consistent access control, comprehensive threat monitoring for cloud activity, or data loss prevention in cloud applications, especially for data at rest within PaaS/SaaS environments. Relying primarily on vendor security is insufficient due to the shared responsibility model. Establishing VPCs and ACLs is a foundational network security measure for IaaS but does not extend to the higher-level application and data controls needed for PaaS and SaaS in a comprehensive manner across a hybrid setup.\n\nThis question tests your ability to design secure architectures for complex hybrid cloud environments, integrating various security mechanisms across different service models, a key objective in CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":16,"dom":3,"question":"\"Quantum Innovations,\" a defense contractor, is procuring specialized server hardware for a highly classified project involving quantum computing research. The hardware supply chain is global and complex, raising significant concerns about hardware tampering and ensuring the integrity of the boot process and critical system components from manufacturing to deployment. The Project Lead, Dr. Aris, requires a hardware-based security feature that can establish a \"root of trust\" for the system, securely store cryptographic keys used for full disk encryption, and provide attestation of the system's configuration to detect any unauthorized modifications during its lifecycle.","options":["Integrating Trusted Platform Modules (TPMs) into each server's motherboard to generate and protect cryptographic keys, perform platform integrity checks, and enable remote attestation of the system's boot state against a known good configuration.","Implementing Hardware Security Modules (HSMs) as external, network-attached devices to store and manage all cryptographic keys used for data encryption and digital signatures across the server fleet.","Utilizing Intel's SGX (Software Guard Extensions) to create secure enclaves within the CPU for sensitive code and data execution, thereby protecting against attacks on the operating system or hypervisor.","Mandating the use of Secure Boot, a firmware feature that ensures only digitally signed and trusted software can load during the boot process, preventing malware from loading before the OS."],"correct_idx":0,"explanation":"The correct answer is integrating Trusted Platform Modules (TPMs). TPMs are purpose-built hardware components embedded on a motherboard that provide a secure 'root of trust' for the entire system [34, 35]. They are capable of securely generating and storing cryptographic keys, performing platform integrity measurements (e.g., measuring the boot sequence components), and enabling remote attestation to verify that a system's configuration has not been tampered with since its last known good state [35, 36]. This directly addresses all the critical requirements in the scenario for preventing hardware tampering and ensuring system integrity from manufacturing to deployment.\n\nMandating the use of Secure Boot is a strong distractor. Secure Boot is indeed a crucial firmware feature that ensures only trusted, digitally signed software components (like bootloaders, operating systems) can load during the boot process, thereby preventing many types of bootkit and rootkit attacks [37]. However, Secure Boot primarily focuses on the *boot integrity* by preventing unsigned code execution. It does not provide the secure *key storage*, *attestation capabilities*, or the comprehensive 'root of trust' for the entire platform's runtime integrity that a TPM offers, especially for remote verification. HSMs are for key management but are generally external [38], and SGX focuses on application-level enclaves, not system-wide integrity or attestation.\n\nThis question challenges your in-depth knowledge of hardware security features and their specific functionalities in establishing trust and protecting system integrity, a key aspect of CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":17,"dom":3,"question":"\"SecureFin Corp,\" a global financial institution, handles high-value international transfers. Their primary concern is ensuring undeniable proof of origin and integrity for all transaction requests, preventing any party (sender or receiver) from later disavowing their involvement. The Chief Operations Officer (COO) wants to implement a robust cryptographic mechanism that guarantees non-repudiation. Their existing systems are well-equipped to handle standard encryption for confidentiality. The challenge is to add a layer of cryptographic assurance that definitively ties a transaction to its originator in a legally admissible manner.","options":["Requiring senders to digitally sign a hash of the transaction data using their private key, which can then be verified by any recipient or third party using the sender's corresponding public key.","Encrypting the entire transaction message with a symmetric key, which is then securely exchanged between the sender and receiver using an asymmetric encryption algorithm.","Implementing a robust message authentication code (MAC) on all transactions, where both sender and receiver share a secret key to compute and verify the MAC.","Utilizing a one-time pad (OTP) for each transaction, ensuring perfect secrecy and thereby inherently guaranteeing that only the legitimate sender could have created the message."],"correct_idx":0,"explanation":"The correct answer is using digital signatures. Digital signatures provide non-repudiation by uniquely binding a digital identity (the sender's private key) to data (the hash of the message) [12, 15, 29-31]. When a sender signs a hash of the transaction data with their private key, only they could have created that specific signature. Any recipient or independent third party can then verify this signature using the sender's public key, proving the origin and integrity of the message and preventing the sender from denying their action. This is the cryptographic cornerstone of non-repudiation [31].\n\nImplementing a robust Message Authentication Code (MAC) on all transactions is a plausible distractor. MACs ensure data integrity and authenticity (that the message came from someone who knows the shared secret key), but they do not provide non-repudiation against a third party. Since both the sender and receiver share the same secret key to generate and verify the MAC, either party could have created the MAC, meaning a third party cannot definitively prove who originated the message [32]. One-time pads, while offering perfect secrecy [33], are impractical for high-volume transactions and do not inherently link to a verifiable identity for non-repudiation purposes.\n\nThis question primarily assesses your deep understanding of cryptographic goals, particularly non-repudiation, and the mechanisms used to achieve it, a critical topic in CISSP Domain 3.","question_th":null,"options_th":null,"explanation_th":null},{"id":52,"dom":4,"question":"A branch office with older IoT devices and modern laptops reports intermittent wireless connectivity and slow speeds. The setup uses WPA2-Personal and has co-channel interference.  What's the MOST effective *initial* step to improve security and performance without replacing the access point?","options":["Implement MAC address filtering.","Upgrade the access point's firmware.","Change the wireless channel and frequency band.","Enable the guest network for IoT devices."],"correct_idx":2,"explanation":"MAC filtering is easily bypassed. Firmware upgrades are good practice but don't directly address interference. A guest network is good for segmentation but doesn't fix the core issue. Changing the channel and band directly mitigates co-channel interference, the likely cause of the problems.","question_th":null,"options_th":null,"explanation_th":null},{"id":54,"dom":4,"question":"A burgeoning e-commerce startup, 'SecureCart,' is preparing for its peak holiday season, anticipating a massive surge in online traffic. Historically, SecureCart has faced volumetric Distributed Denial of Service (DDoS) attacks during such periods, leading to significant downtime and reputational damage. The current network security infrastructure primarily relies on on-premise firewalls and intrusion prevention systems (IPS). The CISO recognizes that simply scaling up existing hardware will not suffice for the expected attack magnitudes. The primary objective is to ensure website availability throughout the holiday season with minimal service disruption, while also being fiscally responsible. What is the MOST effective and proactive strategy for SecureCart to mitigate the anticipated volumetric DDoS attacks?","options":["Contract with a specialized DDoS mitigation service provider that offers cloud-based scrubbing centers and always-on detection.","Implement robust rate-limiting configurations on all perimeter network devices, including firewalls and routers, to drop excessive traffic.","Deploy additional high-capacity Intrusion Prevention Systems (IPS) at the network edge and configure them to block suspicious IP ranges.","Utilize a Content Delivery Network (CDN) for all static and dynamic web content to distribute traffic and absorb smaller attack volumes."],"correct_idx":0,"explanation":"The best answer is to contract with a specialized DDoS mitigation service provider that offers cloud-based scrubbing centers and always-on detection. Volumetric DDoS attacks overwhelm an organization's internet bandwidth and on-premise defenses. Cloud-based DDoS scrubbing services are specifically designed to absorb, filter, and forward clean traffic, preventing the attack traffic from ever reaching SecureCart's infrastructure. This proactive, external solution is scalable, cost-effective (pay-as-you-go or tiered), and ensures high availability during peak attack periods, aligning with core business continuity and risk management principles [11, 12].\n\nImplementing robust rate-limiting (the best distractor) is a valid technical countermeasure that firewalls and routers can perform [13]. However, for *volumetric* attacks, rate limiting on its own is often insufficient because the malicious traffic will still consume the internet link's capacity before it even reaches the rate-limiting device, leading to saturation and denial of service. While a necessary part of a layered defense, it's not the *most effective* standalone strategy for large-scale volumetric attacks, making it a less comprehensive solution in this context [12].\n\nDeploying additional high-capacity IPS (third distractor) faces the same fundamental limitation as rate-limiting for volumetric attacks: the sheer volume of traffic will overwhelm the internet connection before the IPS can effectively process and block it. IPS are excellent for signature-based and behavioral-based attacks but are not the primary defense against bandwidth saturation [13, 14]. Utilizing a CDN (fourth distractor) is highly effective for distributing and caching web content, which can help absorb *smaller* attack volumes by serving cached content and distributing load. However, for a *massive volumetric* attack directly targeting the origin server or its DNS, a CDN alone may not suffice to protect the underlying infrastructure's availability, especially if the attack targets dynamic content or non-web services [15, 16].","question_th":null,"options_th":null,"explanation_th":null},{"id":58,"dom":4,"question":"A city's water treatment plant relies on a Supervisory Control and Data Acquisition (SCADA) system for monitoring and controlling critical physical processes, including water flow, chemical levels, and pump operations. Due to the direct impact on public health and safety, ensuring the system's operational integrity and security is paramount. Which type of system should a security professional inquire about to review the real-time status and control mechanisms of these industrial processes for building management and critical infrastructure?","options":["Building Automation Systems (BAS), which manage non-industrial building functions like lighting and HVAC.","Distributed Control Systems (DCS), typically used in process-oriented industries with geographically distributed control elements.","SCADA (Supervisory Control and Data Acquisition) systems, which provide graphical interfaces for monitoring and controlling industrial processes.","Decision Support Systems (DSS), which assist in complex decision-making based on data analysis."],"correct_idx":2,"explanation":"To review the real-time status and control mechanisms of industrial processes in critical infrastructure like a water treatment plant, a security professional should inquire about Supervisory Control and Data Acquisition (SCADA) systems [23]. SCADA systems are specifically designed to provide a graphical interface for monitoring and controlling geographically dispersed industrial processes [23]. Building Automation Systems (BAS) manage non-industrial building functions such as lighting and HVAC [23]. Distributed Control Systems (DCS) are used in process-oriented industries but typically manage more localized control loops within a single plant, not as broadly distributed as SCADA often implies for critical infrastructure. Decision Support Systems (DSS) are analytical tools that assist with complex decision-making, rather than directly monitoring or controlling physical industrial processes [23].","question_th":null,"options_th":null,"explanation_th":null},{"id":60,"dom":4,"question":"A cloud service provider (CSP) is expanding its infrastructure to host various customer applications, ranging from simple web servers to complex distributed databases. The CISO needs to ensure efficient and secure communication between virtual machines (VMs) and containers within the same cloud network, as well as between different cloud regions. The primary concerns are network isolation, latency reduction for inter-service communication, and consistent security policy enforcement across heterogeneous cloud resources. Which network technology is most suitable for creating a unified, scalable, and secure overlay network that connects diverse virtualized workloads across a distributed cloud infrastructure?","options":["Virtual Extensible LAN (VXLAN), as it allows for the creation of large, scalable Layer 2 overlay networks across Layer 3 infrastructure, enabling seamless connectivity and policy enforcement for virtualized workloads in distributed cloud environments.","Virtual Local Area Networks (VLANs), because they logically segment network traffic within a single physical network, isolating broadcast domains and applying access controls at the switch level.","Multi-Protocol Label Switching (MPLS), given its ability to efficiently route traffic based on labels, improving performance and enabling Quality of Service (QoS) across large enterprise or service provider networks.","Ethernet over IP (EoIP) tunneling, as it encapsulates Ethernet frames within IP packets, creating a Layer 2 tunnel over a Layer 3 network, suitable for extending local networks over the internet."],"correct_idx":0,"explanation":"The scenario describes a CSP expanding its infrastructure to host diverse applications, requiring 'efficient and secure communication between virtual machines (VMs) and containers within the same cloud network, as well as between different cloud regions' [50, 127]. The core needs are 'network isolation, latency reduction for inter-service communication, and consistent security policy enforcement' across 'heterogeneous cloud resources' [50, 127]. VXLAN is an ideal choice for this, as it creates scalable Layer 2 overlay networks over a Layer 3 infrastructure [128]. This allows for the seamless connection of thousands of isolated virtual networks, essential for multi-tenant cloud environments with numerous VMs and containers spread across different physical locations or regions [127, 128]. While VLANs provide logical segmentation [52, 53], they are limited to 4094 unique IDs, which is insufficient for large cloud providers, and don't scale well across distributed Layer 3 networks. MPLS is primarily a routing technology for service provider networks [129] and doesn't inherently create the necessary overlay network for virtualized environments. EoIP tunnels create Layer 2 tunnels [129] but are generally less scalable and robust than VXLAN for large, distributed cloud infrastructures. VXLAN directly addresses the scalability, isolation, and connectivity requirements for diverse virtualized workloads in a modern cloud environment [127, 128].","question_th":null,"options_th":null,"explanation_th":null},{"id":75,"dom":4,"question":"A cloud-first startup is implementing a serverless architecture for its new customer-facing application. The application will leverage various cloud services, including API Gateways, Lambda functions, and DynamoDB databases. The CISO is concerned about the security of communication between these serverless components and ensuring that all data in transit is encrypted, authenticated, and access is strictly controlled based on the principle of least privilege. Which cryptographic and access control solution is most appropriate for securing the inter-service communication within this serverless cloud environment?","options":["Implement mutual Transport Layer Security (mTLS) for all inter-service communication, coupled with Identity and Access Management (IAM) policies that grant fine-grained permissions based on service roles and resource attributes.","Utilize Hardware Security Modules (HSMs) to manage and protect cryptographic keys used for encrypting data in transit, ensuring FIPS compliance and high-assurance key storage.","Employ Virtual Private Clouds (VPCs) and network security groups to isolate serverless functions and databases into private subnets, restricting network traffic between components.","Integrate a Web Application Firewall (WAF) with the API Gateway to inspect inbound traffic to the serverless functions, detecting and blocking common web exploits and API-specific attacks."],"correct_idx":0,"explanation":"The scenario describes a 'serverless architecture' with 'customer-facing application' leveraging cloud services, and the CISO is concerned about 'security of communication between these serverless components' ensuring 'data in transit is encrypted, authenticated, and access is strictly controlled based on the principle of least privilege' [64, 98]. Mutual TLS (mTLS) provides strong, cryptographically enforced authentication and encryption for communication between services (like Lambda functions and DynamoDB) [127], ensuring data confidentiality and integrity. Integrating with IAM policies allows for granular, least privilege access control based on the service's identity and specific resource attributes [98]. While HSMs are crucial for key management [139], they are a key storage mechanism, not a direct solution for securing inter-service communication. VPCs and security groups provide network isolation [53, 71], but serverless functions are often 'networkless' at a traditional sense, making network-level controls less granular for inter-service communication; mTLS operates at a higher layer, directly securing the communication channel regardless of underlying network topology. A WAF primarily protects inbound traffic to API Gateways [29], not the internal, East-West communication between serverless components. The chosen answer directly addresses the core requirements for secure, authenticated, and access-controlled inter-service communication in a serverless environment [64, 98].","question_th":null,"options_th":null,"explanation_th":null},{"id":79,"dom":4,"question":"A cloud-native organization uses a Kubernetes cluster with microservices.  They need to secure inter-service communication. Traditional firewalls are too complex. Which security mechanism is BEST suited for enforcing network policies within the cluster?","options":["Implement network segmentation using VLANs at the underlying cloud provider's network.","Deploy a host-based intrusion detection system (HIDS) on each container node.","Utilize Kubernetes Network Policies to define rules that control traffic flow.","Implement mutual TLS (mTLS) authentication between all microservices."],"correct_idx":2,"explanation":"Kubernetes Network Policies are specifically designed for this purpose. They operate at Layers 3 and 4, offering fine-grained control over pod and namespace communication. Other options are less granular, focus on monitoring, or don't enforce network-level authorization.","question_th":null,"options_th":null,"explanation_th":null},{"id":83,"dom":4,"question":"A company allows employees to work remotely and access sensitive data via VPN. Which of the following security measures is MOST important to implement to secure the communication channel?","options":["Enforcing multi-factor authentication for VPN access.","Requiring employees to use company-issued laptops.","Conducting background checks on all remote employees.","Implementing a data loss prevention (DLP) system."],"correct_idx":0,"explanation":"MFA adds an extra layer of security to the VPN connection, making it harder for attackers to compromise accounts, and is a key exam tip. Company-issued laptops, background checks, and DLP are valuable but don't directly secure the VPN communication channel. *Think like a manager:* Focus on access control.","question_th":null,"options_th":null,"explanation_th":null},{"id":92,"dom":4,"question":"A company heavily relies on an older Supervisory Control and Data Acquisition (SCADA) system for managing its critical manufacturing processes. A recent third-party vulnerability scan identified a significant remote access vulnerability in the embedded controllers of this SCADA system, for which the original manufacturer is no longer in business, and no patches or updates are available. Shutting down the system is not an option due to continuous operational demands, and replacing every device is cost-prohibitive. The security manager must propose a solution that minimizes the risk of exploitation for these vulnerable devices while ensuring their continued functionality. What is the most appropriate action the security manager should suggest to mitigate the risk posed by these numerous vulnerable devices?","options":["Reverse engineering the devices to create an internal patch, ensuring the vulnerability is directly addressed.","Implementing a robust Intrusion Prevention System (IPS) at the network perimeter to block all known exploitation attempts.","Moving the vulnerable devices to a secure and isolated network segment with strict access controls and continuous monitoring.","Deploying a comprehensive patch management system to automate vulnerability remediation across all industrial control systems."],"correct_idx":2,"explanation":"The best answer is moving the vulnerable devices to a secure and isolated network segment with strict access controls and continuous monitoring. When dealing with unpatchable, mission-critical legacy systems like SCADA components, the most viable and suitable solution is to isolate them from the broader network to minimize their exposure to threats [21, 22]. This allows them to maintain functionality while significantly reducing the attack surface. Reverse engineering devices to create internal patches is highly complex, expensive, and often beyond the capabilities of most organizations, especially for proprietary embedded systems [21]. Implementing an IPS at the network perimeter is a good defense-in-depth measure, but it may not fully protect against all potential exploitation vectors, especially from insider threats or sophisticated targeted attacks that bypass perimeter defenses [21, 22]. Deploying a comprehensive patch management system is ineffective as the manufacturer no longer provides patches [21]. The CISSP mindset emphasizes risk reduction through architectural controls when direct vulnerability remediation is impossible, prioritizing business continuity and safety.","question_th":null,"options_th":null,"explanation_th":null},{"id":30,"dom":5,"question":"A Chief Information Officer (CIO) for a large manufacturing company is presenting to the board about the organization's cybersecurity program. A board member questions the overall accountability and effectiveness of the security initiatives. The CIO needs to articulate how the organization ensures that individuals are held responsible for their actions within the information systems. Which combination of fundamental security concepts, when properly implemented, collectively leads to strong accountability within an organization's security framework?","options":["Confidentiality, Integrity, and Availability (CIA Triad).","Authentication, Authorization, and Auditing.","Due Diligence, Due Care, and Risk Management.","Identification, Authentication, and Authorization."],"correct_idx":1,"explanation":"The best choice is 'Authentication, Authorization, and Auditing' [19]. Accountability in information security refers to the ability to trace actions back to an individual or entity [19]. This is achieved by combining three key security services: 'Authentication' (verifying identity), 'Authorization' (determining what an authenticated entity can do), and 'Auditing' (recording actions in logs or audit trails) [19, 20]. The closest distractor, 'Identification, Authentication, and Authorization,' is a strong contender because identification (asserting identity) is often the first step before authentication [19]. However, without 'Auditing,' true *accountability* (the ability to prove *what* happened and *who* did it) cannot be fully established, as there would be no record of the authorized actions [19]. The CIA Triad (Confidentiality, Integrity, Availability) represents the fundamental goals of information security but not the mechanisms for individual accountability [43, 57-59]. Due diligence, due care, and risk management are overarching principles and processes, not specific technical or procedural controls for user accountability [5, 26]. This question primarily tests concepts from CISSP Domain 5: Identity and Access Management, specifically the foundational elements of access control and accountability.","question_th":null,"options_th":null,"explanation_th":null},{"id":38,"dom":5,"question":"A Chief Information Security Officer (CISO) is presenting a comprehensive security update to the Board of Directors. During the discussion on risk management, a board member asks about the organization's 'residual risk.' The CISO needs to explain this concept clearly, demonstrating that the organization has actively managed its security posture but acknowledges that some risk will always remain. Which of the following statements best describes residual risk in the context of the organization's cybersecurity program?","options":["The total risk an organization faces before any security controls or countermeasures are implemented.","The level of risk that remains after all reasonable and appropriate security controls have been implemented and are operational.","The risk that is intentionally accepted by senior management due to business benefits outweighing the potential impact of a threat.","The risk associated with the failure or ineffectiveness of existing security controls, leading to a potential breach."],"correct_idx":1,"explanation":"The best choice is 'The level of risk that remains after all reasonable and appropriate security controls have been implemented and are operational' [50]. Residual risk is defined as the risk that persists even after security controls and countermeasures have been put in place [50]. The CISSP mindset acknowledges that achieving 100% security is impossible due to unlimited resources and evolving threats, thus some residual risk will always exist [43, 50, 51]. The closest distractor, 'The total risk an organization faces before any security controls or countermeasures are implemented,' describes *inherent risk*, which is the risk level prior to mitigation [50]. The risk 'intentionally accepted' is a risk response strategy but not the definition of residual risk itself, although residual risk can be accepted [50, 52]. The risk 'associated with the failure or ineffectiveness' of controls is related to control risk or emergent risk, not the inherent definition of residual risk [50]. This question primarily tests concepts from CISSP Domain 1: Security and Risk Management, specifically Risk Management Concepts, which heavily influences decision-making in Identity and Access Management.","question_th":null,"options_th":null,"explanation_th":null},{"id":61,"dom":5,"question":"A cloud service provider (CSP) is offering a new Infrastructure as a Service (IaaS) offering that includes virtual machines and object storage. Customers are concerned about the confidentiality and integrity of their data stored and processed within this cloud environment. The CSP needs to implement a solution that ensures data remains encrypted at all stages—at rest, in transit, and in use—while also providing strong authentication for customers accessing their resources. Furthermore, the solution must allow customers to manage their own cryptographic keys securely to maintain control over their data’s confidentiality, even from the CSP.","options":["Providing customers with the option to implement full disk encryption (FDE) for virtual machines and server-side encryption with customer-managed keys for object storage, along with mandating TLS for all data in transit.","Implementing strong network segmentation and Virtual Private Cloud (VPC) isolation for each customer's environment, combined with robust intrusion detection and prevention systems (IDPS).","Deploying a Cloud Access Security Broker (CASB) to monitor and enforce security policies for data accessed in the cloud, including data encryption and access control, ensuring compliance.","Utilizing homomorphic encryption for data in use, allowing computation on encrypted data without decryption, and offering Quantum Key Distribution (QKD) for ultra-secure key exchange."],"correct_idx":0,"explanation":"The best answer is providing customers with the option to implement full disk encryption (FDE) for virtual machines and server-side encryption with customer-managed keys for object storage, along with mandating TLS for all data in transit. The scenario explicitly requires data protection 'at rest, in transit, and in use' and allowing 'customers to manage their own cryptographic keys securely' [54-57]. FDE and server-side encryption with customer-managed keys directly address data at rest, giving customers control [56, 57]. Mandating TLS addresses data in transit [49, 56, 58]. This option provides practical, current solutions for all states of data for an IaaS provider. While network segmentation and IDPS are crucial security controls [59, 60], they primarily focus on network isolation and threat detection rather than direct data encryption across all states. Deploying a CASB provides visibility and control [55, 61, 62], but it is an overlay security mechanism that enforces policies, not the fundamental encryption technology itself. Utilizing homomorphic encryption and Quantum Key Distribution (QKD) are cutting-edge cryptographic solutions [54, 63-67], but homomorphic encryption is still largely theoretical or computationally intensive for widespread practical 'data in use' scenarios, and QKD is a niche key distribution method, not a comprehensive data encryption solution across all stages for a general CSP offering. The question requires a practical, implementable solution for a CSP. This question primarily tests concepts from CISSP Domain 5: Identity and Access Management, integrating with Domain 2: Asset Security and Domain 3: Security Architecture and Engineering.","question_th":null,"options_th":null,"explanation_th":null},{"id":63,"dom":5,"question":"A cloud service provider (CSP) offers IaaS.  What's the MOST critical security control to ensure customer data separation?","options":["Physical security of the data center","Hypervisor security and strong logical separation of customer environments","Strong password policy for customer accounts","Background checks on CSP employees"],"correct_idx":1,"explanation":"The hypervisor is key to IaaS security, and strong logical separation prevents customers from accessing each other's data. Physical security is less critical here, passwords are the customer's responsibility, and background checks don't directly address this.","question_th":null,"options_th":null,"explanation_th":null},{"id":64,"dom":5,"question":"A cloud service provider (CSP) offers a Platform as a Service (PaaS) environment where client development teams can deploy their applications. The CSP needs to implement an access control model that allows clients to manage access to their own applications and data within their allocated PaaS instances, without being able to modify the underlying infrastructure or other clients' resources. The model should empower the application owners with granular control over their specific data, while preventing them from affecting the shared cloud infrastructure. Which access control model would be the *most* suitable for this multi-tenant cloud environment?","options":["Discretionary Access Control (DAC), allowing application owners to define access permissions for their resources.","Mandatory Access Control (MAC), enforcing system-wide security labels and classifications for all data and applications.","Role-Based Access Control (RBAC), assigning permissions based on predefined roles within the PaaS environment.","Attribute-Based Access Control (ABAC), dynamically granting access based on a set of attributes associated with users, resources, and environmental conditions."],"correct_idx":0,"explanation":"The best answer is Discretionary Access Control (DAC), allowing application owners to define access permissions for their resources. DAC allows the owner or creator of an object to control access at their discretion, which is precisely what is needed in a PaaS environment where clients manage their own applications and data without influencing the underlying infrastructure [44, 45]. This model empowers application owners with granular control over their specific data. The 'Best Distractor' is 'Role-Based Access Control (RBAC), assigning permissions based on predefined roles within the PaaS environment.' While RBAC is widely used and effective for managing access based on organizational roles, it might not provide the necessary granularity and flexibility for individual application owners to manage *their specific* resources within a multi-tenant PaaS offering without requiring extensive pre-definition of roles for every conceivable application-specific permission [39, 46]. DAC directly grants the owner the power to delegate access, which fits the 'client managing their own applications' aspect more precisely. This question primarily tests concepts from CISSP Domain 5: Identity and Access Management, specifically the implementation and management of authorization mechanisms [1].","question_th":null,"options_th":null,"explanation_th":null},{"id":85,"dom":5,"question":"A company experienced a significant data breach. After containment, what type of assessment is MOST critical to determine the root cause and prevent future incidents?","options":["Vulnerability Scan.","Penetration Test.","Forensic Investigation.","Security Audit."],"correct_idx":2,"explanation":"A forensic investigation is crucial for determining the root cause, identifying compromised systems, and gathering evidence. Understand the incident for effective prevention.","question_th":null,"options_th":null,"explanation_th":null},{"id":98,"dom":5,"question":"A company is concerned about employees retaining access after they have changed roles or left the company. What is the most effective control to prevent unauthorized access in this scenario?","options":["Conducting periodic user access audits to identify and remove stale or inappropriate accounts.","Implementing automated workflows for account provisioning and de-provisioning triggered by HR events (e.g., role change, termination).","Requiring employees to manually request access revocation when they change roles or leave the company.","Deploying a system that automatically suspends user accounts after a period of inactivity."],"correct_idx":1,"explanation":"Automating the provisioning and de-provisioning process based on HR events ensures timely and accurate updates to user access rights. Option a) is a detective control. Option c) relies on manual actions. Option d) addresses inactive accounts but not necessarily those of employees who have changed roles.","question_th":null,"options_th":null,"explanation_th":null},{"id":102,"dom":5,"question":"A company is concerned about insider threats. Which access control measure would be MOST effective in detecting and preventing unauthorized data access by employees?","options":["Implementing strong perimeter security controls.","Using data loss prevention (DLP) systems and user activity monitoring.","Conducting background checks on all employees.","Encrypting all sensitive data at rest and in transit."],"correct_idx":1,"explanation":"DLP systems can detect and prevent sensitive data from leaving the organization, while user activity monitoring can identify suspicious behavior. Perimeter security is ineffective against insiders. Background checks can help assess risk, and encryption protects data but doesn't prevent authorized users from misusing their access. Focus on internal controls.","question_th":null,"options_th":null,"explanation_th":null},{"id":25,"dom":6,"question":"A CISO is presenting to the board of directors about the overall effectiveness of the organization's information security program. The board, composed of non-technical executives, is primarily interested in understanding the strategic impact of security investments and how they contribute to business objectives, rather than granular technical details. Which type of reporting metric would be most compelling and appropriate for this audience?","options":["Metrics showing the number of critical vulnerabilities identified per month and their average remediation time.","Reports on the percentage of successful phishing simulations and the average click-through rate across employee groups.","Data illustrating the Mean Time To Detect (MTTD) and Mean Time To Respond (MTTR) for various security incidents.","Key Risk Indicators (KRIs) demonstrating trends in residual risk and the value derived from implemented security controls in reducing business impact."],"correct_idx":3,"explanation":"For a board of directors, who are non-technical executives primarily interested in the strategic impact of security investments and their contribution to business objectives, Key Risk Indicators (KRIs) demonstrating trends in residual risk and the value derived from implemented security controls in reducing business impact would be the most compelling and appropriate reporting metric. KRIs are designed to provide early warnings of risk exposure and directly relate security posture to potential business consequences, aligning with the board's strategic oversight and focus on value creation and risk management [10, 29, 38]. \n\nMetrics showing the number of critical vulnerabilities and their remediation time are important *technical* and *operational* metrics [9], but they are too granular and tactical for a board-level discussion focused on strategic impact. Reports on phishing simulation success and click-through rates are valuable for assessing *security awareness program effectiveness* [14], but again, this is a more tactical metric than a strategic overview of overall program value and risk reduction. Data illustrating MTTD and MTTR are crucial *operational* metrics for incident response efficiency [9], but they primarily reflect the *speed of response* rather than the *strategic value* or overall *reduction in business impact* from security investments, which is what the board is seeking.","question_th":null,"options_th":null,"explanation_th":null},{"id":27,"dom":6,"question":"A CISO is reviewing the organization's approach to identifying and managing zero-day vulnerabilities, which are critical flaws unknown to vendors or the public [100]. Traditional vulnerability scanning tools [23] are ineffective against these. The CISO needs to implement a highly specialized assessment method that can identify unknown vulnerabilities (including zero-days) by analyzing the underlying logic and structure of custom-developed software, without executing the code. The goal is to discover deep-seated design flaws and potential weaknesses that could be exploited by sophisticated attackers before they become widely known or are actively exploited in the wild. Which assessment method is MOST effective for this highly specialized purpose?","options":["Dynamic Application Security Testing (DAST), which analyzes running applications by feeding them various inputs to identify vulnerabilities that manifest at runtime, simulating real-world attacks.","Static Application Security Testing (SAST), which performs an automated analysis of source code to identify coding errors, security flaws, and design weaknesses without executing the program.","Manual code review by expert security analysts, systematically examining the source code line by line to identify subtle logical flaws, design weaknesses, and potential zero-day vulnerabilities that automated tools might miss.","Fuzzing, a technique that involves sending random or malformed data to an application's inputs to discover vulnerabilities that cause crashes or unexpected behavior."],"correct_idx":2,"explanation":"This is the best choice because manual code review by expert security analysts involves systematically examining the source code line by line [72, 73]. This highly specialized method is capable of identifying subtle logical flaws, design weaknesses, and even potential zero-day vulnerabilities that automated tools (like SAST or fuzzers) might miss [72, 73, 101]. While resource-intensive, it provides the deepest level of analysis for 'unknown vulnerabilities' by understanding the underlying logic and structure, precisely addressing the CISO's concern about discovering 'deep-seated design flaws' and 'zero-day vulnerabilities' before they are known [72, 73, 101]. The best distractor, 'Static Application Security Testing (SAST), which performs an automated analysis of source code to identify coding errors, security flaws, and design weaknesses without executing the program,' is an automated method for analyzing source code for vulnerabilities [30, 72]. While SAST can find a wide range of issues and is good for early detection in CI/CD [30], it relies on predefined patterns and rules, making it less effective at identifying *truly unknown* or highly *subtle, complex logical flaws* that require human ingenuity and deep contextual understanding to uncover, which is the specific strength of manual expert review in the context of zero-day discovery. This question primarily tests concepts from CISSP Domain 6: Security Assessment and Testing and Domain 8: Software Development Security.","question_th":null,"options_th":null,"explanation_th":null},{"id":28,"dom":6,"question":"A CISO is reviewing the outputs of various security assessments conducted over the past year. The goal is to synthesize this information into actionable insights that can be presented to senior management to guide strategic security investments for the upcoming fiscal year. The assessments include vulnerability scans, penetration tests, and internal audits. Which of the following activities would be most crucial for the CISO to perform to effectively translate raw assessment data into strategic recommendations for non-technical leadership?","options":["Developing a detailed technical report for each assessment, outlining all identified vulnerabilities and their respective CVSS scores.","Prioritizing and tracking the remediation status of all identified vulnerabilities and non-compliance issues within a GRC (Governance, Risk, and Compliance) platform.","Correlating findings from all assessments with the organization’s key business objectives and risk appetite, presenting the information in terms of business impact and residual risk.","Conducting a comprehensive quantitative risk analysis, assigning monetary values to all identified threats and vulnerabilities to justify security spending."],"correct_idx":2,"explanation":"To effectively translate raw assessment data into strategic recommendations for non-technical senior management, the most crucial activity for the CISO is correlating findings from all assessments with the organization’s key business objectives and risk appetite, presenting the information in terms of business impact and residual risk. Senior management and the board prioritize strategic alignment, risk reduction, and business value [63-69]. Presenting findings in their language—business impact, residual risk, and alignment with objectives—enables informed strategic investment decisions.\n\nDeveloping detailed technical reports with CVSS scores is vital for technical teams [9] but is too granular for non-technical leadership and doesn't directly speak to business impact. Prioritizing and tracking remediation status in a GRC platform is essential for *operational management* of vulnerabilities [9, 70] but is an internal, tactical process that doesn't inherently translate into a strategic business case. While conducting a comprehensive quantitative risk analysis assigns monetary values [71, 72], it can be resource-intensive and may present a misleading sense of precision for all risks. The core need for *strategic recommendations* for *non-technical leadership* is met by linking security findings directly to business objectives and risk posture, focusing on the *impact* and *residual risk* rather than raw technical metrics.","question_th":null,"options_th":null,"explanation_th":null},{"id":31,"dom":6,"question":"A Chief Information Officer (CIO) is concerned about the organization's overall risk posture and wants to proactively identify potential high-risk areas before they escalate into major incidents. The CIO requires a method to evaluate developing risk trends over time and inform risk management personnel about changes in the overall risk profile. Which approach should the CIO implement to effectively forecast high-risk areas and monitor risk trends as they evolve?","options":["Conducting annual comprehensive risk assessments to get a periodic snapshot of the organization's risk landscape.","Implementing continuous vulnerability scanning across all systems to identify and prioritize technical weaknesses.","Identifying and continuously tracking key risk indicators (KRIs) that provide early warnings of increasing risk exposure.","Engaging an external penetration testing firm to regularly test the organization's security and uncover exploitable vulnerabilities."],"correct_idx":2,"explanation":"To proactively forecast high-risk areas and evaluate developing risk trends, identifying and tracking Key Risk Indicators (KRIs) is the most effective approach [31]. KRIs are crucial for informing risk management personnel about evolving risk levels and how changes influence the overall risk profile, allowing for early intervention [31, 32]. While annual risk assessments provide a snapshot, they do not offer continuous insight into trends [31]. Continuous vulnerability scanning identifies technical weaknesses, but KRIs capture a broader view of risk beyond just vulnerabilities. Penetration testing identifies exploitable vulnerabilities but also doesn't inherently track ongoing risk trends or serve as a forecasting tool [31].","question_th":null,"options_th":null,"explanation_th":null},{"id":32,"dom":6,"question":"A Chief Information Officer (CIO) is concerned about the reliability and consistency of the security posture reporting across various departments, which currently use disparate tools and methodologies for their security assessments. The CIO wants to establish a standardized approach for conducting security assessments and communicating their results, ensuring that all findings are comparable and actionable across the enterprise. The goal is to improve overall risk management decision-making and resource allocation by providing a unified, objective view of security effectiveness. Which industry standard or framework provides the MOST suitable structure for defining, executing, and reporting security assessments to achieve this consistency and comparability?","options":["The COBIT (Control Objectives for Information and Related Technologies) framework, which provides a comprehensive IT governance and management framework, including processes for performance measurement and compliance.","The ISO/IEC 27005 standard, which provides guidelines for information security risk management, focusing on a systematic approach to identifying, analyzing, and treating information security risks.","The Open Web Application Security Project (OWASP) Top 10, providing a list of the most critical web application security risks, used for guiding developers and security professionals on common vulnerabilities.","The National Institute of Standards and Technology (NIST) Special Publication (SP) 800-115, 'Technical Guide to Information Security Testing and Assessment,' which outlines technical guidelines and procedures for conducting security assessments and penetration tests."],"correct_idx":3,"explanation":"This is the best choice because NIST SP 800-115 specifically provides a 'Technical Guide to Information Security Testing and Assessment,' outlining technical guidelines and procedures for conducting security assessments and penetration tests [83, 84]. It directly addresses the need for a 'standardized approach for conducting security assessments and communicating their results,' ensuring consistency and comparability across an enterprise, thereby improving objective risk management decision-making. The best distractor, 'The COBIT (Control Objectives for Information and Related Technologies) framework, which provides a comprehensive IT governance and management framework, including processes for performance measurement and compliance,' is a robust framework for IT governance and management, providing a holistic view and linking IT goals to enterprise needs [28]. While COBIT covers performance measurement and compliance, it is a higher-level *governance* framework that guides *what* to assess from a strategic perspective, rather than providing the specific *methodologies and procedures for conducting the assessments themselves* to ensure consistency in execution and reporting across different departmental assessments, which NIST SP 800-115 does. This question primarily tests concepts from CISSP Domain 6: Security Assessment and Testing and Domain 1: Security and Risk Management.","question_th":null,"options_th":null,"explanation_th":null},{"id":40,"dom":6,"question":"A Chief Security Officer (CSO) is evaluating the organization's security awareness program. While annual training modules are in place, the CSO suspects that employees' practical understanding and ability to recognize and respond to real-world threats (like sophisticated phishing campaigns or social engineering attempts) [43, 99] are lacking. The CSO wants to implement a low-cost, repeatable assessment method that can measure the actual effectiveness of security awareness training in improving employee behavior against specific threat vectors, rather than just knowledge retention from surveys [42, 44]. Which method would provide the MOST actionable insights into employee behavior and program effectiveness?","options":["Conduct anonymous surveys and quizzes after security awareness training sessions to gauge employee understanding of key security concepts and identify areas for improvement in training content.","Implement gamified security awareness applications that engage employees with interactive challenges and leaderboards, tracking participation rates and overall progress in learning security principles.","Deploy a phishing simulation platform to regularly send targeted, realistic phishing emails to employees, tracking click-through rates, reporting rates, and identifying employees who repeatedly fall for the simulations.","Utilize a security information and event management (SIEM) system to monitor and analyze security logs for policy violations or suspicious activities originating from employee workstations, indicating a lack of security awareness."],"correct_idx":2,"explanation":"This is the best choice because deploying a phishing simulation platform directly measures employee behavior and the effectiveness of security awareness training against a specific, prevalent threat vector (phishing and social engineering) [42-44]. It provides actionable insights by tracking click-through rates and reporting rates, identifying employees who need further training, and demonstrating the program's impact on reducing real-world risk [42, 44]. The best distractor, 'Conduct anonymous surveys and quizzes after security awareness training sessions to gauge employee understanding of key security concepts and identify areas for improvement in training content,' is a common method for evaluating security awareness [42, 44]. However, surveys and quizzes primarily measure *knowledge retention* and *perception*, not actual *behavioral change* or the ability to *recognize and respond* to a live threat like a sophisticated phishing campaign. The scenario specifically asks for insights into 'employee behavior' and 'program effectiveness' against 'real-world threats,' for which simulations are superior. This question primarily tests concepts from CISSP Domain 6: Security Assessment and Testing and Domain 1: Security and Risk Management.","question_th":null,"options_th":null,"explanation_th":null},{"id":41,"dom":6,"question":"A Chief Security Officer (CSO) is evaluating the overall effectiveness of her organization's security awareness program. She wants to understand how well employees recognize and respond to common social engineering tactics, specifically phishing emails, as these have been identified as a frequent vector for initial compromise. To gather objective data on employee susceptibility and identify areas for improvement in a controlled manner, which method would provide the most direct and actionable insights into this specific area of security awareness?","options":["Conducting anonymous surveys to gauge employee self-reported understanding and confidence in identifying phishing attempts.","Implementing gamified security awareness applications that educate employees on various threats and track their engagement and learning progress.","Deploying simulated phishing campaigns that mimic real-world attacks and track employee click rates, reporting, and actual compromise scenarios.","Administering formal assessment tests at regular intervals to measure employees' theoretical knowledge of security policies and best practices."],"correct_idx":2,"explanation":"To specifically evaluate how well employees recognize and respond to phishing emails, deploying simulated phishing campaigns is the most direct and actionable method [18]. This approach directly measures real-world susceptibility by mimicking actual attacks and provides objective data on employee behavior (e.g., who clicks, who reports) [18]. While anonymous surveys are common for general security awareness, they rely on self-reporting and may not accurately reflect actual behavior [18]. Gamified applications increase engagement and learning but don't specifically test real-time threat recognition. Formal assessment tests measure theoretical knowledge, which is different from practical response to a live threat [18].","question_th":null,"options_th":null,"explanation_th":null},{"id":91,"dom":6,"question":"A company has experienced a significant data breach. As part of the post-incident analysis and lessons learned process, the incident response team needs to evaluate the effectiveness of their detection capabilities. Which of the following metrics would provide the *most* direct insight into the timeliness of their detection efforts?","options":["The total number of alerts generated by security monitoring systems during the incident timeframe.","The time elapsed between the initial intrusion and the point at which the breach was detected and confirmed.","The number of systems and data records that were ultimately compromised during the incident.","The cost incurred for incident response activities, including investigation, containment, and recovery."],"correct_idx":1,"explanation":"The total number of alerts can be overwhelming and doesn't directly indicate detection speed. The scope of compromise reflects the overall impact, and incident response costs relate to the financial aspects. The time elapsed between intrusion and detection directly measures the effectiveness and timeliness of the organization's detection capabilities, highlighting how quickly the breach was identified.","question_th":null,"options_th":null,"explanation_th":null},{"id":4,"dom":7,"question":"\"Aegis Manufacturing,\" a mid-sized enterprise specializing in industrial automation components, is struggling with its nascent Security Operations Center (SOC). The SOC analysts are overwhelmed by a high volume of disparate security alerts from various tools (e.g., firewalls, antivirus, IDS), leading to alert fatigue, missed critical events, and slow incident response times. The CISO acknowledges the current reactive posture and aims to transform the SOC into a proactive, efficient, and intelligent security hub capable of rapidly detecting, analyzing, and responding to advanced threats. With a limited budget but a clear mandate to enhance operational efficiency and threat response capabilities, which integrated security solution represents the most comprehensive and effective strategic investment to address these challenges holistically?","options":["Implementing a robust Endpoint Detection and Response (EDR) solution across all endpoints to provide deep visibility into suspicious activities and enable rapid containment.","Deploying a Security Information and Event Management (SIEM) system to centralize log data, perform real-time correlation, and generate consolidated security alerts for all assets.","Integrating a Security Orchestration, Automation, and Response (SOAR) platform to automate repetitive incident response tasks and streamline workflows between disparate security tools.","Adopting a unified Security Information and Event Management (SIEM) and Security Orchestration, Automation, and Response (SOAR) platform to centralize intelligence, automate incident playbooks, and accelerate threat response."],"correct_idx":3,"explanation":"The most comprehensive and effective strategic investment to address the challenges of an overwhelmed SOC (alert fatigue, slow response, missed events) is a unified SIEM and SOAR platform [5, 6]. This combination provides the foundational *centralized logging, aggregation, and correlation* (SIEM) needed for comprehensive threat detection, and then layers on the *automation and orchestration* (SOAR) capabilities to streamline incident response workflows, reduce manual tasks, and accelerate the entire incident lifecycle [6]. The choice about deploying a Security Information and Event Management (SIEM) system alone, while crucial for centralizing log data and improving *detection* capabilities, *does not inherently provide the automation or orchestration* needed to address the 'overwhelmed SOC' and 'slow incident response times' problems [5]. SOAR is specifically designed for these aspects and is needed in conjunction with SIEM for a holistic solution. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically logging and monitoring activities and applying foundational security operations concepts (SIEM/SOAR).","question_th":null,"options_th":null,"explanation_th":null},{"id":6,"dom":7,"question":"\"Chronos Innovations,\" a clandestine research organization, is decommissioning several high-security data storage units (DSUs) that previously held highly classified temporal displacement schematics. These DSUs exclusively utilize Solid State Drive (SSD) technology for their unparalleled speed and durability. Due to the extreme sensitivity of the information and the potential for devastating consequences if any data were to be recovered, the organization's top-tier security policy, which aligns with NSA guidelines for classified media, mandates the absolute, irreversible destruction of all data. Considering the inherent complexities of data erasure on SSDs (e.g., wear leveling, over-provisioning), which method should the security team implement as the most definitive and secure approach to ensure zero data remanence from these SSDs?","options":["Executing multiple pass software-based overwriting utilities (e.g., DoD 5220.22-M clearing standards) to write random data patterns across all addressable blocks of the SSDs.","Applying strong magnetic fields to the SSDs using specialized degaussing equipment designed to scramble magnetic domains and render data unreadable.","Employing a secure erase command (e.g., ATA Secure Erase) built into the SSD's firmware, designed to internally erase all user data areas.","Physically shredding the SSDs into minute, unidentifiable fragments (disintegration) using an industrial shredder, rendering the storage media unusable and the data unrecoverable."],"correct_idx":3,"explanation":"For Solid State Drives (SSDs) containing highly sensitive or classified data, physical disintegration (shredding, pulverization, or crushing) is considered the *most definitive and secure method* to ensure irreversible data erasure and prevent data remanence [15, 16]. Due to the unique characteristics of SSDs like wear-leveling, garbage collection, and over-provisioning, software-based overwriting methods cannot guarantee that all data is truly unrecoverable from every cell [15]. Physical destruction ensures the data-bearing components are physically damaged beyond any possibility of reconstruction. The choice about executing multiple pass software-based overwriting utilities (clearing) is a less secure method for SSDs [15]. While generally effective for magnetic media, overwriting cannot reliably ensure complete data removal from SSDs due to how they manage storage blocks, which can leave hidden data remnants. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically resource protection and data destruction methods.","question_th":null,"options_th":null,"explanation_th":null},{"id":8,"dom":7,"question":"\"Crimson Labs,\" a cutting-edge biotechnology firm, suspects an advanced persistent threat (APT) group has infiltrated its network to exfiltrate proprietary gene-editing research. A digital forensic investigation is initiated, and a critical server believed to be the data exfiltration point is identified. To ensure that any potential digital evidence from this server is legally admissible in a subsequent criminal prosecution, strict adherence to forensic best practices is paramount. The lead investigator is preparing to acquire a copy of the server's hard drive. What is the absolute most critical step the investigator must undertake during the evidence acquisition process to guarantee the integrity and legal admissibility of the digital evidence derived from this compromised server?","options":["Performing a quick, in-place malware scan of the server's operating system to identify and neutralize any active malicious processes before imaging the drive.","Creating a bit-for-bit forensic image of the entire hard drive, immediately calculating its cryptographic hash (e.g., SHA256), and securing the original drive in an evidence locker.","Copying only the files and logs directly related to the suspected data exfiltration, as identified by preliminary analysis, to expedite the forensic examination process.","Connecting the server to a secure, isolated forensic network segment to leverage high-speed data transfer tools for remote acquisition."],"correct_idx":1,"explanation":"The absolute most critical step to guarantee the integrity and legal admissibility of digital evidence is to create a bit-for-bit (or 'forensic') image of the original media [13]. This process ensures an exact, unaltered replica. Immediately calculating and documenting its cryptographic hash (e.g., SHA256) provides verifiable proof that the data has not been modified since its acquisition, which is fundamental for admissibility [13]. Securing the original media prevents future alteration or contamination. The choice about copying only the files and logs directly related to the suspected data exfiltration is flawed because it risks *missing other crucial evidence* and does not capture the *entire state* of the system. This selective copying can also alter metadata (e.g., timestamps) and undermine the integrity required for legal admissibility, as the complete forensic context is not preserved. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically understanding and complying with investigations and evidence handling.","question_th":null,"options_th":null,"explanation_th":null},{"id":11,"dom":7,"question":"\"Everest Global Services,\" a multinational cloud provider, must maintain uninterrupted service for its critical customer-facing applications, including its highly popular project management suite and secure file storage. A recent risk assessment highlighted the extreme financial and reputational impact of even a few hours of downtime for these services, given their global user base. The Executive Board has allocated significant capital to ensure near-zero Recovery Time Objectives (RTOs) and Recovery Point Objectives (RPOs) in the event of a regional disaster (e.g., prolonged power outage, natural catastrophe). As the Chief Operations Officer, you are responsible for selecting the most resilient and immediately available disaster recovery site strategy that aligns with these stringent business continuity requirements, despite the associated high operational costs.","options":["Establishing a cold site, which provides a basic, pre-wired facility that requires the organization to transport and install all hardware and software after a disaster.","Implementing a warm site, equipped with pre-installed hardware and network infrastructure, but necessitating the loading of recent data backups and configuration of applications post-disaster.","Deploying a hot site, mirroring primary data in real-time to a geographically separate, fully operational facility with duplicate hardware and software, ready for immediate failover.","Negotiating a reciprocal agreement with another cloud provider in a different geographic region to share data center space and resources during a major disruption."],"correct_idx":2,"explanation":"A hot site is the most resilient and immediately available disaster recovery site strategy for meeting near-zero RTOs and RPOs [6]. It involves a fully equipped and operational duplicate facility with live, redundant servers and real-time data replication, allowing for almost instantaneous failover in the event of a primary site failure [6, 19]. The choice about implementing a warm site, while offering a faster recovery than a cold site, still requires *manual loading of recent data backups and configuration of applications post-disaster* [6, 19]. This delay contradicts the 'near-zero RTOs and RPOs' and 'immediately available' requirements, as it still involves significant post-disaster work before full operational capability is achieved. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically implementing disaster recovery processes and recovery site types.","question_th":null,"options_th":null,"explanation_th":null},{"id":13,"dom":7,"question":"\"Global Legal Advocates,\" a prestigious international law firm, relies heavily on its central file server, which hosts millions of sensitive client documents, including ongoing litigation details and intellectual property. The firm's business continuity plan mandates extremely aggressive Recovery Point Objectives (RPOs) and Recovery Time Objectives (RTOs) for this server, aiming for minimal data loss and rapid restoration following any disruption. However, the firm also faces significant constraints on backup storage costs and network bandwidth for daily backup operations. As the lead IT Operations Manager, responsible for implementing the backup strategy, which specific backup method would you select that best balances the need for minimal data loss and relatively quick recovery with the crucial requirement for efficient storage utilization and reduced daily backup transfer volumes?","options":["Implementing daily full backups of the entire file server, storing a complete copy of all data, and ensuring the fastest possible single-step restoration process.","Utilizing a strategy of weekly full backups combined with daily incremental backups, where only data modified since the last backup (full or incremental) is copied.","Adopting a strategy of weekly full backups combined with daily differential backups, where all data modified since the last *full* backup is copied.","Deploying real-time synchronous data replication to a geographically separate secondary site, providing near-zero RPO and RTO for continuous operations."],"correct_idx":1,"explanation":"A strategy combining weekly full backups with daily incremental backups offers the best balance for efficient storage utilization and reduced daily transfer volumes while meeting aggressive RPOs for relatively quick recovery [17]. Incremental backups copy only the data blocks that have changed since the *last* backup (either a full or a previous incremental), making them highly efficient in terms of storage and bandwidth. Restoration requires the last full backup plus all subsequent incremental backups. The choice about adopting a strategy of weekly full backups combined with daily differential backups, while also providing a relatively quick recovery (requiring only the last full and the last differential), is *less efficient in terms of storage and bandwidth* [17]. Differential backups copy all data changed since the *last full backup*, meaning each differential backup grows progressively larger over the week, consuming more storage and bandwidth than individual incremental backups. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically recovery strategies and backup methods.","question_th":null,"options_th":null,"explanation_th":null},{"id":15,"dom":7,"question":"\"InnovateTech Solutions,\" a rapidly growing software development firm, is planning to integrate cutting-edge Artificial Intelligence (AI) algorithms into its core product offerings. This initiative involves adopting new cloud-based development platforms and collaborating with several third-party AI research partners. The Chief Information Security Officer (CISO) is deeply involved in the preliminary stages of this project, focusing on identifying and assessing all potential security risks associated with these new technologies, platforms, and partnerships. Before any contracts are signed or systems are integrated, the CISO meticulously reviews the security certifications of the cloud providers, requests detailed vulnerability assessment reports from the AI partners, and establishes a comprehensive risk register for the entire project. Which foundational security principle is the CISO most clearly demonstrating by undertaking these proactive, investigative measures prior to full project commitment?","options":["Due care, by actively implementing and maintaining reasonable security controls to protect the organization's sensitive intellectual property and customer data within the new AI systems.","Risk mitigation, by taking immediate actions to reduce the identified threats and vulnerabilities inherent in adopting new, unproven technologies and third-party services.","Due diligence, by conducting thorough research, assessment, and planning to understand and address potential security risks *before* the new AI initiative is fully deployed.","Acceptable risk, by formally documenting the residual risks that remain after all planned security controls have been implemented and validated for the new project."],"correct_idx":2,"explanation":"The CISO's actions of meticulously reviewing vendor certifications, requesting reports, and establishing a risk register *before* project commitment clearly demonstrate *due diligence* [9, 10]. Due diligence is the proactive and systematic process of investigating, researching, planning, and evaluating potential risks and their implications *prior to making a decision* or taking action. The choice about due care, while closely related, refers to the *ongoing implementation and maintenance* of reasonable security controls *after* a decision has been made and systems are in operation [9, 10]. The scenario specifically focuses on the pre-deployment investigative activities. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically foundational security operations concepts like due diligence and due care.","question_th":null,"options_th":null,"explanation_th":null},{"id":20,"dom":7,"question":"\"Sentinel Securities,\" a global investment firm, has a mature security program but is increasingly concerned about sophisticated insider threats, particularly financially motivated rogue traders attempting to manipulate trading algorithms or exfiltrate sensitive market data. Their existing security controls, including network-based IDS/IPS and traditional antivirus, are effective against known external threats but struggle to detect subtle, anomalous behaviors that might indicate internal malicious activity or account compromise. The CISO wants to implement a proactive monitoring solution that can identify unusual patterns in user access, data transfers, and system interactions, even if those activities technically fall within a user's normal permissions. Which advanced security technology would be most precisely suited to detect these types of behavioral deviations indicative of insider threats or compromised accounts?","options":["Implementing an advanced Data Loss Prevention (DLP) system configured to monitor and block the transmission of sensitive financial data through unauthorized channels.","Deploying a User and Entity Behavior Analytics (UEBA) platform that leverages machine learning to build baselines of normal user and system behavior, flagging significant deviations in real-time.","Upgrading to a Next-Generation Firewall (NGFW) with integrated deep packet inspection and advanced threat intelligence feeds to detect sophisticated network-based attacks.","Conducting regular, unannounced internal red team exercises focused on simulating insider exfiltration scenarios to test existing detective and preventative controls."],"correct_idx":1,"explanation":"A User and Entity Behavior Analytics (UEBA) platform is most precisely suited for detecting subtle, anomalous behaviors indicative of insider threats or compromised accounts [18]. UEBA specifically focuses on analyzing *patterns* of user and entity activity (e.g., login times, data access volumes, application usage) to establish baselines of 'normal' behavior using machine learning, and then flags significant deviations that might indicate malicious intent, even if the actions are technically within a user's authorized permissions [18]. The choice about implementing an advanced Data Loss Prevention (DLP) system is highly effective for *preventing* unauthorized data exfiltration based on data content and channels. However, DLP is primarily a *preventative/reactive* control against data loss, whereas UEBA is a *proactive, detective* control focused on identifying *anomalous behavior* that could *lead* to data loss or other compromises, even before explicit data exfiltration attempts are made. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically logging and monitoring activities and User and Entity Behavior Analytics (UEBA).","question_th":null,"options_th":null,"explanation_th":null},{"id":22,"dom":7,"question":"\"Veridian Corporation,\" a critical infrastructure entity managing nationwide energy distribution, has recently experienced several high-profile outages and security incidents directly linked to unauthorized or improperly managed system configuration changes. An internal post-incident analysis consistently points to a fragmented and ad-hoc approach to change implementation, lacking formal review, testing, and approval processes. The newly appointed Chief Information Security Officer (CISO) recognizes that enhancing organizational resilience and minimizing future operational disruptions is paramount. The CISO proposes a mandatory, enterprise-wide change management framework that requires a documented business case, comprehensive impact analysis (including security and operational), peer review, and tiered approval for all changes to production systems. What is the most significant security benefit this rigorous change management process aims to achieve for Veridian Corporation?","options":["To expedite the deployment of new software features and system upgrades, thereby increasing organizational agility and competitive advantage in the energy sector.","To ensure that all critical security vulnerabilities identified through assessments are promptly patched and remediated across the entire infrastructure.","To significantly reduce the frequency and severity of security breaches and operational outages caused by uncontrolled or insecure modifications to critical systems.","To provide a comprehensive and immutable audit trail of every system change, enabling faster forensic analysis and accountability during incident investigations."],"correct_idx":2,"explanation":"The most significant security benefit of implementing a rigorous change management process is to *prevent* unintended security vulnerabilities and operational disruptions that directly arise from uncontrolled or insecure system modifications [11]. By enforcing structured reviews, testing, and approvals, the organization systematically reduces the likelihood of introducing flaws that could lead to breaches or outages. The choice about providing a comprehensive and immutable audit trail of every system change is an *important outcome* and *enabling feature* of a robust change management process, facilitating accountability and forensic investigations [11, 12]. However, the primary *preventative security benefit* outlined in the scenario is the direct reduction of security breaches and operational outages, which is the core problem being addressed. This question primarily tests concepts from CISSP Domain 7: Security Operations, specifically understanding and participating in change management.","question_th":null,"options_th":null,"explanation_th":null},{"id":35,"dom":8,"question":"A Chief Information Security Officer (CISO) is implementing a comprehensive security strategy for the organization's cloud infrastructure. The strategy aims to enhance visibility and control over user activities and data access within various cloud services, including sanctioned and unsanctioned applications. The CISO wants a solution that can monitor, enforce security policies, and even prevent sensitive data from being copied to unauthorized cloud storage. Which security technology is specifically designed to act as an intermediary between users and cloud service providers, providing capabilities for visibility, compliance, and data security policy enforcement?","options":["A next-generation firewall (NGFW) for advanced network traffic inspection.","A Security Information and Event Management (SIEM) system for centralized logging and analysis.","A Cloud Access Security Broker (CASB) to enforce security policies for cloud services.","An Intrusion Detection System (IDS) to monitor for malicious activities."],"correct_idx":2,"explanation":"A Cloud Access Security Broker (CASB) is a security enforcement point specifically designed to sit between cloud service consumers and cloud service providers [56, 57]. It provides granular visibility, compliance enforcement, data security (including preventing data exfiltration to unauthorized cloud services), and threat protection across various cloud services, whether sanctioned or unsanctioned. This perfectly aligns with the CISO's goal of enhanced visibility and control over user activities and data in the cloud.\n\nA next-generation firewall (NGFW) provides advanced network traffic inspection and threat prevention at the network perimeter [58], but it is not specifically designed for the visibility and policy enforcement within the cloud service context that a CASB offers. A Security Information and Event Management (SIEM) system centralizes logs and alerts for security monitoring and analysis [59, 60], but it is a data aggregation and correlation tool, not an enforcement point or policy broker for cloud access. An Intrusion Detection System (IDS) monitors network or host activities for malicious patterns [61-63], acting as a detective control, but does not provide the comprehensive visibility, control, and policy enforcement over cloud service usage that a CASB does. This question primarily tests concepts from Domain 8: Software Development Security, focusing on cloud security controls.","question_th":null,"options_th":null,"explanation_th":null},{"id":77,"dom":8,"question":"A cloud-native application uses a microservices architecture, with inter-service communication via RESTful APIs. The security team is concerned about API vulnerabilities. What testing approach is MOST effective for identifying vulnerabilities in inter-service communication and APIs?","options":["Network vulnerability scans on container hosts and network segments.","Static code analysis on each microservice's source code.","API fuzzing with malformed and unexpected inputs.","Black-box penetration testing on public entry points."],"correct_idx":2,"explanation":"API fuzzing is designed to test API robustness.  It automatically generates and sends various inputs to uncover vulnerabilities like improper input validation and error handling issues.  This is well-suited for microservices where numerous APIs facilitate communication.","question_th":null,"options_th":null,"explanation_th":null},{"id":81,"dom":8,"question":"A company acquired a smaller firm.  An acquired application handles sensitive data but lacks security.  When prioritizing remediation, which factor is most important?","options":["The technical complexity and estimated effort required to fix each identified vulnerability, focusing on the easiest fixes first to show quick progress.","The severity and potential impact of each vulnerability if exploited, considering the confidentiality, integrity, and availability of the affected data and systems.","The popularity and public awareness of each vulnerability type, prioritizing those that are currently being actively exploited in the wild.","The preferences and opinions of the original development team regarding the importance and feasibility of addressing each identified vulnerability."],"correct_idx":1,"explanation":"While ease of fixing, current exploitation, and developer input are relevant, the primary driver should be potential business risk.  High-impact vulnerabilities should be addressed first.","question_th":null,"options_th":null,"explanation_th":null},{"id":82,"dom":8,"question":"A company acquires a third-party software component for integration into its flagship product. The licensing agreement grants the company the right to conduct security assessments of the component. What should be the FIRST critical step the security team undertakes to evaluate the security of this component?","options":["Immediately deploy a dynamic application security testing (DAST) tool against a test instance of the component.","Thoroughly review the third-party vendor's security documentation, including past vulnerability reports and security certifications.","Conduct a black-box penetration test against a production-like environment incorporating the component.","Request the source code of the component from the vendor for a comprehensive static code analysis."],"correct_idx":1,"explanation":"Option A is valuable but should be informed by initial information gathering. Option C is appropriate for later-stage testing. Option D may not be feasible. Option B provides valuable insights into vendor practices and known vulnerabilities.","question_th":null,"options_th":null,"explanation_th":null},{"id":109,"dom":8,"question":"A company is conducting a thorough review of its web application's security posture. The review team has identified instances of 'cross-site request forgery (CSRF)' attacks, where an attacker manipulates a user's browser to send an authenticated request to a third-party site by exploiting the trust relationship between the user and the legitimate website. To proactively prevent these types of attacks from succeeding, which secure coding practice should be implemented within the web application?","options":["Implementing strong input validation and output encoding for all user-supplied data to prevent injection of malicious scripts.","Using anti-CSRF tokens (e.g., synchronized tokens, double-submit cookies) in all state-changing requests to verify their origin.","Enforcing the 'Same-Origin Policy' to restrict web page scripts from interacting with resources from different origins.","Regularly updating all third-party libraries and frameworks used in the application to patch known CSRF vulnerabilities."],"correct_idx":1,"explanation":"The best answer is using anti-CSRF tokens (e.g., synchronized tokens, double-submit cookies) in all state-changing requests to verify their origin. The scenario specifically describes 'cross-site request forgery (CSRF)' attacks, explaining that they exploit the trust between a user's browser and the legitimate website to force authenticated requests to a third-party site [72, 73]. Anti-CSRF tokens are unique, unpredictable values generated by the server and embedded into web forms or HTTP headers for state-changing requests (e.g., password changes, money transfers) [72]. The server then verifies this token upon receiving the request, ensuring that the request originated from the legitimate application and not a forged one. This is the primary and most effective countermeasure against CSRF attacks [72]. The Best Distractor is 'Implementing strong input validation and output encoding for all user-supplied data to prevent injection of malicious scripts.' While input validation and output encoding are critical secure coding practices, they are primarily designed to prevent 'cross-site scripting (XSS)' attacks and other injection vulnerabilities by sanitizing data to prevent malicious code execution or data corruption [72, 74]. They do not directly prevent CSRF, which is about forcing authenticated requests, not injecting malicious scripts into the application itself. The Same-Origin Policy is a browser security model, and updating libraries mitigates general vulnerabilities but not specifically CSRF as the primary countermeasure. This question primarily tests concepts from CISSP Domain 8: Software Development Security, specifically web application vulnerabilities and secure coding practices.","question_th":null,"options_th":null,"explanation_th":null},{"id":132,"dom":8,"question":"A company is developing a cloud-based application that will be deployed on a public cloud platform. The development team is using a microservices architecture, where each service is deployed as a separate container. Which of the following security practices is MOST important for securing the cloud-based application?","options":["Using a shared security context for all microservices to simplify security management.","Implementing strong authentication and authorization mechanisms for each microservice.","Storing all application secrets, such as API keys and passwords, in environment variables.","Disabling all network communication between microservices to reduce the attack surface."],"correct_idx":1,"explanation":"Each microservice should have its own authentication and authorization mechanisms to prevent unauthorized access and lateral movement within the application.","question_th":null,"options_th":null,"explanation_th":null},{"id":133,"dom":8,"question":"A company is developing a cloud-based application using a microservices architecture. Which security practice is MOST important for securing the application?","options":["Using a shared security context for all microservices.","Implementing strong authentication and authorization mechanisms for each microservice.","Storing all application secrets in environment variables.","Disabling all network communication between microservices."],"correct_idx":1,"explanation":"Each microservice should have its own authentication and authorization mechanisms to prevent unauthorized access and lateral movement within the application.","question_th":null,"options_th":null,"explanation_th":null},{"id":134,"dom":8,"question":"A company is developing a cloud-native application. The security team is concerned about potential vulnerabilities arising from misconfigurations of cloud resources. What security practice would be the MOST effective in mitigating this risk?","options":["Implement strong authentication and authorization controls for access to cloud management consoles.","Conduct regular penetration testing of the deployed cloud environment to identify misconfigurations.","Adopt an Infrastructure as Code (IaC) approach and integrate security checks into the IaC templates.","Implement comprehensive logging and monitoring of all cloud resource activities."],"correct_idx":2,"explanation":"Option A is fundamental. Option B is reactive. Option D provides visibility but doesn't prevent misconfigurations. Option C allows for defining and enforcing secure configurations consistently.","question_th":null,"options_th":null,"explanation_th":null}];
+const DOMAIN_NAMES_EN = {"1":"Security and Risk Management","2":"Asset Security","3":"Security Architecture and Engineering","4":"Communication and Network Security","5":"Identity and Access Management (IAM)","6":"Security Assessment and Testing","7":"Security Operations","8":"Software Development Security"};
+const DOMAIN_NAMES_TH = {"1":"การจัดการความเสี่ยงและความมั่นคงปลอดภัย","2":"ความมั่นคงปลอดภัยของทรัพย์สิน","3":"สถาปัตยกรรมและวิศวกรรมความมั่นคงปลอดภัย","4":"ความมั่นคงปลอดภัยของการสื่อสารและเครือข่าย","5":"การบริหารจัดการอัตลักษณ์และการเข้าถึง (IAM)","6":"การประเมินและทดสอบความมั่นคงปลอดภัย","7":"การปฏิบัติการด้านความมั่นคงปลอดภัย","8":"ความมั่นคงปลอดภัยในการพัฒนาซอฟต์แวร์"};
+
+/* =========================================================
+   UI STRINGS
+   ========================================================= */
+const STR = {
+  appTitle:{en:"CISSP Practice Exam", th:"แบบทดสอบฝึกซ้อม CISSP"},
+  createdBy:{en:"Created by", th:"สร้างโดย"},
+  nameLabel:{en:"Your Name", th:"ชื่อของคุณ"},
+  namePlaceholder:{en:"Enter your name to begin", th:"กรอกชื่อของคุณเพื่อเริ่มทำแบบทดสอบ"},
+  domainsLabel:{en:"Select Domains", th:"เลือกโดเมน"},
+  selectAll:{en:"Select All", th:"เลือกทั้งหมด"},
+  clearAll:{en:"Clear All", th:"ล้างทั้งหมด"},
+  questionCountLabel:{en:"Number of Questions", th:"จำนวนข้อสอบ"},
+  orderLabel:{en:"Question Order", th:"ลำดับคำถาม"},
+  sequential:{en:"Sequential", th:"ตามลำดับ"},
+  random:{en:"Random", th:"สุ่ม"},
+  modeLabel:{en:"Quiz Mode", th:"โหมดการทดสอบ"},
+  practiceMode:{en:"Practice Mode", th:"โหมดฝึกซ้อม"},
+  practiceDesc:{en:"Instant feedback after each question, with explanations.", th:"ได้รับผลตอบกลับทันทีหลังตอบแต่ละข้อ พร้อมคำอธิบาย"},
+  examMode:{en:"Exam Mode", th:"โหมดสอบจริง"},
+  examDesc:{en:"No feedback until the end, just like the real exam.", th:"ไม่มีการเฉลยจนกว่าจะจบการทดสอบ เหมือนการสอบจริง"},
+  languageLabel:{en:"Language", th:"ภาษา"},
+  startButton:{en:"Start Quiz", th:"เริ่มทำแบบทดสอบ"},
+  selectDomainWarning:{en:"Please select at least one domain.", th:"กรุณาเลือกอย่างน้อยหนึ่งโดเมน"},
+  nameRequiredWarning:{en:"Please enter your name.", th:"กรุณากรอกชื่อของคุณ"},
+  questionOf:{en:"Question", th:"ข้อที่"},
+  ofWord:{en:"of", th:"จาก"},
+  finishNow:{en:"Finish Now", th:"จบทันที"},
+  finishConfirm:{en:"Are you sure you want to finish now? Unanswered questions count as incorrect and may result in an automatic fail.", th:"คุณแน่ใจหรือไม่ว่าต้องการจบแบบทดสอบตอนนี้ คำถามที่ยังไม่ได้ตอบจะถือว่าตอบผิด และอาจทำให้ผลสอบไม่ผ่านโดยอัตโนมัติ"},
+  next:{en:"Next", th:"ถัดไป"},
+  timeUp:{en:"Time's up!", th:"หมดเวลา!"},
+  correctAnswerLabel:{en:"Correct answer:", th:"คำตอบที่ถูกต้อง:"},
+  yourAnswerLabel:{en:"Your answer:", th:"คำตอบของคุณ:"},
+  explanationLabel:{en:"Explanation", th:"คำอธิบาย"},
+  resultsTitle:{en:"Results", th:"ผลการทดสอบ"},
+  passLabel:{en:"PASS", th:"ผ่าน"},
+  failLabel:{en:"FAIL", th:"ไม่ผ่าน"},
+  incompleteBanner:{en:"Incomplete attempt — {n} question(s) were not answered. All questions must be answered to pass.", th:"ทำแบบทดสอบไม่ครบ — มีคำถาม {n} ข้อที่ยังไม่ได้ตอบ ต้องตอบครบทุกข้อจึงจะผ่านได้"},
+  lowScoreBanner:{en:"Score is below the 70% passing threshold.", th:"คะแนนต่ำกว่าเกณฑ์ผ่าน 70%"},
+  passBanner:{en:"Congratulations — you passed!", th:"ยินดีด้วย คุณสอบผ่าน!"},
+  correctStat:{en:"Correct", th:"ตอบถูก"},
+  incorrectStat:{en:"Incorrect", th:"ตอบผิด"},
+  skippedLabel:{en:"Skipped", th:"ไม่ได้ตอบ"},
+  scoreStat:{en:"Score", th:"คะแนน"},
+  reviewTitle:{en:"Review Incorrect Answers", th:"ทบทวนคำตอบที่ผิด"},
+  printButton:{en:"Print / Save PDF", th:"พิมพ์ / บันทึกเป็น PDF"},
+  restartButton:{en:"New Attempt", th:"ทำแบบทดสอบใหม่"},
+  noneSkippedReview:{en:"No incorrect answers — great job!", th:"ไม่มีคำตอบที่ผิด เยี่ยมมาก!"},
+  skippedTag:{en:"(Skipped)", th:"(ไม่ได้ตอบ)"},
+  printTitle:{en:"CISSP Practice Exam — Result Report", th:"รายงานผลแบบทดสอบ CISSP"},
+  printCandidate:{en:"Candidate", th:"ผู้เข้าสอบ"},
+  printDate:{en:"Date", th:"วันที่"},
+  printMode:{en:"Mode", th:"โหมด"},
+};
+
+function t(key){
+  const entry = STR[key];
+  if(!entry) return key;
+  if(state.lang === 'th') return entry.th || entry.en;
+  if(state.lang === 'enth') return entry.en + (entry.th ? ' / ' + entry.th : '');
+  return entry.en;
+}
+
+function biHtml(en, th){
+  en = en || '';
+  th = th || '';
+  if(state.lang === 'th'){
+    return escapeHtml(th || en);
+  }
+  if(state.lang === 'enth'){
+    let html = '<div class="bi-block"><span class="lang-en">'+escapeHtml(en)+'</span>';
+    if(th){
+      html += '<span class="lang-th">'+escapeHtml(th)+'</span>';
+    }
+    html += '</div>';
+    return html;
+  }
+  return escapeHtml(en);
+}
+
+function escapeHtml(str){
+  if(str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let state = {
+  screen:'start',
+  name:'',
+  lang:'en',
+  mode:'practice',
+  order:'sequential',
+  selectedDomains: new Set(Object.keys(DOMAIN_NAMES_EN).map(Number)),
+  quizQuestions:[],
+  currentIndex:0,
+  answers:{},         // id -> {selectedIdx, correct, skipped}
+  timerRemaining:SECONDS_PER_QUESTION,
+  timerHandle:null,
+  timerRAF:null,
+  timerStartTs:null,
+  locked:false,       // true once current question is answered/locked (practice mode)
+  startedAt:null,
+  finishedAt:null,
+};
+
+const domainCounts = {};
+QUESTION_BANK.forEach(q=>{
+  domainCounts[q.dom] = (domainCounts[q.dom]||0) + 1;
+});
+
+/* =========================================================
+   DOM REFS
+   ========================================================= */
+const el = (id)=>document.getElementById(id);
+const screenStart = el('screen-start');
+const screenQuiz = el('screen-quiz');
+const screenResults = el('screen-results');
+
+/* =========================================================
+   INIT / START SCREEN
+   ========================================================= */
+function applyStaticTranslations(){
+  document.querySelectorAll('[data-t]').forEach(node=>{
+    const key = node.getAttribute('data-t');
+    node.textContent = '';
+    node.appendChild(document.createTextNode(t(key)));
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(node=>{
+    const key = node.getAttribute('data-t-ph');
+    node.setAttribute('placeholder', t(key));
+  });
+  el('creatorName').textContent = CREATOR_NAME;
+  document.documentElement.lang = state.lang === 'th' ? 'th' : 'en';
+}
+
+function renderDomainGrid(){
+  const grid = el('domainGrid');
+  grid.innerHTML = '';
+  Object.keys(DOMAIN_NAMES_EN).map(Number).sort((a,b)=>a-b).forEach(domNum=>{
+    const count = domainCounts[domNum] || 0;
+    const label = document.createElement('label');
+    label.className = 'domain-item';
+    const nameEn = DOMAIN_NAMES_EN[domNum];
+    const nameTh = DOMAIN_NAMES_TH[domNum];
+    let nameHtml;
+    if(state.lang === 'th') nameHtml = escapeHtml(nameTh || nameEn);
+    else if(state.lang === 'enth') nameHtml = escapeHtml(nameEn) + (nameTh ? ' <span style="color:var(--text-dim);font-style:italic;">/ '+escapeHtml(nameTh)+'</span>' : '');
+    else nameHtml = escapeHtml(nameEn);
+    label.innerHTML = '<input type="checkbox" data-dom="'+domNum+'" '+(state.selectedDomains.has(domNum)?'checked':'')+'>'
+      + '<span>Domain '+domNum+': '+nameHtml+'</span>'
+      + '<span class="dcount">'+count+'</span>';
+    grid.appendChild(label);
+  });
+  grid.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      const dom = Number(cb.getAttribute('data-dom'));
+      if(cb.checked) state.selectedDomains.add(dom); else state.selectedDomains.delete(dom);
+      updateCountOptions();
+    });
+  });
+}
+
+const COUNT_CANDIDATES = [10,25,50,100,150,200,250,300,400,500,750,1000,1500,2000];
+function getPoolSize(){
+  let sum = 0;
+  state.selectedDomains.forEach(d=> sum += (domainCounts[d]||0));
+  return sum;
+}
+function updateCountOptions(){
+  const pool = getPoolSize();
+  const sel = el('selectCount');
+  const prevVal = sel.value;
+  sel.innerHTML = '';
+  const opts = COUNT_CANDIDATES.filter(n=>n < pool);
+  opts.forEach(n=>{
+    const o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    sel.appendChild(o);
+  });
+  const allLabel = (state.lang==='th') ? ('ทั้งหมด ('+pool+')') : (state.lang==='enth' ? ('All / ทั้งหมด ('+pool+')') : ('All ('+pool+')'));
+  const allOpt = document.createElement('option');
+  allOpt.value = pool; allOpt.textContent = allLabel;
+  sel.appendChild(allOpt);
+  if(pool === 0){
+    sel.disabled = true;
+  } else {
+    sel.disabled = false;
+    if(opts.map(String).includes(prevVal)) sel.value = prevVal;
+    else sel.value = opts.length ? opts[0] : pool;
+  }
+  el('btnStart').disabled = pool === 0;
+}
+
+function wireToggleGroup(selector, attr, onChange){
+  document.querySelectorAll(selector).forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      document.querySelectorAll(selector).forEach(o=>o.classList.remove('active'));
+      opt.classList.add('active');
+      onChange(opt.getAttribute(attr));
+    });
+  });
+}
+
+function initStartScreen(){
+  renderDomainGrid();
+  updateCountOptions();
+  applyStaticTranslations();
+
+  el('btnSelectAll').addEventListener('click', ()=>{
+    state.selectedDomains = new Set(Object.keys(DOMAIN_NAMES_EN).map(Number));
+    renderDomainGrid();
+    updateCountOptions();
+  });
+  el('btnClearAll').addEventListener('click', ()=>{
+    state.selectedDomains = new Set();
+    renderDomainGrid();
+    updateCountOptions();
+  });
+
+  wireToggleGroup('[data-order]', 'data-order', (v)=>{ state.order = v; });
+  wireToggleGroup('[data-mode]', 'data-mode', (v)=>{ state.mode = v; });
+  wireToggleGroup('[data-lang]', 'data-lang', (v)=>{
+    state.lang = v;
+    applyStaticTranslations();
+    renderDomainGrid();
+    updateCountOptions();
+  });
+
+  el('inputName').addEventListener('input', (e)=>{ state.name = e.target.value; });
+
+  el('btnStart').addEventListener('click', onStartClicked);
+}
+
+function onStartClicked(){
+  let ok = true;
+  const name = el('inputName').value.trim();
+  if(!name){
+    el('warnName').textContent = t('nameRequiredWarning');
+    ok = false;
+  } else {
+    el('warnName').textContent = '';
+  }
+  if(state.selectedDomains.size === 0){
+    el('warnDomains').textContent = t('selectDomainWarning');
+    ok = false;
+  } else {
+    el('warnDomains').textContent = '';
+  }
+  if(!ok) return;
+  state.name = name;
+  const countVal = Number(el('selectCount').value);
+  buildQuizSet(countVal);
+  goToQuizScreen();
+}
+
+/* =========================================================
+   BUILD QUIZ SET
+   ========================================================= */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildQuizSet(count){
+  let pool = QUESTION_BANK.filter(q=>state.selectedDomains.has(q.dom));
+  if(state.order === 'random'){
+    pool = shuffle(pool);
+  } else {
+    pool = pool.slice().sort((a,b)=> a.id - b.id);
+  }
+  state.quizQuestions = pool.slice(0, count);
+  state.currentIndex = 0;
+  state.answers = {};
+  state.startedAt = Date.now();
+}
+
+/* =========================================================
+   QUIZ SCREEN
+   ========================================================= */
+function goToQuizScreen(){
+  screenStart.classList.add('hidden');
+  screenResults.classList.add('hidden');
+  screenQuiz.classList.remove('hidden');
+  renderQuestion();
+}
+
+function currentQuestion(){
+  return state.quizQuestions[state.currentIndex];
+}
+
+function renderQuestion(){
+  applyStaticTranslations();
+  clearTimer();
+  state.locked = false;
+  el('btnNext').classList.add('hidden');
+  el('explainBox').classList.add('hidden');
+  el('explainBox').innerHTML = '';
+
+  const q = currentQuestion();
+  el('qNum').textContent = state.currentIndex + 1;
+  el('qTotal').textContent = state.quizQuestions.length;
+  const domName = state.lang==='th' ? (DOMAIN_NAMES_TH[q.dom]||DOMAIN_NAMES_EN[q.dom]) : DOMAIN_NAMES_EN[q.dom];
+  el('qDomainLabel').textContent = 'Domain ' + q.dom + (domName ? (' · ' + domName) : '');
+
+  el('questionText').innerHTML = biHtml(q.question, q.question_th);
+
+  const optsWrap = el('optionsList');
+  optsWrap.innerHTML = '';
+  q.options.forEach((optEn, idx)=>{
+    const optTh = (q.options_th && q.options_th[idx]) ? q.options_th[idx] : null;
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.dataset.idx = idx;
+    div.innerHTML = biHtml(optEn, optTh);
+    div.addEventListener('click', ()=> onOptionClick(idx));
+    optsWrap.appendChild(div);
+  });
+
+  // restore previous answer if navigating (shouldn't normally happen, no back-nav, but safe)
+  const existing = state.answers[q.id];
+  if(existing){
+    state.locked = true;
+    highlightAnswered(existing.selectedIdx);
+    if(state.mode === 'practice') showExplanation(q, existing.selectedIdx);
+    el('btnNext').classList.remove('hidden');
+  }
+
+  startTimer();
+}
+
+function onOptionClick(idx){
+  if(state.locked) return;
+  const q = currentQuestion();
+  if(state.mode === 'exam'){
+    // neutral highlight only, allow changing selection until Next/timeout
+    Array.from(el('optionsList').children).forEach(c=>c.classList.remove('selected-neutral'));
+    el('optionsList').children[idx].classList.add('selected-neutral');
+    state._pendingExamIdx = idx;
+    el('btnNext').classList.remove('hidden');
+    return;
+  }
+  // practice mode: lock immediately
+  lockAnswer(idx, false);
+}
+
+function lockAnswer(selectedIdx, timedOut){
+  const q = currentQuestion();
+  state.locked = true;
+  clearTimer();
+  const correct = (selectedIdx !== null && selectedIdx === q.correct_idx);
+  state.answers[q.id] = { selectedIdx: selectedIdx, correct: correct, skipped: selectedIdx === null };
+
+  if(state.mode === 'practice'){
+    highlightAnswered(selectedIdx);
+    showExplanation(q, selectedIdx);
+    el('btnNext').classList.remove('hidden');
+  } else {
+    // exam mode - only auto here on timeout; manual clicks handled via Next button flow
+    if(timedOut){
+      setTimeout(()=> advance(), EXAM_TIMEOUT_ADVANCE_MS);
+    }
+  }
+}
+
+function highlightAnswered(selectedIdx){
+  const q = currentQuestion();
+  Array.from(el('optionsList').children).forEach((c,idx)=>{
+    c.classList.add('disabled');
+    c.classList.remove('selected-neutral');
+    if(idx === q.correct_idx) c.classList.add('correct');
+    else if(idx === selectedIdx) c.classList.add('incorrect');
+  });
+}
+
+function showExplanation(q, selectedIdx){
+  const box = el('explainBox');
+  box.classList.remove('hidden');
+  const yourAnsEn = selectedIdx !== null ? q.options[selectedIdx] : null;
+  const yourAnsTh = (selectedIdx !== null && q.options_th && q.options_th[selectedIdx]) ? q.options_th[selectedIdx] : null;
+  const corrAnsEn = q.options[q.correct_idx];
+  const corrAnsTh = (q.options_th && q.options_th[q.correct_idx]) ? q.options_th[q.correct_idx] : null;
+  let html = '';
+  if(selectedIdx === null){
+    html += '<div><strong>'+escapeHtml(t('timeUp'))+'</strong></div>';
+  }
+  html += '<div class="ans-row"><strong>'+escapeHtml(t('yourAnswerLabel'))+'</strong> ' + (selectedIdx!==null ? biHtml(yourAnsEn, yourAnsTh) : '<em>'+escapeHtml(t('skippedTag'))+'</em>') + '</div>';
+  html += '<div class="ans-row"><strong>'+escapeHtml(t('correctAnswerLabel'))+'</strong> ' + biHtml(corrAnsEn, corrAnsTh) + '</div>';
+  html += '<div style="margin-top:10px;"><strong>'+escapeHtml(t('explanationLabel'))+':</strong><br>' + biHtml(q.explanation, q.explanation_th) + '</div>';
+  box.innerHTML = html;
+}
+
+function advance(){
+  if(state.currentIndex < state.quizQuestions.length - 1){
+    state.currentIndex++;
+    renderQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+el('btnNext').addEventListener('click', ()=>{
+  if(state.mode === 'exam' && !state.locked){
+    const idx = (state._pendingExamIdx !== undefined) ? state._pendingExamIdx : null;
+    lockAnswer(idx, false);
+    state._pendingExamIdx = undefined;
+  }
+  advance();
+});
+
+el('btnFinishNow').addEventListener('click', ()=>{
+  const ok = window.confirm(t('finishConfirm'));
+  if(ok){
+    // if current question unanswered, mark as skipped
+    const q = currentQuestion();
+    if(q && !state.answers[q.id]){
+      state.answers[q.id] = { selectedIdx:null, correct:false, skipped:true };
+    }
+    finishQuiz();
+  }
+});
+
+/* Timer */
+function startTimer(){
+  state.timerRemaining = SECONDS_PER_QUESTION;
+  state.timerStartTs = Date.now();
+  const bar = el('timerBar');
+  bar.style.width = '100%';
+  bar.classList.remove('urgent');
+  tickTimer();
+}
+function tickTimer(){
+  const elapsed = (Date.now() - state.timerStartTs) / 1000;
+  const remaining = Math.max(0, SECONDS_PER_QUESTION - elapsed);
+  state.timerRemaining = remaining;
+  const pct = (remaining / SECONDS_PER_QUESTION) * 100;
+  const bar = el('timerBar');
+  bar.style.width = pct + '%';
+  if(remaining <= URGENT_THRESHOLD) bar.classList.add('urgent');
+  else bar.classList.remove('urgent');
+
+  if(remaining <= 0){
+    onTimerExpire();
+    return;
+  }
+  state.timerRAF = requestAnimationFrame(tickTimer);
+}
+function clearTimer(){
+  if(state.timerRAF){ cancelAnimationFrame(state.timerRAF); state.timerRAF = null; }
+}
+function onTimerExpire(){
+  clearTimer();
+  if(state.locked) return;
+  if(state.mode === 'practice'){
+    lockAnswer(null, true);
+    // practice: manual Next button already shown by lockAnswer via showExplanation path
+  } else {
+    const idx = (state._pendingExamIdx !== undefined) ? state._pendingExamIdx : null;
+    lockAnswer(idx, true);
+    state._pendingExamIdx = undefined;
+  }
+}
+
+/* =========================================================
+   RESULTS
+   ========================================================= */
+function finishQuiz(){
+  clearTimer();
+  state.finishedAt = Date.now();
+  screenQuiz.classList.add('hidden');
+  screenResults.classList.remove('hidden');
+  renderResults();
+}
+
+function computeStats(){
+  let correct=0, incorrect=0, skipped=0;
+  state.quizQuestions.forEach(q=>{
+    const a = state.answers[q.id];
+    if(!a || a.skipped){ skipped++; }
+    else if(a.correct){ correct++; }
+    else { incorrect++; }
+  });
+  const total = state.quizQuestions.length;
+  const answered = correct+incorrect;
+  const scorePct = total ? Math.round((correct/total)*100) : 0;
+  const allAnswered = skipped === 0;
+  const passed = allAnswered && scorePct >= 70;
+  return {correct, incorrect, skipped, total, scorePct, allAnswered, passed};
+}
+
+function renderScoreDial(pct, passed){
+  const size=140, stroke=14, r=(size-stroke)/2, c=2*Math.PI*r;
+  const offset = c - (pct/100)*c;
+  const color = passed ? '#2fbf6a' : '#ff3b4e';
+  const svg = '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'
+    + '<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="#241419" stroke-width="'+stroke+'"/>'
+    + '<circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="'+stroke+'" '
+    +   'stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+offset+'" '
+    +   'transform="rotate(-90 '+size/2+' '+size/2+')"/>'
+    + '<text x="'+size/2+'" y="'+(size/2+8)+'" text-anchor="middle" font-size="28" font-weight="700" fill="'+color+'">'+pct+'%</text>'
+    + '</svg>';
+  el('dialWrap').innerHTML = svg;
+}
+
+function renderResults(){
+  applyStaticTranslations();
+  const stats = computeStats();
+  renderScoreDial(stats.scorePct, stats.passed);
+  el('statCorrect').textContent = stats.correct;
+  el('statIncorrect').textContent = stats.incorrect;
+  el('statSkipped').textContent = stats.skipped;
+  el('statScore').textContent = stats.scorePct + '%';
+
+  let bannerHtml = '';
+  if(stats.passed){
+    bannerHtml = '<div class="banner pass">'+escapeHtml(t('passLabel'))+' — '+escapeHtml(t('passBanner'))+'</div>';
+  } else {
+    let reasons = [];
+    if(!stats.allAnswered) reasons.push(t('incompleteBanner').split('{n}').join(stats.skipped));
+    if(stats.scorePct < 70) reasons.push(t('lowScoreBanner'));
+    bannerHtml = '<div class="banner fail">'+escapeHtml(t('failLabel'))+' — '+reasons.map(escapeHtml).join(' ')+'</div>';
+  }
+  el('resultBanner').innerHTML = bannerHtml;
+
+  const reviewList = el('reviewList');
+  reviewList.innerHTML = '';
+  const incorrectOnes = state.quizQuestions.filter(q=>{
+    const a = state.answers[q.id];
+    return !a || a.skipped || !a.correct;
+  });
+  if(incorrectOnes.length === 0){
+    reviewList.innerHTML = '<div class="review-item">'+escapeHtml(t('noneSkippedReview'))+'</div>';
+  } else {
+    incorrectOnes.forEach(q=>{
+      const a = state.answers[q.id];
+      const item = document.createElement('div');
+      item.className = 'review-item';
+      let yourAnsHtml;
+      if(!a || a.skipped || a.selectedIdx === null || a.selectedIdx === undefined){
+        yourAnsHtml = '<em>'+escapeHtml(t('skippedTag'))+'</em>';
+      } else {
+        yourAnsHtml = biHtml(q.options[a.selectedIdx], q.options_th ? q.options_th[a.selectedIdx] : null);
+      }
+      const corrHtml = biHtml(q.options[q.correct_idx], q.options_th ? q.options_th[q.correct_idx] : null);
+      item.innerHTML = '<div class="rq">'+biHtml(q.question, q.question_th)+'</div>'
+        + '<div class="ans-row your-ans"><strong>'+escapeHtml(t('yourAnswerLabel'))+'</strong> '+yourAnsHtml+'</div>'
+        + '<div class="ans-row correct-ans"><strong>'+escapeHtml(t('correctAnswerLabel'))+'</strong> '+corrHtml+'</div>';
+      reviewList.appendChild(item);
+    });
+  }
+
+  saveLocalBackup(stats);
+  sendTracking(stats);
+  buildPrintReport(stats);
+}
+
+el('btnRestart').addEventListener('click', ()=>{
+  screenResults.classList.add('hidden');
+  screenStart.classList.remove('hidden');
+  state.answers = {};
+  state.quizQuestions = [];
+});
+
+el('btnPrint').addEventListener('click', ()=>{
+  window.print();
+});
+
+/* =========================================================
+   PRINT REPORT (always bilingual EN+TH)
+   ========================================================= */
+function buildPrintReport(stats){
+  const container = el('printReport');
+  let html = '';
+  html += '<h1>CISSP Practice Exam — Result Report / รายงานผลแบบทดสอบ CISSP</h1>';
+  html += '<p><strong>Candidate / ผู้เข้าสอบ:</strong> '+escapeHtml(state.name)+'</p>';
+  html += '<p><strong>Date / วันที่:</strong> '+escapeHtml(new Date().toLocaleString())+'</p>';
+  html += '<p><strong>Mode / โหมด:</strong> '+escapeHtml(state.mode)+'</p>';
+  html += '<p><strong>Score / คะแนน:</strong> '+stats.scorePct+'% — '+(stats.passed ? 'PASS / ผ่าน' : 'FAIL / ไม่ผ่าน')+'</p>';
+  html += '<p>Correct/ตอบถูก: '+stats.correct+' &nbsp; Incorrect/ตอบผิด: '+stats.incorrect+' &nbsp; Skipped/ไม่ได้ตอบ: '+stats.skipped+'</p>';
+  html += '<hr>';
+  state.quizQuestions.forEach((q, i)=>{
+    const a = state.answers[q.id];
+    const correct = a && a.correct;
+    const yourIdx = a ? a.selectedIdx : null;
+    html += '<div class="print-q">';
+    html += '<div class="pen">'+(i+1)+'. '+escapeHtml(q.question)+'</div>';
+    if(q.question_th) html += '<div class="pth">'+escapeHtml(q.question_th)+'</div>';
+    q.options.forEach((optEn, idx)=>{
+      const optTh = q.options_th ? q.options_th[idx] : null;
+      const mark = idx === q.correct_idx ? ' ✓' : (idx === yourIdx ? ' ✗' : '');
+      html += '<div>'+String.fromCharCode(65+idx)+'. '+escapeHtml(optEn)+mark;
+      if(optTh) html += ' <span class="pth">('+escapeHtml(optTh)+')</span>';
+      html += '</div>';
+    });
+    html += '<div class="print-badge '+(correct?'correct':'incorrect')+'">'
+      + (yourIdx===null||yourIdx===undefined ? 'Skipped / ไม่ได้ตอบ' : (correct ? 'Correct / ถูกต้อง' : 'Incorrect / ไม่ถูกต้อง'))
+      + '</div>';
+    html += '<div>Explanation/คำอธิบาย: '+escapeHtml(q.explanation)+(q.explanation_th ? ' — '+escapeHtml(q.explanation_th) : '')+'</div>';
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+/* =========================================================
+   TRACKING / STORAGE
+   ========================================================= */
+function saveLocalBackup(stats){
+  try{
+    const key = 'cissp_quiz_attempts';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push({
+      name: state.name,
+      mode: state.mode,
+      order: state.order,
+      lang: state.lang,
+      domains: Array.from(state.selectedDomains),
+      startedAt: state.startedAt,
+      finishedAt: state.finishedAt,
+      stats: stats,
+      answers: state.answers,
+    });
+    localStorage.setItem(key, JSON.stringify(existing));
+  }catch(e){
+    console.warn('localStorage backup failed', e);
+  }
+}
+
+function sendTracking(stats){
+  if(!TRACKING_URL) return;
+  const payload = {
+    name: state.name,
+    mode: state.mode,
+    order: state.order,
+    lang: state.lang,
+    domains: Array.from(state.selectedDomains),
+    startedAt: state.startedAt,
+    finishedAt: state.finishedAt,
+    stats: stats,
+  };
+  const body = JSON.stringify(payload);
+  try{
+    let sent = false;
+    if(navigator.sendBeacon){
+      const blob = new Blob([body], {type:'application/json'});
+      sent = navigator.sendBeacon(TRACKING_URL, blob);
+    }
+    if(!sent){
+      fetch(TRACKING_URL, {method:'POST', mode:'no-cors', body: body, headers:{'Content-Type':'application/json'}}).catch(()=>{});
+    }
+  }catch(e){
+    console.warn('tracking send failed', e);
+  }
+}
+
+/* =========================================================
+   BOOT
+   ========================================================= */
+initStartScreen();
+</script>
+</body>
+</html>
