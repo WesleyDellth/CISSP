@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>มาตรฐานความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ พ.ศ. 2567 — ฉบับอ่านง่าย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E7;
+    --paper:#FFFDF8;
+    --navy:#16233A;
+    --navy2:#0D1524;
+    --maroon:#7A2331;
+    --maroon-ink:#5c1a24;
+    --teal:#1F7A76;
+    --teal-ink:#155b58;
+    --gold:#B8862E;
+    --green:#3F7D4A;
+    --line:#E4DBC4;
+    --font-display:'Noto Serif Thai',serif;
+    --font-body:'Sarabun',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--navy);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{font-family:var(--font-display);color:var(--navy);line-height:1.3;margin:0 0 .5em;}
+  h2{font-size:clamp(1.4rem,2.4vw,1.9rem);font-weight:700;}
+  h3{font-size:1.15rem;font-weight:600;}
+  p{margin:0 0 1em;}
+  a{color:var(--teal-ink);}
+  img{max-width:100%;}
+  .container{max-width:1180px;margin:0 auto;padding:0 1.5rem;}
+  ::selection{background:var(--gold);color:#fff;}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{background:linear-gradient(180deg,var(--navy2),var(--navy));color:#EDE7D6;padding:2.6rem 0 2.2rem;}
+  .hero__meta{display:flex;flex-wrap:wrap;gap:0;font-size:.82rem;color:#B9C2D4;margin-bottom:1.4rem;font-weight:500;}
+  .hero__meta span{padding:0 .85rem;border-left:1px solid rgba(255,255,255,.18);}
+  .hero__meta span:first-child{border-left:none;padding-left:0;}
+  .hero h1{color:#fff;font-size:clamp(1.7rem,4vw,2.7rem);max-width:16ch;margin-bottom:.4rem;}
+  .hero__sub{color:#CBD4E3;max-width:56ch;font-size:1.05rem;margin-bottom:1.4rem;}
+  .hero__badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.6rem;}
+  .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.4rem .9rem;font-size:.85rem;color:#EDE7D6;}
+  .badge b{color:var(--gold);font-weight:700;}
+  .hero__facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.75rem;}
+  .fact{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:.85rem 1rem;}
+  .fact strong{display:block;font-family:var(--font-display);font-size:1.05rem;color:#fff;margin-bottom:.15rem;}
+  .fact span{font-size:.82rem;color:#B9C2D4;}
+  .effective-callout{margin-top:1.4rem;background:rgba(184,134,46,.15);border:1px solid var(--gold);border-radius:10px;padding:.9rem 1.1rem;font-size:.92rem;color:#F3E7C9;}
+  .effective-callout b{color:var(--gold);}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{display:grid;grid-template-columns:250px 1fr;gap:2.4rem;align-items:start;padding:2.4rem 0 4rem;}
+  .toc{position:sticky;top:1rem;background:var(--navy);border-radius:12px;padding:1.3rem 1.2rem;color:#D8DEE9;font-size:.88rem;}
+  .toc h4{color:#8FA0BE;font-size:.75rem;letter-spacing:.03em;margin-bottom:.7rem;font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;counter-reset:toc;}
+  .toc li{counter-increment:toc;margin-bottom:.15rem;}
+  .toc a{display:block;color:#C4CCDC;text-decoration:none;padding:.4rem .5rem;border-radius:6px;border-left:3px solid transparent;}
+  .toc a::before{content:counter(toc) ". ";color:#66748F;}
+  .toc a:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .toc a.active{color:#fff;border-left-color:var(--gold);background:rgba(255,255,255,.06);}
+  .toc__progress{margin-top:1.1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.14);}
+  .toc__progress-label{font-size:.78rem;color:#8FA0BE;margin-bottom:.35rem;}
+  .toc__bar{height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden;}
+  .toc__bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),#e0b862);transition:width .3s ease;}
+  .toc__progress-text{font-size:.78rem;color:#D8DEE9;margin-top:.35rem;}
+
+  main{min-width:0;}
+  section{margin-bottom:3.2rem;scroll-margin-top:1.2rem;}
+  .section-lead{color:#3c4a63;max-width:70ch;}
+
+  /* ---------- STAT CARDS ---------- */
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.3rem;}
+  .stat-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;border-top:4px solid var(--maroon);}
+  .stat-card .num{font-family:var(--font-display);font-weight:700;font-size:1.9rem;font-variant-numeric:tabular-nums;color:var(--maroon-ink);}
+  .stat-card .lbl{font-size:.88rem;color:#4b5875;}
+
+  /* ---------- SCOPE DIAGRAM ---------- */
+  .scope-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-top:1.4rem;}
+  .scope-box{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:1.3rem;}
+  .scope-box.csc{border-top:4px solid var(--maroon);}
+  .scope-box.csp{border-top:4px solid var(--teal);}
+  .scope-box h3{margin-bottom:.6rem;}
+  .scope-box ul{margin:0;padding-left:1.2rem;}
+  .scope-box li{margin-bottom:.35rem;font-size:.94rem;}
+  .scope-arrow{text-align:center;font-family:var(--font-display);color:#8a8266;font-size:.85rem;}
+  .scope-arrow .glyph{font-size:1.8rem;display:block;color:var(--gold);}
+  .scope-note{margin-top:1rem;background:#F1E9D3;border:1px dashed var(--gold);border-radius:10px;padding:.9rem 1.1rem;font-size:.92rem;}
+  @media (max-width:720px){.scope-grid{grid-template-columns:1fr;}.scope-arrow{transform:rotate(90deg);}}
+
+  /* ---------- GLOSSARY ---------- */
+  .glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.9rem;margin-top:1.3rem;}
+  details.term{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:.2rem .2rem;}
+  details.term summary{list-style:none;cursor:pointer;padding:.85rem 1rem;font-weight:600;font-family:var(--font-display);display:flex;justify-content:space-between;align-items:center;gap:.5rem;}
+  details.term summary::-webkit-details-marker{display:none;}
+  details.term summary::after{content:'+';color:var(--teal-ink);font-size:1.2rem;font-family:var(--font-body);flex:0 0 auto;}
+  details.term[open] summary::after{content:'–';}
+  details.term p{padding:0 1rem 1rem;margin:0;font-size:.92rem;color:#3c4a63;}
+
+  /* ---------- RISK SELECTOR ---------- */
+  .risk-panel{background:var(--navy);border-radius:14px;padding:1.6rem;color:#EDE7D6;}
+  .risk-panel h3{color:#fff;}
+  .risk-panel p.hint{color:#B9C2D4;font-size:.92rem;max-width:60ch;}
+  .risk-buttons{display:flex;gap:.7rem;flex-wrap:wrap;margin:1rem 0 1.3rem;}
+  .risk-btn{flex:1 1 150px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.18);border-radius:10px;padding:.8rem 1rem;color:#EDE7D6;text-align:left;transition:border-color .15s,background .15s;}
+  .risk-btn b{display:block;font-family:var(--font-display);font-size:1.05rem;}
+  .risk-btn span{font-size:.78rem;color:#B9C2D4;}
+  .risk-btn[aria-pressed="true"]{background:rgba(255,255,255,.12);}
+  .risk-btn.lv-low[aria-pressed="true"]{border-color:var(--green);}
+  .risk-btn.lv-mid[aria-pressed="true"]{border-color:var(--gold);}
+  .risk-btn.lv-high[aria-pressed="true"]{border-color:var(--maroon);}
+  .risk-btn:hover{background:rgba(255,255,255,.1);}
+  .risk-result{display:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:1.1rem 1.3rem;}
+  .risk-result.show{display:block;}
+  .risk-result .cols{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:.8rem;}
+  .risk-result .cols h4{color:#fff;font-size:.85rem;margin-bottom:.3rem;}
+  .risk-result .cols p{font-size:.88rem;color:#D8DEE9;margin-bottom:0;}
+  .risk-result .colcsc h4{color:#e5b3ba;}
+  .risk-result .colcsp h4{color:#8fd9d4;}
+  @media (max-width:640px){.risk-result .cols{grid-template-columns:1fr;}}
+
+  /* ---------- CERTIFY CARDS ---------- */
+  .certify-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.3rem;}
+  .certify-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;}
+  .certify-card .step{display:inline-block;background:var(--navy);color:#EDE7D6;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;margin-bottom:.5rem;}
+  .certify-card h4{margin-bottom:.35rem;font-size:1rem;}
+  .certify-card p{font-size:.9rem;color:#3c4a63;margin-bottom:0;}
+
+  /* ---------- CLAUSE TOOLBAR ---------- */
+  .clause-toolbar{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;margin:1.3rem 0 1.2rem;}
+  .clause-toolbar input[type=search]{flex:1 1 220px;border:1px solid var(--line);border-radius:8px;padding:.5rem .8rem;font-family:var(--font-body);font-size:.92rem;background:#fff;}
+  .toolbar-btns{display:flex;gap:.5rem;}
+  .ghost-btn{background:transparent;border:1px solid var(--navy);color:var(--navy);border-radius:8px;padding:.45rem .8rem;font-size:.82rem;font-weight:600;}
+  .ghost-btn:hover{background:var(--navy);color:#fff;}
+
+  /* ---------- CLAUSE CARDS ---------- */
+  .part-intro{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:0 10px 10px 0;padding:.9rem 1.1rem;font-size:.94rem;margin-bottom:1rem;color:#3c4a63;}
+  details.clause{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-bottom:.9rem;overflow:hidden;scroll-margin-top:1rem;}
+  details.clause[data-na="1"]{opacity:.5;}
+  details.clause[data-match="0"]{display:none;}
+  details.clause summary{list-style:none;cursor:pointer;padding:1rem 1.2rem;display:flex;align-items:center;gap:.9rem;}
+  details.clause summary::-webkit-details-marker{display:none;}
+  .clause__tag{font-family:var(--font-display);font-weight:700;color:#fff;background:var(--navy);border-radius:7px;padding:.25rem .55rem;font-size:.85rem;flex:0 0 auto;}
+  .clause__title{flex:1 1 auto;min-width:0;}
+  .clause__title b{font-family:var(--font-display);font-size:1.02rem;display:block;}
+  .clause__title em{font-style:normal;font-size:.8rem;color:#7a8399;}
+  .clause__dots{display:flex;gap:.3rem;flex:0 0 auto;}
+  .dot{width:9px;height:9px;border-radius:50%;background:#dcd4bd;}
+  .dot.on-low{background:var(--green);}
+  .dot.on-mid{background:var(--gold);}
+  .dot.on-high{background:var(--maroon);}
+  .clause__chev{flex:0 0 auto;color:#8a8266;transition:transform .15s;}
+  details[open] .clause__chev{transform:rotate(180deg);}
+  .clause__body{padding:0 1.2rem 1.3rem;border-top:1px solid var(--line);}
+  .clause__explain{padding-top:1rem;font-size:.96rem;}
+  .na-note{font-size:.83rem;background:#F1E9D3;border:1px dashed var(--gold);border-radius:8px;padding:.6rem .8rem;margin-bottom:.9rem;}
+  .clause__sub{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+  .clause__sub span{font-size:.76rem;background:#EFE9D8;border-radius:6px;padding:.25rem .55rem;color:#5a5237;}
+  .clause__cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  .col{border-radius:8px;padding:.8rem .9rem;font-size:.9rem;}
+  .col--csc{background:#FBEEEF;border:1px solid #e9c6cb;}
+  .col--csp{background:#EAF4F3;border:1px solid #bfe0dd;}
+  .col h5{margin:0 0 .3rem;font-size:.82rem;font-weight:700;}
+  .col--csc h5{color:var(--maroon-ink);}
+  .col--csp h5{color:var(--teal-ink);}
+  .col p{margin:0;color:#333;font-size:.88rem;}
+  @media (max-width:640px){.clause__cols{grid-template-columns:1fr;}}
+  .clause__example{display:flex;gap:.7rem;background:#FFF8E8;border:1px dashed var(--gold);border-radius:8px;padding:.8rem .9rem;margin-bottom:.9rem;}
+  .clause__example .pin{font-size:1.1rem;flex:0 0 auto;}
+  .clause__example h5{margin:0 0 .25rem;font-size:.82rem;color:#8a6a1a;font-weight:700;}
+  .clause__example p{margin:0;font-size:.89rem;}
+  .clause__check{display:flex;align-items:center;gap:.5rem;font-size:.88rem;font-weight:600;color:#3c4a63;cursor:pointer;}
+  .clause__check input{width:17px;height:17px;accent-color:var(--teal);}
+
+  /* ---------- GENERAL PROVISIONS ---------- */
+  .prov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.3rem;}
+  .prov-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;}
+  .prov-card .tag{font-family:var(--font-display);font-weight:700;color:var(--navy);font-size:.85rem;margin-bottom:.4rem;}
+  .prov-card p{font-size:.92rem;margin-bottom:0;color:#3c4a63;}
+  .prov-card.highlight{border:1px solid var(--gold);background:#FFF8E8;}
+
+  /* ---------- REFERENCES / FOOTER ---------- */
+  .ref-list{list-style:none;margin:1rem 0 0;padding:0;}
+  .ref-list li{padding:.6rem 0;border-bottom:1px solid var(--line);font-size:.92rem;}
+  .ref-list li b{display:block;color:var(--navy);}
+  footer{background:var(--navy2);color:#9AA6BC;padding:2.2rem 0;font-size:.85rem;}
+  footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;}
+  footer strong{color:#EDE7D6;}
+  .disclaimer{max-width:640px;}
+
+  .backtop{position:fixed;right:1.2rem;bottom:1.2rem;background:var(--navy);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.1rem;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none;align-items:center;justify-content:center;z-index:50;}
+  .backtop.show{display:flex;}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;padding-top:1.4rem;}
+    .toc{position:static;order:-1;}
+    .toc ol{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .toc li{margin:0;}
+    .toc a{padding:.35rem .6rem;font-size:.8rem;border-left:none;border:1px solid rgba(255,255,255,.15);border-radius:99px;}
+    .toc a::before{display:none;}
+    .toc__progress{width:100%;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero__meta">
+      <span>เล่ม ๑๔๑ ตอนพิเศษ ๒๔๘ ง</span>
+      <span>ราชกิจจานุเบกษา</span>
+      <span>๑๐ กันยายน ๒๕๖๗</span>
+      <span>ฉบับอ่านง่าย · ไม่ใช่เอกสารทางกฎหมาย</span>
+    </div>
+    <h1>มาตรฐานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ พ.ศ. 2567</h1>
+    <p class="hero__sub">ประกาศคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (กมช.) — สรุปเป็นภาษาที่เข้าใจง่าย พร้อมตัวอย่างจริง สำหรับผู้ที่ต้องนำไปปฏิบัติ</p>
+    <div class="hero__badges">
+      <span class="badge">ประกาศ ณ วันที่ <b>3 ก.ย. 2567</b></span>
+      <span class="badge">ผู้ลงนาม <b>ภูมิธรรม เวชยชัย</b></span>
+      <span class="badge">ฐานอำนาจ <b>มาตรา 9(4) พ.ร.บ.ไซเบอร์ 2562</b></span>
+    </div>
+    <div class="hero__facts">
+      <div class="fact"><strong>2 ส่วน · 13 หมวด</strong><span>ข้อกำหนดขั้นต่ำด้านความมั่นคงปลอดภัย</span></div>
+      <div class="fact"><strong>3 ระดับ</strong><span>ผลกระทบ: ต่ำ / กลาง / สูง</span></div>
+      <div class="fact"><strong>CSC + CSP</strong><span>บังคับทั้งฝั่งผู้ใช้และผู้ให้บริการ</span></div>
+      <div class="fact"><strong>สัญญาเป็นฐาน</strong><span>ผูกเฉพาะคู่สัญญาหน่วยงานรัฐ</span></div>
+    </div>
+    <div class="effective-callout">
+      <b>ข้อสังเกตสำคัญ:</b> ข้อ 2 ของประกาศกำหนดให้มีผลบังคับใช้เมื่อ <b>พ้นกำหนด 2 ปี</b> นับแต่วันประกาศในราชกิจจานุเบกษา (10 ก.ย. 2567) นั่นคือมาตรฐานนี้จะ<strong>มีผลบังคับใช้จริงตั้งแต่วันที่ 10 กันยายน 2569</strong> — หากอ่านอยู่ใกล้ช่วงเวลาดังกล่าว ควรตรวจสอบสถานะความพร้อมของหน่วยงานโดยเร็ว
+    </div>
+  </div>
+</header>
+
+<div class="container layout">
+  <nav class="toc" id="toc">
+    <h4>สารบัญ</h4>
+    <ol>
+      <li><a href="#overview">ทำไมต้องมีมาตรฐานนี้</a></li>
+      <li><a href="#scope">ใครต้องทำตามบ้าง</a></li>
+      <li><a href="#glossary">คำนิยามศัพท์</a></li>
+      <li><a href="#risk">ระดับความเสี่ยงของระบบคุณ</a></li>
+      <li><a href="#certify">กระบวนการตรวจรับรอง</a></li>
+      <li><a href="#part1">ส่วนที่ 1 การกำกับดูแล</a></li>
+      <li><a href="#part2">ส่วนที่ 2 การปฏิบัติการ</a></li>
+      <li><a href="#general">ข้อกำหนดทั่วไป</a></li>
+      <li><a href="#references">เอกสารอ้างอิง</a></li>
+    </ol>
+    <div class="toc__progress">
+      <div class="toc__progress-label">เช็คลิสต์ความพร้อม</div>
+      <div class="toc__bar"><div class="toc__bar-fill" id="progressFill"></div></div>
+      <div class="toc__progress-text" id="progressText">ยังไม่ได้ทำเครื่องหมายข้อใด</div>
+    </div>
+  </nav>
+
+  <main>
+
+    <section id="overview">
+      <h2>ทำไมต้องมีมาตรฐานนี้</h2>
+      <p class="section-lead">ที่ประชุมคณะกรรมการดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งชาติ (22 ธ.ค. 2566) เห็นชอบแนวทางขับเคลื่อนนโยบาย <b>Cloud First Policy</b> ให้หน่วยงานรัฐหันไปใช้บริการคลาวด์มากขึ้น แต่ สกมช. พบว่าภัยคุกคามไซเบอร์ต่อหน่วยงานต่าง ๆ เพิ่มขึ้นต่อเนื่อง จึงต้องมี "กติกาขั้นต่ำ" กำกับการใช้คลาวด์สาธารณะของหน่วยงานรัฐโดยเฉพาะ — <b>วัตถุประสงค์หลัก</b>คือลดความเสี่ยงจากภัยคุกคามไซเบอร์ที่มีต่อการใช้บริการคลาวด์สาธารณะของหน่วยงานรัฐ หน่วยงานควบคุม/กำกับดูแล และหน่วยงานโครงสร้างพื้นฐานสำคัญทางสารสนเทศ (CII)</p>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">632</div><div class="lbl">ครั้งที่หน่วยงานด้านการศึกษาถูกโจมตี (อันดับ 1 ปี 2566)</div></div>
+        <div class="stat-card"><div class="num">145</div><div class="lbl">ครั้งที่หน่วยงานรัฐอื่น ๆ ถูกโจมตี (อันดับ 2)</div></div>
+        <div class="stat-card"><div class="num">148</div><div class="lbl">ครั้งที่บริษัทเอกชนสัญชาติไทยถูกโจมตี (อันดับ 3)</div></div>
+        <div class="stat-card"><div class="num">515 / 336 / 301</div><div class="lbl">รูปแบบภัยคุกคามยอดนิยม: เว็บพนัน / เว็บถูกแฮ็ก / เว็บปลอม</div></div>
+      </div>
+      <div class="scope-note" style="margin-top:1rem;">หลักคิดของมาตรฐานนี้คือ <b>"ความรับผิดชอบร่วม" (Shared Responsibility)</b> — เพราะความเสี่ยงมาจาก 2 ทางคือฝั่งผู้ใช้บริการคลาวด์ (CSC) และฝั่งผู้ให้บริการคลาวด์ (CSP) มาตรฐานจึงเขียนข้อกำหนดคู่กันแทบทุกหมวด สังเกตได้จากคอลัมน์สีชมพู (CSC) กับสีเขียวอมฟ้า (CSP) ที่ปรากฏซ้ำตลอดทั้งหน้านี้</div>
+    </section>
+
+    <section id="scope">
+      <h2>ใครต้องทำตามมาตรฐานนี้บ้าง</h2>
+      <p class="section-lead">มาตรฐานนี้ผูกกับ "สัญญา" ระหว่างสองฝั่ง — ไม่ใช่ทุกหน่วยงานและไม่ใช่ทุกผู้ให้บริการคลาวด์ที่ต้องทำตาม</p>
+      <div class="scope-grid">
+        <div class="scope-box csc">
+          <h3>ฝั่งผู้ใช้บริการ (CSC)</h3>
+          <ul>
+            <li>หน่วยงานของรัฐ</li>
+            <li>หน่วยงานควบคุมหรือกำกับดูแล</li>
+            <li>หน่วยงานโครงสร้างพื้นฐานสำคัญทางสารสนเทศ (CII) ตาม พ.ร.บ.ไซเบอร์ 2562</li>
+          </ul>
+        </div>
+        <div class="scope-arrow"><span class="glyph">⇄</span>สัญญาใช้บริการ</div>
+        <div class="scope-box csp">
+          <h3>ฝั่งผู้ให้บริการ (CSP)</h3>
+          <ul>
+            <li>ผู้ให้บริการคลาวด์สาธารณะ (Public Cloud)</li>
+            <li><b>เฉพาะ</b>ที่ให้บริการกับหน่วยงานฝั่งซ้ายเท่านั้น</li>
+            <li>ให้บริการเอกชนทั่วไปอย่างเดียว ไม่เข้าข่าย</li>
+          </ul>
+        </div>
+      </div>
+      <div class="scope-note">บริษัทเอกชนทั่วไปที่ไม่ใช่ CII <b>ไม่ถูกบังคับ</b>โดยมาตรฐานฉบับนี้ และ CSP รายเดียวกันอาจต้องทำตามมาตรฐานนี้กับลูกค้าหน่วยงานรัฐราย A แต่ไม่ต้องทำกับลูกค้าเอกชนราย B ในเวลาเดียวกัน</div>
+    </section>
+
+    <section id="glossary">
+      <h2>คำนิยามศัพท์สำคัญ</h2>
+      <p class="section-lead">คลิกเพื่อดูความหมายแบบเข้าใจง่าย (อิงจากข้อ 3 ของประกาศ)</p>
+      <div class="glossary-grid" id="glossaryGrid"></div>
+    </section>
+
+    <section id="risk">
+      <h2>เลือกระดับความเสี่ยงของระบบคุณ</h2>
+      <p class="section-lead">มาตรฐานนี้แบ่งข้อกำหนดตาม "ระดับผลกระทบ" ของข้อมูล/ระบบ (อ้างอิงจากประกาศฯ เรื่องมาตรฐานคุณลักษณะความมั่นคงปลอดภัยไซเบอร์ 2566) เลือกระดับด้านล่างเพื่อดูว่าต้องทำข้อไหนบ้าง — ตัวเลือกนี้จะไปกำกับหมวด 13 ข้อในส่วนที่ 1 และ 2 ด้านล่างด้วย</p>
+      <div class="risk-panel">
+        <h3>ระบบของคุณอยู่ระดับผลกระทบใด?</h3>
+        <p class="hint">ถ้าไม่แน่ใจ: ระบบที่กระทบต่อความมั่นคง ความปลอดภัยสาธารณะ หรือมีข้อมูลอ่อนไหวจำนวนมาก มักอยู่ระดับสูง ระบบงานภายในทั่วไปมักอยู่ระดับกลาง เว็บไซต์ประชาสัมพันธ์ทั่วไปมักอยู่ระดับต่ำ</p>
+        <div class="risk-buttons" id="riskButtons">
+          <button class="risk-btn lv-low" data-risk="ต่ำ" aria-pressed="false"><b>ผลกระทบต่ำ</b><span>เช่น เว็บไซต์ประชาสัมพันธ์</span></button>
+          <button class="risk-btn lv-mid" data-risk="กลาง" aria-pressed="false"><b>ผลกระทบกลาง</b><span>เช่น ระบบงานภายในทั่วไป</span></button>
+          <button class="risk-btn lv-high" data-risk="สูง" aria-pressed="false"><b>ผลกระทบสูง</b><span>เช่น ระบบที่กระทบความมั่นคง/ข้อมูลอ่อนไหว</span></button>
+        </div>
+        <div class="risk-result" id="riskResult">
+          <div id="riskSummaryText"></div>
+          <div class="cols">
+            <div class="colcsc"><h4>การตรวจรับรองฝั่งผู้ใช้ (CSC)</h4><p id="riskCscText"></p></div>
+            <div class="colcsp"><h4>การรับรองที่ CSP ต้องมี</h4><p id="riskCspText"></p></div>
+          </div>
+        </div>
+      </div>
+      <div class="scope-note" style="margin-top:1rem;">หากระบบของคุณประมวลผล<b>ข้อมูลส่วนบุคคล</b> ข้อ 5 ของประกาศกำหนดให้จัดระดับผลกระทบด้าน<b>การรักษาความลับ "ระดับกลาง" เป็นอย่างน้อย</b> แม้ภาพรวมระบบจะดูมีผลกระทบต่ำก็ตาม</div>
+    </section>
+
+    <section id="certify">
+      <h2>กระบวนการตรวจรับรองมาตรฐาน 3 แบบ</h2>
+      <p class="section-lead">ยิ่งระดับผลกระทบสูง ยิ่งต้องใช้การตรวจสอบที่เข้มงวดและเป็นอิสระมากขึ้น</p>
+      <div class="certify-grid">
+        <div class="certify-card"><span class="step">แบบที่ 1</span><h4>ประเมินตนเอง (Self-assessment)</h4><p>หน่วยงานประเมินตัวเองตามแบบฟอร์มที่สำนักงานกำหนด แนบหลักฐาน ขออนุมัติจากผู้บริหารสูงสุด เก็บไว้ที่หน่วยงานและส่งสำเนาให้สำนักงาน</p></div>
+        <div class="certify-card"><span class="step">แบบที่ 2</span><h4>รับรองโดยหน่วยงานกำกับดูแล (Attestation)</h4><p>ตรวจโดยหน่วยงานควบคุม/กำกับดูแลตามที่ประกาศกำหนด ใช้ได้เฉพาะระดับผลกระทบกลางเท่านั้น</p></div>
+        <div class="certify-card"><span class="step">แบบที่ 3</span><h4>รับรองโดย Certify Body</h4><p>ตรวจโดยหน่วยงานให้บริการตรวจรับรองอิสระ (บุคคลที่สาม) ตามวงรอบ 3 ปี — ปีที่ 1 ตรวจเต็มรูปแบบ ปีที่ 2-3 เป็นการตรวจสำรวจ (surveillance) ที่เบากว่า</p></div>
+      </div>
+      <div class="scope-note" style="margin-top:1rem;">ข้อยกเว้น: ถ้า CSP ผ่านการรับรองจาก Certify Body แล้ว ไม่ต้องทำ self-assessment ซ้ำ และถ้าได้ CSA STAR Level 2/CCM แล้ว ไม่ต้องขอ Level 1/CCM Lite เพิ่มอีก</div>
+    </section>
+
+    <section id="part1">
+      <h2>ส่วนที่ 1 — การกำกับดูแลด้านความมั่นคงปลอดภัยระบบคลาวด์</h2>
+      <div class="part-intro">พูดง่าย ๆ คือ "เอกสารและโครงสร้างองค์กร" ที่ต้องมีก่อนเริ่มใช้คลาวด์จริง — ยังไม่ใช่การตั้งค่าระบบทางเทคนิค มี 3 หมวด</div>
+      <div class="clause-toolbar">
+        <input type="search" id="searchPart1" placeholder="ค้นหาหัวข้อในส่วนที่ 1...">
+        <div class="toolbar-btns">
+          <button class="ghost-btn" data-expand="part1container" data-open="1">ขยายทั้งหมด</button>
+          <button class="ghost-btn" data-expand="part1container" data-open="0">ย่อทั้งหมด</button>
+        </div>
+      </div>
+      <div id="part1container"></div>
+    </section>
+
+    <section id="part2">
+      <h2>ส่วนที่ 2 — การปฏิบัติการและการรักษาความมั่นคงปลอดภัยโครงสร้างพื้นฐานระบบคลาวด์</h2>
+      <div class="part-intro">ส่วนนี้คือ "การตั้งค่าทางเทคนิค" จริง ตั้งแต่คนที่เข้าถึงระบบได้ ไปจนถึงการเข้ารหัส สำรองข้อมูล และรับมือเหตุการณ์ มี 10 หมวด</div>
+      <div class="clause-toolbar">
+        <input type="search" id="searchPart2" placeholder="ค้นหาหัวข้อในส่วนที่ 2...">
+        <div class="toolbar-btns">
+          <button class="ghost-btn" data-expand="part2container" data-open="1">ขยายทั้งหมด</button>
+          <button class="ghost-btn" data-expand="part2container" data-open="0">ย่อทั้งหมด</button>
+        </div>
+      </div>
+      <div id="part2container"></div>
+    </section>
+
+    <section id="general">
+      <h2>ข้อกำหนดทั่วไปอื่น ๆ ในตัวประกาศ</h2>
+      <p class="section-lead">นอกจากมาตรฐานแนบท้าย ตัวประกาศเองก็มีข้อกำหนดสั้น ๆ ที่มักถูกมองข้าม</p>
+      <div class="prov-grid">
+        <div class="prov-card highlight"><div class="tag">ข้อ 2 — วันบังคับใช้</div><p>มีผลเมื่อพ้น 2 ปีนับแต่วันประกาศในราชกิจจานุเบกษา (10 ก.ย. 2567) คือมีผลบังคับใช้ตั้งแต่ <b>10 กันยายน 2569</b></p></div>
+        <div class="prov-card"><div class="tag">ข้อ 4 — วิธีปฏิบัติ</div><p>หน่วยงานที่ใช้คลาวด์สาธารณะต้องดำเนินการตามระดับผลกระทบที่จัดไว้ และทำไม่น้อยกว่าข้อกำหนดขั้นต่ำท้ายประกาศนี้</p></div>
+        <div class="prov-card highlight"><div class="tag">ข้อ 5 — กรณีข้อมูลส่วนบุคคล</div><p>ถ้าประมวลผลข้อมูลส่วนบุคคล ต้องจัดระดับผลกระทบด้านการรักษาความลับ "ระดับกลาง" เป็นอย่างน้อย แม้ระบบโดยรวมจะดูผลกระทบต่ำ</p></div>
+        <div class="prov-card"><div class="tag">ข้อ 6 — การรายงานผล</div><p>หน่วยงานต้องส่งผลสรุปรายงานการดำเนินการต่อสำนักงานภายใน 30 วัน นับแต่วันที่ดำเนินการแล้วเสร็จ</p></div>
+        <div class="prov-card"><div class="tag">ข้อ 7 — การตีความ</div><p>เลขาธิการ กมช. รักษาการตามประกาศนี้ และมีอำนาจออกหลักเกณฑ์เพิ่มเติม หากมีปัญหาการตีความ ให้ประธาน กมช. วินิจฉัยชี้ขาดเป็นที่สุด</p></div>
+      </div>
+    </section>
+
+    <section id="references">
+      <h2>เอกสารอ้างอิงและแหล่งที่มา</h2>
+      <ul class="ref-list">
+        <li><b>ISO/IEC 27017:2015</b> — แนวปฏิบัติด้านความมั่นคงปลอดภัยสารสนเทศสำหรับบริการคลาวด์ (ต่อยอดจาก ISO/IEC 27002)</li>
+        <li><b>ISO/IEC 27018:2019</b> — แนวปฏิบัติการปกป้องข้อมูลส่วนบุคคล (PII) บน public cloud</li>
+        <li><b>ISO/IEC 22123-1:2023</b> — อภิธานศัพท์ด้านการประมวลผลคลาวด์</li>
+        <li><b>ประกาศ กมช. เรื่อง มาตรฐานการกำหนดคุณลักษณะความมั่นคงปลอดภัยไซเบอร์ให้แก่ข้อมูลหรือระบบสารสนเทศ พ.ศ. 2566</b> — ใช้จัดระดับผลกระทบต่ำ/กลาง/สูง</li>
+        <li><b>ประกาศ กมช. เรื่อง มาตรฐานและแนวทางส่งเสริมพัฒนาระบบการให้บริการเกี่ยวกับการรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2566</b> — เกณฑ์ผู้ให้บริการตรวจรับรอง (Certify Body)</li>
+        <li><b>ประกาศคณะกรรมการกำกับดูแลด้านความมั่นคงปลอดภัยไซเบอร์ เรื่อง ประมวลแนวทางปฏิบัติและกรอบมาตรฐานฯ พ.ศ. 2564</b> — สำหรับหน่วยงานรัฐและหน่วยงาน CII</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="disclaimer"><strong>หมายเหตุ</strong> — หน้านี้เป็นบทสรุปภาษาที่เข้าใจง่ายเพื่อการศึกษา จัดทำจากประกาศคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ เรื่อง มาตรฐานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ พ.ศ. 2567 (ราชกิจจานุเบกษา เล่ม 141 ตอนพิเศษ 248 ง วันที่ 10 กันยายน 2567) <b>ไม่ใช่เอกสารทางกฎหมายที่ใช้อ้างอิงอย่างเป็นทางการ</b> กรุณาตรวจสอบต้นฉบับก่อนนำไปใช้ปฏิบัติงานจริง</div>
+    <div>เช็คลิสต์ในหน้านี้เก็บสถานะไว้เฉพาะระหว่างเปิดหน้านี้เท่านั้น</div>
+  </div>
+</footer>
+
+<button class="backtop" id="backtop" aria-label="กลับขึ้นด้านบน">↑</button>
+
+<script>
+/* ======================= DATA ======================= */
+const GLOSSARY = [
+  {t:"หน่วยงาน", d:"หน่วยงานของรัฐ หน่วยงานควบคุมหรือกำกับดูแล และหน่วยงานโครงสร้างพื้นฐานสำคัญทางสารสนเทศ (CII) ตามพระราชบัญญัติการรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2562"},
+  {t:"การประมวลผลคลาวด์ (Cloud Computing)", d:"แนวคิดการเข้าถึงทรัพยากรคอมพิวเตอร์ผ่านเครือข่าย ที่แชร์กันได้ (Shareable) ยืดหยุ่น (Elastic) ขยายขนาดได้ (Scalable) และจัดสรร/บริหารจัดการได้เองตามความต้องการ"},
+  {t:"บริการคลาวด์ (Cloud Service)", d:"ความสามารถในการประมวลผลคลาวด์ที่ถูกเรียกใช้งานผ่านอินเทอร์เฟซที่กำหนดไว้"},
+  {t:"ประเภทบริการคลาวด์", d:"แบ่งเป็น IaaS (โครงสร้างพื้นฐาน), PaaS (แพลตฟอร์มพัฒนา), SaaS (ซอฟต์แวร์สำเร็จรูป), แบบผสมสองประเภทขึ้นไป หรือแบบอื่นที่สำนักงานประกาศเพิ่มเติม"},
+  {t:"คลาวด์สาธารณะ (Public Cloud)", d:"รูปแบบคลาวด์ที่ผู้ใช้บริการรายใด ๆ ก็ใช้บริการได้ โดยทรัพยากรถูกควบคุมโดยผู้ให้บริการคลาวด์เอง"},
+  {t:"ผู้ใช้บริการคลาวด์ (CSC)", d:"หน่วยงานที่มีข้อตกลงทางสัญญาอย่างเป็นทางการในการใช้บริการที่ให้บริการโดยผู้ให้บริการคลาวด์"},
+  {t:"ผู้ให้บริการคลาวด์ (CSP)", d:"หน่วยงานของรัฐหรือเอกชนที่ทำให้บริการคลาวด์สามารถใช้งานได้กับผู้ใช้บริการคลาวด์ รวมถึงจัดการทรัพยากรให้พร้อมใช้งานและขยายตัวได้"},
+  {t:"ข้อมูลส่วนบุคคล", d:"ข้อมูลส่วนบุคคลตามที่กำหนดไว้ในมาตรา 6 แห่งพระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)"},
+  {t:"สำนักงาน", d:"สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช. / NCSA)"}
+];
+
+const CERTIFY = {
+  "ต่ำ": {
+    summary: "สำหรับระบบผลกระทบ<b>ต่ำ</b> ต้องทำ 6 หมวดจาก 13 หมวด — CSC ตรวจสอบตนเองเป็นหลัก แต่ CSP ยังต้องผ่านการรับรองจากบุคคลที่สาม",
+    csc: "ประเมินตนเอง (Self-assessment) พร้อมแนบหลักฐาน ขออนุมัติจากผู้บริหารสูงสุดของหน่วยงาน เก็บไว้ที่หน่วยงานและส่งสำนักงานด้วย ทบทวนอย่างน้อยปีละ 1 ครั้ง",
+    csp: "รับรองโดย Certify Body รอบ 3 ปี (ตรวจเต็มปีที่ 1 + สำรวจปีที่ 2-3) พร้อมได้ ISO/IEC 27001 และ CSA STAR Level 1/CCM Lite เป็นอย่างน้อย",
+    part1: "เฉพาะข้อ 5.1.1, 5.1.2", part2: "เฉพาะข้อ 5.2.1, 5.2.2, 5.2.3, 5.2.4, 5.2.8, 5.2.9"
+  },
+  "กลาง": {
+    summary: "สำหรับระบบผลกระทบ<b>กลาง</b> ต้องทำ 11 หมวดจาก 13 หมวด — CSC เลือกได้ระหว่างให้หน่วยงานกำกับดูแลตรวจ หรือใช้ Certify Body",
+    csc: "รับรองโดยหน่วยงานควบคุม/กำกับดูแล (Attestation) หรือรับรองโดย Certify Body — เลือกได้ทั้งสองแบบ ตามวงรอบ 3 ปี",
+    csp: "รับรองโดย Certify Body รอบ 3 ปี พร้อมได้ CSA STAR Level 2/CCM และ ISO/IEC 27701 เป็นอย่างน้อย",
+    part1: "ทุกข้อ (5.1.1, 5.1.2, 5.1.3)", part2: "เฉพาะข้อ 5.2.1, 5.2.2, 5.2.3, 5.2.4, 5.2.7, 5.2.8, 5.2.9, 5.2.10"
+  },
+  "สูง": {
+    summary: "สำหรับระบบผลกระทบ<b>สูง</b> ต้องทำ<b>ครบทั้ง 13 หมวด</b> — ทั้ง CSC และ CSP ต้องผ่านการตรวจจาก Certify Body เท่านั้น (ตัดตัวเลือก Attestation และ self-assessment ออก)",
+    csc: "ต้องรับรองโดย Certify Body เท่านั้น ตามวงรอบ 3 ป — ไม่มีทางเลือก Attestation อีกต่อไป",
+    csp: "รับรองโดย Certify Body รอบ 3 ปี พร้อมได้ ISO/IEC 27017 หรือ (CSA STAR Level 2/CCM + ISO/IEC 27018) รวมกับ ISO/IEC 27701 เป็นอย่างน้อย",
+    part1: "ทุกข้อ", part2: "ทุกข้อ (5.2.1 ถึง 5.2.10)"
+  }
+};
+
+const TOPICS = [
+  // ===== ส่วนที่ 1 =====
+  {code:"5.1.1", part:1, title:"นโยบายความมั่นคงปลอดภัยสารสนเทศ", en:"Information Security Policies", levels:["ต่ำ","กลาง","สูง"],
+   explain:"หน่วยงานต้องมีนโยบายความปลอดภัยสารสนเทศ \"เฉพาะสำหรับคลาวด์\" แยกออกมา ไม่ใช่ใช้นโยบายทั่วไปที่เขียนไว้แบบกว้าง ๆ เพราะคลาวด์มีลักษณะเฉพาะ เช่น ข้อมูลอาจถูกผู้ให้บริการเข้าถึงได้ มีผู้เช่าหลายรายใช้ทรัพยากรร่วมกัน และศูนย์ข้อมูลอาจอยู่ต่างประเทศ",
+   csc:"เขียนนโยบายเฉพาะเรื่องคลาวด์ให้สอดคล้องกับความเสี่ยงที่องค์กรยอมรับได้ คำนึงถึงสิทธิ์ผู้ดูแลระบบของ CSP ที่เข้าถึงข้อมูลได้ และตำแหน่งภูมิศาสตร์ของผู้ให้บริการ",
+   csp:"เพิ่มเนื้อหานโยบายให้ครอบคลุมการจัดหาและใช้บริการคลาวด์ เช่น ความเสี่ยงจากบุคคลภายใน (insider) การแยกผู้เช่าหลายราย และขั้นตอนควบคุมการเข้าถึงของผู้ดูแลระบบ",
+   example:"ก่อนย้ายระบบสารบรรณอิเล็กทรอนิกส์ขึ้นคลาวด์ หน่วยงานต้องเขียนนโยบายที่ระบุชัดว่า หนังสือราชการชั้นความลับจะจัดเก็บที่ใด ใครเข้าถึงได้บ้าง และจะทำอย่างไรหาก CSP ต้องขอเข้าถึงข้อมูลเพื่อบำรุงรักษาระบบ"},
+
+  {code:"5.1.2", part:1, title:"โครงสร้างองค์กรด้านความมั่นคงปลอดภัย", en:"Organization of Information Security", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.1.2.1 บทบาทและความรับผิดชอบ","5.1.2.2 การติดต่อกับเจ้าหน้าที่"],
+   explain:"ต้องตกลงกันชัดเจนว่าใครรับผิดชอบเรื่องใดระหว่างหน่วยงาน (CSC) กับผู้ให้บริการ (CSP) และรู้ว่าจะประสานงานกับหน่วยงานภายนอก (เช่น สกมช., PDPC) อย่างไรเมื่อเกิดเหตุ",
+   csc:"ตกลงกับ CSP เรื่องแบ่งบทบาทหน้าที่อย่างชัดเจน มั่นใจว่าตนเองมีศักยภาพทำหน้าที่ที่รับมาได้จริง และระบุหน่วยงานที่เกี่ยวข้องสำหรับการประสานงานร่วมกัน",
+   csp:"ตกลงและบันทึกการแบ่งบทบาทกับทุกฝ่าย (CSC, CSP เอง, ผู้ให้บริการภายนอก) แต่งตั้งผู้ประสานงานด้านคุ้มครองข้อมูลส่วนบุคคล และควรแจ้งที่ตั้งภูมิศาสตร์ขององค์กรแม่ให้ CSC ทราบ",
+   example:"หากเกิดเหตุข้อมูลรั่วไหล แต่ไม่ได้ตกลงล่วงหน้าว่าใครแจ้งเหตุ ใครสอบสวน ใครแจ้ง PDPC ภายในกี่ชั่วโมง จะเกิดความสับสนจนอาจแจ้งเหตุไม่ทันกรอบเวลาที่กฎหมายกำหนด"},
+
+  {code:"5.1.3", part:1, title:"การปฏิบัติตามกฎ ระเบียบ ข้อบังคับ", en:"Compliance", levels:["กลาง","สูง"],
+   sub:["5.1.3.1 การระบุกฎหมายที่บังคับใช้","5.1.3.2 สิทธิในทรัพย์สินทางปัญญา","5.1.3.3 การปกป้องบันทึกข้อมูล","5.1.3.4 กฎระเบียบเรื่องการเข้ารหัส","5.1.3.5 การทบทวนอย่างเป็นอิสระ"],
+   explain:"ครอบคลุมเรื่องกฎหมายที่แตกต่างกันระหว่างประเทศไทยกับประเทศที่ CSP ตั้งอยู่ การใช้ซอฟต์แวร์ลิขสิทธิ์บนคลาวด์ที่ขยายขนาดได้อัตโนมัติ และการตรวจสอบว่า CSP ทำตามที่กล่าวอ้างจริงหรือไม่ โดยไม่ต้องเสี่ยง pentest ระบบ production ที่ใช้ร่วมกับผู้เช่ารายอื่น",
+   csc:"ตรวจสอบว่ากฎหมายเขตอำนาจศาลของ CSP ต่างจากไทยหรือไม่ ขอหลักฐานการปฏิบัติตามกฎระเบียบ ตรวจสอบเงื่อนไข license ก่อนติดตั้งซอฟต์แวร์ และขอหลักฐานการทบทวนความปลอดภัยที่เป็นอิสระ (เช่น ใบรับรองมาตรฐาน)",
+   csp:"แจ้งเขตอำนาจศาลที่คุมบริการ ระบุข้อกำหนดกฎหมายที่เกี่ยวข้อง (เช่น การเข้ารหัสเพื่อปกป้องข้อมูลส่วนบุคคล) มีกระบวนการรับเรื่องร้องเรียนด้านทรัพย์สินทางปัญญา และแสดงหลักฐานอิสระ (เช่นใบรับรอง ISO/CSA STAR) เมื่อตรวจสอบโดยตรงทำไม่ได้",
+   example:"ซื้อ license ซอฟต์แวร์แบบนับ core แต่ระบบ auto-scale เพิ่ม server อัตโนมัติตอนโหลดสูง อาจทำให้จำนวน core รวมเกิน license ที่ซื้อไว้โดยไม่ทันสังเกต — และแทนที่จะส่งทีมไป pentest บน production cloud ของ CSP โดยตรง ให้ใช้ใบรับรอง ISO 27001 / CSA STAR เป็นหลักฐานแทน"},
+
+  // ===== ส่วนที่ 2 =====
+  {code:"5.2.1", part:2, title:"การบริหารทรัพยากรมนุษย์", en:"Human Resource Security", levels:["ต่ำ","กลาง","สูง"],
+   explain:"ทั้งฝ่ายผู้ใช้และผู้ให้บริการต้องอบรมพนักงานที่เกี่ยวข้องกับคลาวด์ให้เข้าใจความเสี่ยงเฉพาะของคลาวด์ ไม่ใช่แค่ security awareness ทั่วไปที่ใช้กับระบบ on-premises",
+   csc:"เพิ่มเนื้อหาเฉพาะคลาวด์ในโปรแกรมอบรม เช่น ความเสี่ยงจากการใช้บริการคลาวด์และการคุ้มครองข้อมูลส่วนบุคคล ให้ผู้จัดการ ผู้ดูแลระบบ ผู้ใช้งาน และผู้บริหารที่กำกับดูแล",
+   csp:"สร้างความตระหนักรู้ด้านความมั่นคงปลอดภัยและการคุ้มครองข้อมูลส่วนบุคคลให้พนักงานของตน รวมถึงให้ผู้รับจ้างช่วง (subcontractor) ดำเนินการเช่นเดียวกัน",
+   example:"เจ้าหน้าที่ IT ที่ไม่เคยอบรมเรื่องคลาวด์ อาจตั้งค่าพื้นที่จัดเก็บข้อมูล (เช่น storage bucket) เป็นสาธารณะโดยไม่รู้ว่าเสี่ยงข้อมูลรั่วไหล — เป็นสาเหตุการรั่วไหลข้อมูลที่พบบ่อยที่สุดในเหตุการณ์จริงทั่วโลก"},
+
+  {code:"5.2.2", part:2, title:"การจัดการทรัพย์สิน", en:"Asset Management", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.2.2.1 ทะเบียนทรัพย์สิน","5.2.2.2 การบ่งชี้ข้อมูล"],
+   explain:"ต้องมีทะเบียนรายการข้อมูล/ระบบที่อยู่บนคลาวด์ ระบุชัดว่าเก็บที่ CSP เจ้าไหน และต้องติดป้ายกำกับชั้นความลับของข้อมูลตามขั้นตอนที่หน่วยงานมีอยู่แล้ว",
+   csc:"ทำทะเบียนทรัพย์สินที่ระบุสถานที่จัดเก็บ (เช่น ชื่อ CSP) และบ่งชี้/ติดป้ายข้อมูลตามขั้นตอนปฏิบัติขององค์กร",
+   csp:"ทำทะเบียนทรัพย์สินที่แยกชัดระหว่างข้อมูลของ CSC กับข้อมูลที่เกิดจากการใช้บริการ และจัดทำเอกสาร/ฟังก์ชันที่ช่วยให้ CSC บ่งชี้ข้อมูลของตนได้",
+   example:"หน่วยงานควรมี inventory ชัดเจนว่าระบบใดอยู่บนคลาวด์ผู้ให้บริการรายใด และระบบใดยังอยู่ on-premises เพื่อไม่ให้ตกหล่นตอนตรวจสอบความปลอดภัยประจำปี"},
+
+  {code:"5.2.3", part:2, title:"การควบคุมการเข้าถึง", en:"Access Control", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.2.3.1 การเข้าถึงเครือข่าย","5.2.3.2 ลงทะเบียน/ยกเลิกผู้ใช้","5.2.3.3 จัดสรรสิทธิ์การเข้าถึง","5.2.3.4 สิทธิ์การเข้าถึงพิเศษ (Privileged Access)","5.2.3.5 ข้อมูลพิสูจน์ตัวตนลับ","5.2.3.6 จำกัดการเข้าถึงข้อมูล","5.2.3.7 โปรแกรมอรรถประโยชน์พิเศษ","5.2.3.8 การเข้าสู่ระบบอย่างปลอดภัย"],
+   explain:"หมวดที่ใหญ่ที่สุดหมวดหนึ่ง ครอบคลุมตั้งแต่การกำหนดว่าใครเข้าถึงอะไรได้ การลงทะเบียน/ยกเลิกบัญชีผู้ใช้ ไปจนถึงข้อบังคับสำคัญคือผู้ดูแลระบบต้องยืนยันตัวตนแบบหลายปัจจัย (MFA)",
+   csc:"กำหนด policy การเข้าถึงเครือข่ายของผู้ใช้แต่ละคน จัดการวงจรบัญชีผู้ใช้ ใช้ MFA สำหรับผู้ดูแลระบบฝั่งตน และจำกัดการเข้าถึงข้อมูลตาม policy ที่วางไว้",
+   csp:"จัดเตรียมฟังก์ชันลงทะเบียน/จัดการสิทธิ์ผู้ใช้ ใช้ MFA สำหรับผู้ดูแลระบบฝั่งตน จำกัดโปรแกรม utility พิเศษเฉพาะผู้ได้รับอนุญาต และจัดให้มีขั้นตอนเข้าสู่ระบบอย่างปลอดภัยเมื่อ CSC ร้องขอ",
+   example:"ผู้ดูแลระบบเข้าคลาวด์ด้วยแค่ user/password ธรรมดา ไม่มี MFA — ถ้ารหัสผ่านหลุด แฮกเกอร์เข้าควบคุมทั้งระบบได้ทันที นี่คือเหตุผลที่ข้อ 5.2.3.4 บังคับให้ใช้การยืนยันตัวตนแบบหลายปัจจัยสำหรับผู้ดูแลระบบทั้งสองฝั่ง"},
+
+  {code:"5.2.4", part:2, title:"การเข้ารหัส", en:"Cryptography", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.2.4.1 นโยบายการเข้ารหัส","5.2.4.2 การจัดการกุญแจเข้ารหัส"],
+   explain:"ต้องเข้ารหัสข้อมูลให้แข็งแรงเพียงพอตามความเสี่ยง และมีขั้นตอนจัดการ \"กุญแจเข้ารหัส\" (key) ตลอดอายุการใช้งาน — ข้อสำคัญคือถ้าหน่วยงานถือกุญแจเอง ห้ามให้ CSP เก็บสำเนากุญแจนั้นไว้ด้วย",
+   csc:"เลือกมาตรการเข้ารหัสที่สอดคล้องกับความเสี่ยง ตรวจสอบข้อมูลที่ CSP จัดหาให้เพื่อยืนยันความสามารถในการเข้ารหัส และไม่อนุญาตให้ CSP จัดเก็บกุญแจเมื่อตนเองถือกุญแจเข้ารหัสเอง",
+   csp:"ให้ข้อมูลเกี่ยวกับการเข้ารหัสเพื่อปกป้องข้อมูลและข้อมูลส่วนบุคคล และให้ข้อมูลความสามารถที่ตนมอบให้ซึ่งช่วย CSC ในการใช้การเข้ารหัส",
+   example:"หน่วยงานเข้ารหัสข้อมูลด้วยกุญแจของตัวเอง (customer-managed key) แล้วอัปโหลดขึ้นคลาวด์ — ถ้าเผลอให้ CSP เก็บสำเนากุญแจไว้ด้วย จะเสียจุดประสงค์ของการถือกุญแจเองไปทันที เพราะ CSP จะเปิดอ่านข้อมูลได้อยู่ดี"},
+
+  {code:"5.2.5", part:2, title:"ความปลอดภัยทางกายภาพและสภาพแวดล้อม", en:"Physical and Environment Security", levels:["สูง"],
+   sub:["5.2.5.1 ตำแหน่งศูนย์ข้อมูล (Data Localization)","5.2.5.2 การกำจัด/นำอุปกรณ์กลับมาใช้ใหม่"],
+   explain:"หมวดที่คนถามถึงบ่อยที่สุด — CSP ต้องตั้ง \"ศูนย์ข้อมูลหลัก\" ในประเทศไทย ส่วนศูนย์สำรอง (DR) ตั้งในไทยได้ หรือถ้าตั้งต่างประเทศต้องอยู่ในภูมิภาคอาเซียนที่ใกล้ที่สุด (เอกสารระบุเจาะจงว่าสิงคโปร์และฮ่องกงเข้าเงื่อนไขได้) และเมื่อเลิกใช้อุปกรณ์เก็บข้อมูลต้องทำลายให้กู้คืนไม่ได้",
+   csc:"ต้องใช้ศูนย์ข้อมูลหลักในประเทศไทย และร้องขอการยืนยันว่า CSP มีนโยบายกำจัด/นำทรัพยากรกลับมาใช้ใหม่อย่างปลอดภัย",
+   csp:"จัดตั้งศูนย์ข้อมูลหลักในประเทศไทย ศูนย์สำรองในไทยหรืออาเซียนที่ใกล้ที่สุด และตรวจสอบให้แน่ใจว่าอุปกรณ์ที่อาจมีข้อมูลส่วนบุคคลถูกทำลาย/นำกลับมาใช้ใหม่อย่างปลอดภัยและทันเวลา",
+   example:"ระบบทะเบียนราษฎร์ (ผลกระทบสูงแน่นอน) ต้องมี data center หลักในไทยตามข้อนี้ แต่เนื่องจากหมวดนี้บังคับเฉพาะระดับผลกระทบ \"สูง\" เท่านั้น เว็บไซต์ประชาสัมพันธ์ทั่วไป (ผลกระทบต่ำ) จึงไม่ถูกบังคับเรื่อง data localization ตามมาตรฐานขั้นต่ำฉบับนี้ — แม้จะยังเป็นแนวปฏิบัติที่ดีที่ควรพิจารณา",
+   note:"หมวดนี้และหมวด 5.2.6 เป็นเพียง 2 หมวดจาก 13 หมวด ที่บังคับเฉพาะระดับผลกระทบ \"สูง\" เท่านั้น — ระบบระดับต่ำ/กลางไม่ถูกบังคับตามตารางข้อ 4 ของประกาศ"},
+
+  {code:"5.2.6", part:2, title:"ความมั่นคงปลอดภัยการปฏิบัติการ", en:"Operations Security", levels:["สูง"],
+   sub:["5.2.6.1 การจัดการการเปลี่ยนแปลง","5.2.6.2 การบริหารความจุ","5.2.6.3 การสำรองข้อมูล","5.2.6.4 การบันทึกเหตุการณ์ (Log)","5.2.6.5 การปกป้องข้อมูลใน Log","5.2.6.6 Log ของผู้ดูแลระบบ","5.2.6.7 การซิงโครไนซ์นาฬิกา","5.2.6.8 การจัดการช่องโหว่ทางเทคนิค","5.2.6.9 การแยกสภาพแวดล้อม Dev/Test/Prod"],
+   explain:"หมวดที่มีหัวข้อย่อยมากที่สุด (9 ข้อ) ครอบคลุมงานปฏิบัติการประจำวัน: แจ้งการเปลี่ยนแปลงล่วงหน้า เฝ้าระวังความจุ สำรองข้อมูล เก็บ log ให้ตรวจสอบได้ ซิงค์นาฬิการะบบ จัดการช่องโหว่ และแยกสภาพแวดล้อมทดสอบออกจากใช้งานจริง",
+   csc:"กำหนดข้อกำหนดสำหรับการบันทึกเหตุการณ์ ตรวจสอบขีดความสามารถของทรัพยากรที่ตกลงกันไว้ ขอข้อมูล backup spec จาก CSP และคำนึงถึงผลกระทบจากการเปลี่ยนแปลงใด ๆ ที่ CSP ทำ",
+   csp:"แจ้งการเปลี่ยนแปลงที่อาจกระทบบริการล่วงหน้า ตรวจสอบขีดความสามารถทรัพยากรไม่ให้ขาดแคลน ให้ข้อมูล backup spec ที่ชัดเจน บันทึก log ที่ตรวจสอบได้ และมีขั้นตอนแยกสภาพแวดล้อมพัฒนา/ทดสอบ/ใช้งานจริง",
+   example:"ถ้านาฬิกาของแต่ละ server ไม่ตรงกัน (clock drift) เวลาต้องไล่ log สืบสวนเหตุการณ์แฮ็ก ลำดับเวลาของเหตุการณ์จะผิดเพี้ยน ทำให้สืบสวนไม่ได้ว่าใครทำอะไรก่อนหลัง — ข้อ 5.2.6.7 จึงบังคับให้ซิงค์นาฬิกาให้ตรงกัน",
+   note:"เช่นเดียวกับหมวด 5.2.5 หมวดนี้บังคับเฉพาะระดับผลกระทบ \"สูง\" เท่านั้น"},
+
+  {code:"5.2.7", part:2, title:"ความมั่นคงปลอดภัยเครือข่าย", en:"Communication Security", levels:["กลาง","สูง"],
+   sub:["5.2.7.1 นโยบายการถ่ายโอนข้อมูล","5.2.7.2 การแบ่งแยกเครือข่าย"],
+   explain:"ครอบคลุมการควบคุมสื่อทางกายภาพที่ใช้ถ่ายโอนข้อมูล และการแยกเครือข่ายระหว่างผู้เช่าแต่ละราย (tenant isolation) ในสภาพแวดล้อม cloud ที่ใช้ทรัพยากรร่วมกัน",
+   csc:"ขอให้ CSP ใช้มาตรการเพิ่มเติม (เช่น การเข้ารหัส) เพื่อให้ข้อมูลเข้าถึงได้เฉพาะจุดปลายทาง และกำหนดข้อกำหนดการแยกเครือข่ายเพื่อให้เกิดการแยกผู้เช่า",
+   csp:"บันทึกสื่อทางกายภาพที่นำเข้า-ออกซึ่งมีข้อมูลส่วนบุคคล และบังคับใช้การแยกการเข้าถึงเครือข่ายระหว่างผู้เช่าหลายรายในสภาพแวดล้อมที่ใช้ทรัพยากรร่วมกัน",
+   example:"บน public cloud ที่มีผู้เช่าหลายองค์กรใช้ทรัพยากรร่วมกัน (multi-tenant) ถ้า CSP แยกเครือข่ายไม่ดีพอ ข้อมูลของหน่วยงาน A อาจรั่วไปยัง virtual machine ของหน่วยงาน B ที่อยู่บน server เดียวกันได้"},
+
+  {code:"5.2.8", part:2, title:"การจัดหา การพัฒนา และการบำรุงรักษา", en:"System Acquisition, Development, and Maintenance", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.2.8.1 การวิเคราะห์ข้อกำหนดความปลอดภัย","5.2.8.2 นโยบายการพัฒนาที่ปลอดภัย"],
+   explain:"ก่อนเลือกใช้บริการคลาวด์ใด ต้องกำหนดข้อกำหนดความปลอดภัยที่ต้องการก่อน แล้วประเมินว่าบริการนั้นตอบโจทย์ได้จริงหรือไม่ ไม่ใช่เลือกใช้ก่อนแล้วมาพบทีหลังว่าขาดฟีเจอร์สำคัญ",
+   csc:"กำหนดข้อกำหนดความปลอดภัยสารสนเทศสำหรับการใช้บริการคลาวด์ก่อน แล้วประเมินว่าบริการของ CSP ตอบสนองความต้องการได้หรือไม่ โดยขอข้อมูลจาก CSP ประกอบการประเมิน",
+   csp:"ให้ข้อมูลความสามารถด้านความมั่นคงปลอดภัยสารสนเทศที่ตนใช้ (โดยไม่เปิดเผยข้อมูลที่อาจเป็นประโยชน์ต่อผู้ไม่หวังดี) และให้ข้อมูลขั้นตอน/วิธีปฏิบัติในการพัฒนาที่ปลอดภัยของตน",
+   example:"ก่อนเลือกใช้ SaaS ตัวหนึ่ง หน่วยงานควรทำ checklist ข้อกำหนดความปลอดภัยที่ต้องการ (เช่น ต้องมี MFA ต้องเข้ารหัสข้อมูล) แล้วเทียบกับฟีเจอร์ที่ SaaS นั้นมีจริงก่อนเซ็นสัญญา"},
+
+  {code:"5.2.9", part:2, title:"การจัดการผู้ให้บริการภายนอก", en:"Supplier Relationships", levels:["ต่ำ","กลาง","สูง"],
+   sub:["5.2.9.1 นโยบายสำหรับผู้ให้บริการภายนอก","5.2.9.2 ข้อตกลงด้านความปลอดภัย","5.2.9.3 ห่วงโซ่อุปทาน ICT"],
+   explain:"ต้องมองว่า CSP เป็น \"ผู้ให้บริการภายนอก\" ประเภทหนึ่งในนโยบาย supplier ขององค์กร ระบุมาตรการความปลอดภัยในสัญญาให้ชัดเจน และตรวจสอบว่าห่วงโซ่อุปทานของ CSP (เช่น sub-provider ที่ CSP ใช้ต่ออีกทอด) ไม่มีจุดอ่อน",
+   csc:"ระบุว่า CSP เป็นผู้ให้บริการภายนอกในนโยบาย supplier ของตน และยืนยันบทบาท/ความรับผิดชอบด้านความปลอดภัยที่เกี่ยวข้องกับบริการคลาวด์ตามที่ระบุในข้อตกลง",
+   csp:"ระบุมาตรการรักษาความมั่นคงปลอดภัยสารสนเทศที่จะใช้เป็นส่วนหนึ่งของข้อตกลง และหากใช้ sub-provider ต้องตรวจสอบว่า sub-provider มีมาตรฐานไม่ต่ำกว่าที่ตนให้ CSC",
+   example:"CSP รายหนึ่งอาจไม่ได้ทำทุกอย่างเอง เช่น ใช้ data center ของอีกบริษัทหนึ่งเป็นบางส่วน (sub-contractor) หน่วยงานควรถามให้แน่ใจว่าความปลอดภัยของ \"ห่วงโซ่อุปทาน\" นี้ไม่มีจุดอ่อนตรงกลาง"},
+
+  {code:"5.2.10", part:2, title:"การจัดการเหตุภัยคุกคามทางสารสนเทศ", en:"Information Security Incident Management", levels:["กลาง","สูง"],
+   sub:["5.2.10.1 ความรับผิดชอบและขั้นตอน","5.2.10.2 การรายงานเหตุการณ์"],
+   explain:"ต้องกำหนดขอบเขตความรับผิดชอบและขั้นตอนจัดการเหตุการณ์ระหว่าง CSC-CSP ไว้ล่วงหน้าในสัญญา พร้อมกลไกรายงานเหตุการณ์สองทางและกรอบเวลาที่ชัดเจน ไม่ใช่คิดตอนเกิดเหตุจริง",
+   csc:"ตรวจสอบการจัดสรรความรับผิดชอบสำหรับการจัดการเหตุการณ์ และขอข้อมูลกลไกการรายงาน/ติดตามสถานะเหตุการณ์จาก CSP",
+   csp:"กำหนดขอบเขตความรับผิดชอบและขั้นตอนจัดการเหตุการณ์เป็นส่วนหนึ่งของข้อกำหนดบริการ และมีกลไกรายงานเหตุการณ์ให้ CSC ทราบพร้อมกรอบเวลาที่ชัดเจน",
+   example:"หาก CSP ตรวจพบการโจมตีที่กระทบข้อมูลของหน่วยงาน แต่ไม่มีข้อตกลงเรื่องกรอบเวลาแจ้งเหตุ CSP อาจแจ้งช้าเกินไปจนหน่วยงานพลาดกรอบเวลาการแจ้งเหตุข้อมูลรั่วไหลตาม PDPA (72 ชั่วโมง) — จึงต้องระบุกรอบเวลาไว้ในสัญญาตั้งแต่แรก"}
+];
+
+/* ======================= RENDER: GLOSSARY ======================= */
+const glossaryGrid = document.getElementById('glossaryGrid');
+glossaryGrid.innerHTML = GLOSSARY.map(g => `
+  <details class="term">
+    <summary>${g.t}</summary>
+    <p>${g.d}</p>
+  </details>
+`).join('');
+
+/* ======================= RENDER: CLAUSES ======================= */
+function levelDots(levels){
+  const map = {"ต่ำ":"on-low","กลาง":"on-mid","สูง":"on-high"};
+  return ["ต่ำ","กลาง","สูง"].map(l => `<span class="dot ${levels.includes(l)?map[l]:''}" title="${l}"></span>`).join('');
+}
+function clauseHTML(t){
+  const sub = t.sub ? `<div class="clause__sub">${t.sub.map(s=>`<span>${s}</span>`).join('')}</div>` : '';
+  const note = t.note ? `<div class="na-note">ℹ️ ${t.note}</div>` : '';
+  return `
+  <details class="clause" id="clause-${t.code}" data-code="${t.code}" data-levels="${t.levels.join(',')}" data-search="${(t.title+' '+t.en+' '+t.code+' '+t.explain).toLowerCase()}">
+    <summary>
+      <span class="clause__tag">${t.code}</span>
+      <span class="clause__title"><b>${t.title}</b><em>${t.en}</em></span>
+      <span class="clause__dots">${levelDots(t.levels)}</span>
+      <span class="clause__chev">▾</span>
+    </summary>
+    <div class="clause__body">
+      ${note}
+      <p class="clause__explain">${t.explain}</p>
+      ${sub}
+      <div class="clause__cols">
+        <div class="col col--csc"><h5>หน่วยงาน (CSC) ต้องทำ</h5><p>${t.csc}</p></div>
+        <div class="col col--csp"><h5>ผู้ให้บริการ (CSP) ต้องทำ</h5><p>${t.csp}</p></div>
+      </div>
+      <div class="clause__example"><span class="pin">📌</span><div><h5>ตัวอย่าง</h5><p>${t.example}</p></div></div>
+      <label class="clause__check"><input type="checkbox" data-code="${t.code}"> ทำตามข้อนี้แล้ว</label>
+    </div>
+  </details>`;
+}
+document.getElementById('part1container').innerHTML = TOPICS.filter(t=>t.part===1).map(clauseHTML).join('');
+document.getElementById('part2container').innerHTML = TOPICS.filter(t=>t.part===2).map(clauseHTML).join('');
+
+/* ======================= RISK SELECTOR ======================= */
+const riskButtons = document.querySelectorAll('.risk-btn');
+const riskResult = document.getElementById('riskResult');
+let currentRisk = null;
+
+riskButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const risk = btn.dataset.risk;
+    currentRisk = (currentRisk === risk) ? null : risk;
+    riskButtons.forEach(b => b.setAttribute('aria-pressed', b.dataset.risk === currentRisk ? 'true' : 'false'));
+    applyRiskFilter();
+  });
+});
+
+function applyRiskFilter(){
+  const clauses = document.querySelectorAll('.clause');
+  if(!currentRisk){
+    riskResult.classList.remove('show');
+    clauses.forEach(c => c.removeAttribute('data-na'));
+    updateProgress();
+    return;
+  }
+  const cfg = CERTIFY[currentRisk];
+  riskResult.classList.add('show');
+  document.getElementById('riskSummaryText').innerHTML = cfg.summary;
+  document.getElementById('riskCscText').textContent = cfg.csc;
+  document.getElementById('riskCspText').textContent = cfg.csp;
+
+  clauses.forEach(c => {
+    const levels = c.dataset.levels.split(',');
+    if(levels.includes(currentRisk)){
+      c.removeAttribute('data-na');
+    } else {
+      c.setAttribute('data-na','1');
+    }
+  });
+  updateProgress();
+}
+
+/* ======================= CHECKLIST PROGRESS ======================= */
+const doneCodes = new Set();
+document.addEventListener('change', e => {
+  if(e.target.matches('.clause__check input')){
+    const code = e.target.dataset.code;
+    if(e.target.checked){ doneCodes.add(code); } else { doneCodes.delete(code); }
+    updateProgress();
+  }
+});
+function updateProgress(){
+  let applicable = TOPICS;
+  if(currentRisk){
+    applicable = TOPICS.filter(t => t.levels.includes(currentRisk));
+  }
+  const total = applicable.length;
+  const done = applicable.filter(t => doneCodes.has(t.code)).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = total
+    ? `ทำแล้ว ${done} จาก ${total} ข้อ${currentRisk ? ' (ระดับ'+currentRisk+')' : ''}`
+    : 'ยังไม่ได้ทำเครื่องหมายข้อใด';
+}
+updateProgress();
+
+/* ======================= SEARCH ======================= */
+function wireSearch(inputId, containerId){
+  const input = document.getElementById(inputId);
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll('#'+containerId+' .clause').forEach(c => {
+      const match = !q || c.dataset.search.includes(q);
+      c.setAttribute('data-match', match ? '1' : '0');
+      if(q && match) c.open = true;
+    });
+  });
+}
+wireSearch('searchPart1','part1container');
+wireSearch('searchPart2','part2container');
+
+/* ======================= EXPAND / COLLAPSE ALL ======================= */
+document.querySelectorAll('.ghost-btn[data-expand]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const container = document.getElementById(btn.dataset.expand);
+    const open = btn.dataset.open === '1';
+    container.querySelectorAll('details.clause').forEach(d => d.open = open);
+  });
+});
+
+/* ======================= TOC ACTIVE STATE ======================= */
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = [...document.querySelectorAll('main section')];
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+    }
+  });
+}, {rootMargin:'-15% 0px -70% 0px'});
+sections.forEach(s => io.observe(s));
+
+/* ======================= BACK TO TOP ======================= */
+const backtop = document.getElementById('backtop');
+window.addEventListener('scroll', () => {
+  backtop.classList.toggle('show', window.scrollY > 600);
+});
+backtop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>
