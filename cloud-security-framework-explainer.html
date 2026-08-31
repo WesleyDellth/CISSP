@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>กรอบการทำงานด้านความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ — ฉบับอ่านง่าย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E7; --paper:#FFFDF8; --navy:#16233A; --navy2:#0D1524;
+    --maroon:#7A2331; --maroon-ink:#5c1a24; --teal:#1F7A76; --teal-ink:#155b58;
+    --gold:#B8862E; --green:#3F7D4A; --slate:#48566E; --line:#E4DBC4;
+    --font-display:'Noto Serif Thai',serif; --font-body:'Sarabun',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--navy);font-family:var(--font-body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:var(--font-display);color:var(--navy);line-height:1.3;margin:0 0 .5em;}
+  h2{font-size:clamp(1.4rem,2.4vw,1.9rem);font-weight:700;}
+  h3{font-size:1.15rem;font-weight:600;}
+  p{margin:0 0 1em;}
+  a{color:var(--teal-ink);}
+  .container{max-width:1180px;margin:0 auto;padding:0 1.5rem;}
+  ::selection{background:var(--gold);color:#fff;}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .hero{background:linear-gradient(180deg,var(--navy2),var(--navy));color:#EDE7D6;padding:2.6rem 0 2.2rem;}
+  .hero__meta{display:flex;flex-wrap:wrap;gap:0;font-size:.82rem;color:#B9C2D4;margin-bottom:1.4rem;font-weight:500;}
+  .hero__meta span{padding:0 .85rem;border-left:1px solid rgba(255,255,255,.18);}
+  .hero__meta span:first-child{border-left:none;padding-left:0;}
+  .hero h1{color:#fff;font-size:clamp(1.6rem,3.6vw,2.5rem);max-width:20ch;margin-bottom:.4rem;}
+  .hero__sub{color:#CBD4E3;max-width:60ch;font-size:1.05rem;margin-bottom:1.4rem;}
+  .hero__badges{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.4rem;}
+  .badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.4rem .9rem;font-size:.85rem;color:#EDE7D6;}
+  .badge b{color:var(--gold);font-weight:700;}
+  .relate-box{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:1rem 1.2rem;font-size:.92rem;color:#D8DEE9;}
+  .relate-box b{color:#fff;}
+  .relate-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.9rem;}
+  .relate-col{background:rgba(255,255,255,.05);border-radius:8px;padding:.7rem .9rem;}
+  .relate-col .lbl{font-size:.72rem;color:#8FA0BE;text-transform:none;margin-bottom:.3rem;}
+  .relate-col .val{font-family:var(--font-display);font-weight:700;color:#fff;font-size:.98rem;}
+  @media (max-width:600px){.relate-grid{grid-template-columns:1fr;}}
+
+  .layout{display:grid;grid-template-columns:250px 1fr;gap:2.4rem;align-items:start;padding:2.4rem 0 4rem;}
+  .toc{position:sticky;top:1rem;background:var(--navy);border-radius:12px;padding:1.3rem 1.2rem;color:#D8DEE9;font-size:.88rem;}
+  .toc h4{color:#8FA0BE;font-size:.75rem;letter-spacing:.03em;margin-bottom:.7rem;font-family:var(--font-body);font-weight:700;}
+  .toc ol{list-style:none;margin:0;padding:0;counter-reset:toc;}
+  .toc li{counter-increment:toc;margin-bottom:.15rem;}
+  .toc a{display:block;color:#C4CCDC;text-decoration:none;padding:.4rem .5rem;border-radius:6px;border-left:3px solid transparent;}
+  .toc a::before{content:counter(toc) ". ";color:#66748F;}
+  .toc a:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .toc a.active{color:#fff;border-left-color:var(--gold);background:rgba(255,255,255,.06);}
+
+  main{min-width:0;}
+  section{margin-bottom:3.2rem;scroll-margin-top:1.2rem;}
+  .section-lead{color:#3c4a63;max-width:72ch;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.3rem;}
+  .stat-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;border-top:4px solid var(--maroon);}
+  .stat-card .num{font-family:var(--font-display);font-weight:700;font-size:1.5rem;color:var(--maroon-ink);}
+  .stat-card .lbl{font-size:.88rem;color:#4b5875;}
+
+  .note-box{background:#F1E9D3;border:1px dashed var(--gold);border-radius:10px;padding:.9rem 1.1rem;font-size:.92rem;margin-top:1rem;}
+  .callout-box{background:var(--navy);color:#EDE7D6;border-radius:10px;padding:1rem 1.2rem;font-size:.94rem;margin-top:1rem;}
+  .callout-box b{color:var(--gold);}
+
+  /* stepper */
+  .stepper{position:relative;margin-top:1.4rem;}
+  .step{position:relative;padding-left:3.4rem;padding-bottom:1.6rem;}
+  .step::before{content:'';position:absolute;left:1.1rem;top:2.6rem;bottom:-.2rem;width:2px;background:var(--line);}
+  .step:last-child::before{display:none;}
+  .step__num{position:absolute;left:0;top:0;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:1.1rem;}
+  details.step-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  details.step-card summary{list-style:none;cursor:pointer;padding:1rem 1.2rem;display:flex;align-items:center;gap:.8rem;}
+  details.step-card summary::-webkit-details-marker{display:none;}
+  details.step-card summary::after{content:'▾';margin-left:auto;color:#8a8266;transition:transform .15s;}
+  details.step-card[open] summary::after{transform:rotate(180deg);}
+  .step-card__title b{font-family:var(--font-display);font-size:1.05rem;display:block;}
+  .step-card__title em{font-style:normal;font-size:.82rem;color:#7a8399;}
+  .step-card__body{padding:0 1.2rem 1.2rem;border-top:1px solid var(--line);}
+  .step-card__body p{padding-top:.9rem;font-size:.95rem;}
+  .step-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin-bottom:1rem;}
+  .step-group{background:#F4EFE1;border-radius:8px;padding:.8rem .9rem;}
+  .step-group h5{margin:0 0 .4rem;font-size:.85rem;color:var(--navy);}
+  .step-group ul{margin:0;padding-left:1.1rem;font-size:.86rem;color:#4b5875;}
+  .step-group li{margin-bottom:.25rem;}
+  .step-example{display:flex;gap:.7rem;background:#FFF8E8;border:1px dashed var(--gold);border-radius:8px;padding:.8rem .9rem;}
+  .step-example .pin{font-size:1.1rem;flex:0 0 auto;}
+  .step-example h5{margin:0 0 .25rem;font-size:.82rem;color:#8a6a1a;font-weight:700;}
+  .step-example p{margin:0;font-size:.89rem;padding-top:0;}
+
+  /* country tabs */
+  .country-tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin:1.3rem 0 1.2rem;}
+  .country-tab{background:var(--paper);border:2px solid var(--line);border-radius:10px;padding:.7rem 1.1rem;font-size:.95rem;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:.5rem;}
+  .country-tab .flag{font-size:1.3rem;}
+  .country-tab[aria-selected="true"]{border-color:var(--teal);background:#EAF4F3;}
+  .country-panel{display:none;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.5rem;}
+  .country-panel.active{display:block;}
+  .country-panel h3{margin-bottom:.2rem;}
+  .country-panel .agency{color:#7a8399;font-size:.9rem;margin-bottom:1rem;}
+  .cp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+  .cp-block{background:#F4EFE1;border-radius:8px;padding:.85rem 1rem;}
+  .cp-block h5{margin:0 0 .35rem;font-size:.82rem;color:var(--navy);font-weight:700;}
+  .cp-block p{margin:0;font-size:.88rem;color:#4b5875;}
+  .cp-proscons{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1rem;}
+  .cp-pros{background:#EAF3EC;border:1px solid #bfe0c9;border-radius:8px;padding:.8rem .9rem;}
+  .cp-cons{background:#FBEEEF;border:1px solid #e9c6cb;border-radius:8px;padding:.8rem .9rem;}
+  .cp-pros h5{color:var(--green);margin:0 0 .3rem;font-size:.82rem;}
+  .cp-cons h5{color:var(--maroon-ink);margin:0 0 .3rem;font-size:.82rem;}
+  .cp-pros p,.cp-cons p{margin:0;font-size:.87rem;}
+  .cp-takeaway{display:flex;gap:.7rem;background:#EAF4F3;border:1px dashed var(--teal);border-radius:8px;padding:.85rem 1rem;}
+  .cp-takeaway .pin{font-size:1.1rem;}
+  .cp-takeaway h5{margin:0 0 .25rem;font-size:.82rem;color:var(--teal-ink);font-weight:700;}
+  .cp-takeaway p{margin:0;font-size:.89rem;}
+  @media (max-width:640px){.cp-grid,.cp-proscons{grid-template-columns:1fr;}}
+
+  /* findings */
+  .finding-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:.9rem;}
+  .finding-card.flagged{border-color:var(--gold);}
+  .finding-card h4{margin-bottom:.2rem;}
+  .finding-card .flagtag{display:inline-block;background:var(--gold);color:#fff;font-size:.72rem;font-weight:700;padding:.15rem .55rem;border-radius:99px;margin-bottom:.6rem;}
+  .fc-cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .fc-col{border-radius:8px;padding:.8rem .9rem;font-size:.9rem;}
+  .fc-found{background:#EEF0F4;border:1px solid #cfd6e2;}
+  .fc-propose{background:#FBF3E3;border:1px solid #ecd8a8;}
+  .fc-col h5{margin:0 0 .3rem;font-size:.8rem;font-weight:700;}
+  .fc-found h5{color:var(--slate);}
+  .fc-propose h5{color:var(--gold);}
+  .fc-col p{margin:0;font-size:.88rem;color:#333;}
+  @media (max-width:640px){.fc-cols{grid-template-columns:1fr;}}
+
+  /* stakeholders */
+  .stake-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.9rem;margin-top:1.3rem;}
+  details.stake{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:.2rem;}
+  details.stake summary{list-style:none;cursor:pointer;padding:.85rem 1rem;display:flex;align-items:center;gap:.7rem;}
+  details.stake summary::-webkit-details-marker{display:none;}
+  .stake-num{flex:0 0 auto;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;font-family:var(--font-display);}
+  .stake-title{flex:1;font-weight:700;font-family:var(--font-display);font-size:.95rem;}
+  details.stake summary::after{content:'+';color:var(--teal-ink);font-size:1.2rem;font-family:var(--font-body);flex:0 0 auto;}
+  details.stake[open] summary::after{content:'–';}
+  details.stake p{padding:0 1rem 1rem 3.3rem;margin:0;font-size:.88rem;color:#3c4a63;}
+
+  .prov-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.3rem;}
+  .prov-card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;}
+  .prov-card .tag{font-family:var(--font-display);font-weight:700;color:var(--navy);font-size:.85rem;margin-bottom:.4rem;}
+  .prov-card p{font-size:.92rem;margin-bottom:0;color:#3c4a63;}
+  .prov-card ul{margin:.3rem 0 0;padding-left:1.1rem;font-size:.88rem;color:#3c4a63;}
+
+  .ref-list{list-style:none;margin:1rem 0 0;padding:0;}
+  .ref-list li{padding:.6rem 0;border-bottom:1px solid var(--line);font-size:.92rem;}
+  .ref-list li b{display:block;color:var(--navy);}
+
+  footer{background:var(--navy2);color:#9AA6BC;padding:2.2rem 0;font-size:.85rem;}
+  footer .container{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;}
+  footer strong{color:#EDE7D6;}
+  .disclaimer{max-width:640px;}
+
+  .backtop{position:fixed;right:1.2rem;bottom:1.2rem;background:var(--navy);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.1rem;box-shadow:0 4px 14px rgba(0,0,0,.25);display:none;align-items:center;justify-content:center;z-index:50;}
+  .backtop.show{display:flex;}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;padding-top:1.4rem;}
+    .toc{position:static;order:-1;}
+    .toc ol{display:flex;flex-wrap:wrap;gap:.3rem;}
+    .toc li{margin:0;}
+    .toc a{padding:.35rem .6rem;font-size:.8rem;border-left:none;border:1px solid rgba(255,255,255,.15);border-radius:99px;}
+    .toc a::before{display:none;}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{transition:none !important;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero__meta">
+      <span>ประกาศสำนักงาน สกมช.</span>
+      <span>เวอร์ชัน 1.0</span>
+      <span>10 มีนาคม 2568</span>
+      <span>ฉบับอ่านง่าย · ไม่ใช่เอกสารทางกฎหมาย</span>
+    </div>
+    <h1>กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์</h1>
+    <p class="hero__sub">Thailand's National Cloud Security Framework — คู่มือ/เครื่องมือช่วยให้หน่วยงานเตรียมความพร้อมนำมาตรฐานฯ 2567 ไปปฏิบัติได้จริง พร้อมบทเรียนจาก 4 ประเทศและแผนขับเคลื่อน 5 ขั้นตอน</p>
+    <div class="hero__badges">
+      <span class="badge">ประกาศ ณ วันที่ <b>10 มี.ค. 2568</b></span>
+      <span class="badge">ผู้ลงนาม <b>พลอากาศตรี อมร ชมเชย</b> เลขาธิการ กมช.</span>
+      <span class="badge">ฐานอำนาจ <b>ข้อ 7 ของประกาศมาตรฐานฯ 2567</b></span>
+    </div>
+    <div class="relate-box">
+      <b>ความสัมพันธ์กับมาตรฐานฯ 2567:</b> เอกสารนี้ไม่ใช่ข้อบังคับใหม่ แต่เป็น "แนวทาง" ที่เลขาธิการ กมช. ออกเพื่อช่วยให้การปฏิบัติตามประกาศ กมช. เรื่อง มาตรฐานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ พ.ศ. 2567 มีประสิทธิภาพมากขึ้น
+      <div class="relate-grid">
+        <div class="relate-col"><div class="lbl">เอกสารนี้ (กรอบการทำงาน)</div><div class="val">มีผลบังคับใช้แล้ว ตั้งแต่วันประกาศ 10 มี.ค. 2568</div></div>
+        <div class="relate-col"><div class="lbl">มาตรฐานฯ 2567 (ข้อบังคับหลัก)</div><div class="val">มีผลบังคับใช้ 10 ก.ย. 2569 (พ้น 2 ปีหลังประกาศ)</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container layout">
+  <nav class="toc" id="toc">
+    <h4>สารบัญ</h4>
+    <ol>
+      <li><a href="#background">ที่มาและวัตถุประสงค์การศึกษา</a></li>
+      <li><a href="#countries">เทียบ 4 ประเทศ: สิงคโปร์ สหรัฐฯ ออสเตรเลีย อินเดีย</a></li>
+      <li><a href="#findings">ข้อค้นพบและข้อเสนอแนะเชิงนโยบาย</a></li>
+      <li><a href="#framework">วัตถุประสงค์ ประโยชน์ และหลักการของกรอบงาน</a></li>
+      <li><a href="#stakeholders">ผู้ที่เกี่ยวข้อง 10 บทบาท</a></li>
+      <li><a href="#steps">แผนขับเคลื่อน 5 ขั้นตอน</a></li>
+      <li><a href="#general">ข้อกำหนดทั่วไปในตัวประกาศ</a></li>
+      <li><a href="#references">เอกสารอ้างอิง</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="background">
+      <h2>ที่มาและวัตถุประสงค์การศึกษา</h2>
+      <p class="section-lead">ประเทศไทยกำหนดนโยบาย <b>Cloud First Policy</b> ภายใต้แผนพัฒนาดิจิทัลแห่งชาติ ตั้งเป้าให้ไทยเป็นศูนย์กลางเศรษฐกิจดิจิทัลในภูมิภาค โดยตั้งเป้าย้ายระบบหน่วยงานรัฐกว่า 10% ขึ้นคลาวด์ภายในปี 2025 แต่ ThaiCERT รายงานว่าการโจมตีไซเบอร์ปี 2023 เพิ่มขึ้นอย่างมีนัยสำคัญ โดยเฉพาะภาคการศึกษาและหน่วยงานรัฐ จึงต้องศึกษาแนวทางจากต่างประเทศเพื่อออกแบบกรอบงานของไทยให้เหมาะสม</p>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="num">10%</div><div class="lbl">เป้าหมายย้ายระบบหน่วยงานรัฐขึ้นคลาวด์ภายในปี 2025</div></div>
+        <div class="stat-card"><div class="num">4 ประเทศ</div><div class="lbl">ศึกษาเทียบเคียง: สิงคโปร์ สหรัฐฯ ออสเตรเลีย อินเดีย</div></div>
+        <div class="stat-card"><div class="num">3 ระยะ</div><div class="lbl">แผนดำเนินการศึกษา: วางแผน → ศึกษา/ร่างนโยบาย → สรุปผล</div></div>
+      </div>
+      <div class="note-box"><b>วัตถุประสงค์การศึกษา 3 ข้อ:</b> (1) ศึกษาวิเคราะห์เปรียบเทียบนโยบายและ Framework จากนานาประเทศ (2) ศึกษาวิเคราะห์เปรียบเทียบแนวทางและมาตรฐานด้าน Cloud Security (3) สนับสนุนการร่างกฎระเบียบและมาตรฐานด้าน Cloud Security ของไทย</div>
+    </section>
+
+    <section id="countries">
+      <h2>เทียบ 4 ประเทศ: ใครทำอย่างไรบ้าง</h2>
+      <p class="section-lead">แตะปุ่มประเทศเพื่อดูรายละเอียด — สรุปจากงานวิจัยเปรียบเทียบในเอกสาร (ข้อมูล ณ ช่วงต้นถึงกลางปี 2567 สถานะกฎหมายของแต่ละประเทศอาจเปลี่ยนแปลงไปแล้วนับแต่วันที่จัดทำรายงาน)</p>
+      <div class="country-tabs" id="countryTabs"></div>
+      <div id="countryPanels"></div>
+    </section>
+
+    <section id="findings">
+      <h2>ข้อค้นพบและข้อเสนอแนะเชิงนโยบาย</h2>
+      <p class="section-lead">สรุปสิ่งที่พบจากต่างประเทศ เทียบกับข้อเสนอแนะที่ สกมช. นำมาปรับใช้กับบริบทไทยใน 5 ด้าน</p>
+      <div id="findingsContainer"></div>
+    </section>
+
+    <section id="framework">
+      <h2>วัตถุประสงค์ ประโยชน์ และหลักการของกรอบงาน</h2>
+      <div class="cp-grid" style="margin-top:1.3rem;">
+        <div class="cp-block">
+          <h5>วัตถุประสงค์ 3 ข้อ</h5>
+          <p>(1) ผลักดันมาตรฐานฯ 2567 ให้เกิดผลรวดเร็ว สะดวก มีประสิทธิภาพ (2) ยกระดับความมั่นคงปลอดภัยทั้งฝั่ง CSC และ CSP (3) บูรณาการการทำงานระหว่าง สกมช. กับหน่วยงานที่เกี่ยวข้อง</p>
+        </div>
+        <div class="cp-block">
+          <h5>ประโยชน์ 3 ข้อ</h5>
+          <p>(1) ลดความซ้ำซ้อน ความไม่สอดคล้อง และต้นทุนที่ไม่จำเป็น (2) สร้างความร่วมมือรัฐ-เอกชนเพื่อส่งเสริมนวัตกรรมคลาวด์ที่ปลอดภัย (3) ช่วยหน่วยงานรัฐเร่งใช้คลาวด์อย่างโปร่งใสและมีการบริหารความเสี่ยง</p>
+        </div>
+      </div>
+      <h3 style="margin-top:1.6rem;">หลักการสำคัญที่เกี่ยวข้อง (เอกสารฐาน 6 ฉบับ)</h3>
+      <div class="prov-grid">
+        <div class="prov-card"><div class="tag">1. มาตรฐานฯ 2567</div><p>ประกาศ กมช. เรื่อง มาตรฐานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ — ข้อบังคับหลักที่กรอบงานนี้ช่วยขับเคลื่อน</p></div>
+        <div class="prov-card"><div class="tag">2. มาตรฐานคุณลักษณะฯ 2566</div><p>ใช้จัดระดับผลกระทบต่ำ/กลาง/สูงของข้อมูลหรือระบบสารสนเทศ</p></div>
+        <div class="prov-card"><div class="tag">3. มาตรฐานผู้ให้บริการตรวจรับรอง 2566</div><p>แนวทางส่งเสริมพัฒนาระบบการให้บริการตรวจรับรองด้านความมั่นคงปลอดภัยไซเบอร์</p></div>
+        <div class="prov-card"><div class="tag">4. หลักเกณฑ์หน่วยงาน CII 2564</div><p>กำหนดลักษณะหน่วยงานที่เป็น CII และการมอบหมายควบคุม/กำกับดูแล</p></div>
+        <div class="prov-card"><div class="tag">5. ประกาศ กกม. หน้าที่หน่วยงาน 2567</div><p>หน้าที่ของหน่วยงาน CII และหน่วยงานควบคุม/กำกับดูแล</p></div>
+        <div class="prov-card"><div class="tag">6. แนวทางแผนความมั่นคงปลอดภัยไซเบอร์ 2567</div><p>ประกาศ สกมช. เรื่องแนวทางการจัดทำแผนการรักษาความมั่นคงปลอดภัยไซเบอร์</p></div>
+      </div>
+    </section>
+
+    <section id="stakeholders">
+      <h2>ผู้ที่เกี่ยวข้อง — 10 บทบาท</h2>
+      <p class="section-lead">คลิกแต่ละบทบาทเพื่อดูหน้าที่โดยย่อ</p>
+      <div class="stake-grid" id="stakeGrid"></div>
+      <div class="note-box"><b>จุดที่มักสับสน:</b> "หน่วยงานให้บริการตรวจรับรอง (Certify Body)" คือองค์กรที่ออกใบรับรอง ส่วน "ผู้ตรวจสอบด้านความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ (Cloud Security Auditor)" คือตัวบุคคลที่ลงมือตรวจจริง และ "ผู้ปฏิบัติงานด้านความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ (Cloud Security Professional)" คือผู้เชี่ยวชาญที่ดูแลปกป้องระบบในงานประจำวัน ไม่ใช่ผู้ตรวจสอบ — สามบทบาทนี้แยกจากกันชัดเจน</div>
+    </section>
+
+    <section id="steps">
+      <h2>แผนขับเคลื่อน 5 ขั้นตอน</h2>
+      <p class="section-lead">กรอบแนวทางที่ สกมช. ใช้ผลักดันการเตรียมพร้อมร่วมกับหน่วยงานต่าง ๆ ก่อนมาตรฐานฯ 2567 มีผลบังคับใช้จริงในปี 2569 — คลิกแต่ละขั้นเพื่อดูรายละเอียดและตัวอย่าง</p>
+      <div class="stepper" id="stepperContainer"></div>
+    </section>
+
+    <section id="general">
+      <h2>ข้อกำหนดทั่วไปในตัวประกาศ</h2>
+      <div class="prov-grid">
+        <div class="prov-card"><div class="tag">ข้อ 1 — ชื่อประกาศ</div><p>"ประกาศสำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ เรื่อง กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ (Thailand's National Cloud Security Framework)"</p></div>
+        <div class="prov-card"><div class="tag">ข้อ 2 — วันบังคับใช้</div><p>ให้ใช้บังคับตั้งแต่วันประกาศเป็นต้นไป (มีผลทันที ต่างจากมาตรฐานฯ 2567 ที่ต้องรอ 2 ปี)</p></div>
+        <div class="prov-card"><div class="tag">ข้อ 3 — วิธีปฏิบัติ</div><p>ให้หน่วยงานของรัฐ หน่วยงานควบคุม/กำกับดูแล หน่วยงาน CII และหน่วยงานอื่นที่เกี่ยวข้อง นำกรอบการทำงานแนบท้ายมาใช้เป็น "แนวทาง" ในการดำเนินการของตน</p></div>
+        <div class="prov-card"><div class="tag">การตีความ</div><p>หากมีปัญหาการปฏิบัติตามประกาศ หรือประกาศไม่ได้กำหนดไว้ ให้เลขาธิการมีอำนาจตีความและวินิจฉัยชี้ขาด แล้วรายงานให้ กมช. ทราบ คำวินิจฉัยของเลขาธิการถือเป็นที่สุด</p></div>
+      </div>
+    </section>
+
+    <section id="references">
+      <h2>เอกสารอ้างอิงและแหล่งที่มา</h2>
+      <ul class="ref-list">
+        <li><b>กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ (Thailand's National Cloud Security Framework) เวอร์ชัน 1.0</b> — สกมช., จัดทำร่วมกับ ดร. ธัชพล โปษยานนท์ และบริษัท พาโล อัลโต เน็ตเวิร์กส์ (ประเทศไทย) จำกัด</li>
+        <li><b>ประกาศ กมช. เรื่อง มาตรฐานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ พ.ศ. 2567</b> — ข้อบังคับหลักที่กรอบงานนี้ใช้สนับสนุน</li>
+        <li><b>MTCS SS (Multi-Tier Cloud Security Standard)</b> — สิงคโปร์, จัดทำโดย IMDA/CSA</li>
+        <li><b>NIST SP 800-53 / NIST SP 800-144 / FedRAMP</b> — สหรัฐอเมริกา</li>
+        <li><b>ISM (Information Security Manual)</b> — ออสเตรเลีย, จัดทำโดย ASD</li>
+        <li><b>Cloud Security Guidelines / Baseline</b> — อินเดีย, จัดทำโดย MeitY</li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="disclaimer"><strong>หมายเหตุ</strong> — หน้านี้เป็นบทสรุปภาษาที่เข้าใจง่ายเพื่อการศึกษา จัดทำจากประกาศสำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ เรื่อง กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ เวอร์ชัน 1.0 (ประกาศ ณ 10 มีนาคม 2568) เนื้อหาส่วนเปรียบเทียบต่างประเทศเป็นการสรุปประเด็นสำคัญ ไม่ใช่การแปลทุกถ้อยคำ <b>ไม่ใช่เอกสารทางกฎหมายที่ใช้อ้างอิงอย่างเป็นทางการ</b> กรุณาตรวจสอบต้นฉบับก่อนนำไปใช้ปฏิบัติงานจริง</div>
+  </div>
+</footer>
+
+<button class="backtop" id="backtop" aria-label="กลับขึ้นด้านบน">↑</button>
+
+<script>
+/* ======================= DATA ======================= */
+const COUNTRIES = [
+  {id:"sg", flag:"🇸🇬", name:"สิงคโปร์",
+   agency:"IMDA (Info-communications Media Development Authority) วางกรอบ และ Cyber Security Agency (CSA) กำกับดูแลมาตรฐาน",
+   standard:"MTCS SS (Multi-Tier Cloud Security Standard for Singapore)",
+   tiers:"แบ่งระดับความปลอดภัย 4 ระดับ (Tier 1-4) ผู้ให้บริการเลือกขอรับรองตามความสำคัญของข้อมูลที่ดูแล",
+   scope:"ผู้ให้บริการคลาวด์ทุกรายที่ให้บริการในสิงคโปร์ต้องปฏิบัติตาม และต้องประเมินโดยองค์กรที่รัฐบาลรับรอง หน่วยงานผู้ใช้ควรเลือก CSP ที่ผ่านการรับรองแล้ว",
+   refs:"ISO/IEC 27001, ISO/IEC 27017, CSA Cloud Controls Matrix, NIST SP 800-53 (บางส่วน)",
+   pros:"โครงสร้างชัดเจน เน้นประเมินความเสี่ยงเป็นระบบ เลือกระดับความปลอดภัยได้ยืดหยุ่นตามความเหมาะสม",
+   cons:"ค่าใช้จ่ายในการนำมาใช้และรักษามาตรฐานสูง กระบวนการประเมินค่อนข้างซับซ้อน",
+   laws:"Personal Data Protection Act (PDPA), Cybersecurity Act, Electronic Transactions Act (ETA)",
+   crossborder:"PDPA คุ้มครองข้อมูลส่วนบุคคลแม้จัดเก็บบนคลาวด์ในต่างประเทศ และ Cybersecurity Act ให้อำนาจ CSA สั่งเข้าถึงระบบที่ตั้งอยู่ในสิงคโปร์ได้ แม้บริษัทเจ้าของจะมีสำนักงานใหญ่อยู่ต่างประเทศ",
+   takeaway:"แนวคิด \"เลือกระดับความปลอดภัยตามความเสี่ยงของข้อมูล\" ใกล้เคียงกับระบบ 3 ระดับผลกระทบ (ต่ำ/กลาง/สูง) ที่ไทยใช้ในมาตรฐานฯ 2567"},
+  {id:"us", flag:"🇺🇸", name:"สหรัฐอเมริกา",
+   agency:"NIST (National Institute of Standards and Technology) กำหนดมาตรฐาน + FedRAMP เป็นโปรแกรมรับรองสำหรับหน่วยงานรัฐ",
+   standard:"NIST SP 800-53 (ควบคุมความปลอดภัยทั่วไป 265 ข้อควบคุม ใน 20 หมวด) และ NIST SP 800-144 (เฉพาะคลาวด์สาธารณะ)",
+   tiers:"ไม่ได้แบ่งระดับตามขนาดองค์กร แต่ใช้ระดับความเสี่ยงของระบบเป็นตัวกำหนดข้อควบคุมแทน",
+   scope:"บังคับเฉพาะหน่วยงานรัฐบาลกลางผ่านโปรแกรม FedRAMP ภาคเอกชนไม่มีข้อบังคับ แต่นิยมใช้เป็นแนวทางเพื่อสร้างความน่าเชื่อถือ",
+   refs:"อ้างอิง ISO/IEC 27001 บางส่วนในเรื่องการควบคุมความมั่นคงปลอดภัยสารสนเทศ",
+   pros:"ครอบคลุมละเอียดมาก เป็นที่ยอมรับและใช้อ้างอิงกันอย่างแพร่หลายทั่วโลก",
+   cons:"ซับซ้อนมาก (เอกสารยาวกว่า 460 หน้า) ค่าใช้จ่ายขอรับรองอาจสูงถึงหลักล้านดอลลาร์ และใช้เวลาหลายเดือนถึงหลายปี",
+   laws:"FISMA (Federal Information Security Modernization Act), Privacy Act 1974, HIPAA (ข้อมูลสุขภาพ), CLOUD Act",
+   crossborder:"CLOUD Act ให้รัฐบาลสหรัฐฯ เข้าถึงข้อมูลที่เก็บบนคลาวด์ได้แม้ตั้งอยู่ในประเทศอื่น หากมีหมายศาลหรือคำสั่งที่ชอบด้วยกฎหมาย เป็นตัวอย่างการบังคับใช้กฎหมายข้ามพรมแดนที่ถูกพูดถึงมากที่สุด",
+   takeaway:"หากหน่วยงานไทยเลือกใช้ CSP สัญชาติอเมริกัน ข้อมูลอาจถูกร้องขอจากรัฐบาลสหรัฐฯ ได้แม้ data center ตั้งอยู่ในไทย — เป็นเหตุผลหนึ่งที่มาตรฐานฯ 2567 กำหนดเรื่อง Data Localization ไว้เข้มงวด"},
+  {id:"au", flag:"🇦🇺", name:"ออสเตรเลีย",
+   agency:"ASD (Australian Signals Directorate) หน่วยงานภายใต้กระทรวงกลาโหมออสเตรเลีย",
+   standard:"ISM (Information Security Manual)",
+   tiers:"แบ่งชั้นความลับของข้อมูล 4 ระดับ: Unclassified, Protected, Secret, Top Secret แต่ละระดับมีข้อกำหนดต่างกัน",
+   scope:"บังคับเฉพาะหน่วยงานรัฐบาลกลาง CSP ที่จะให้บริการหน่วยงานรัฐต้องผ่านการรับรองตาม ISM ภาคเอกชนไม่บังคับแต่ใช้เป็นแนวทางที่ดีได้",
+   refs:"ISO/IEC 27000 series, NIST SP 800-53 (บางส่วน), ISO/IEC 27005, ISO/IEC 31000",
+   pros:"มาตรฐานเข้มงวดชัดเจน เน้นบริหารความเสี่ยงเป็นหลัก ปรับปรุงทุกปีให้ทันภัยคุกคามใหม่",
+   cons:"ใช้ได้จำกัดเฉพาะบริบทหน่วยงานรัฐ ซับซ้อนสำหรับองค์กรขนาดเล็ก",
+   laws:"Privacy Act 1988, Security of Critical Infrastructure Act 2018, Cybercrime Act 2001",
+   crossborder:"Australian Privacy Principle 8 (APP 8) ควบคุมการโอนข้อมูลส่วนบุคคลไปต่างประเทศ กำหนดให้ผู้ควบคุมข้อมูลต้องมั่นใจว่าปลายทางคุ้มครองข้อมูลในมาตรฐานที่เพียงพอ",
+   takeaway:"แนวคิดจัดชั้นความลับ 4 ระดับแล้วผูกข้อกำหนดตามชั้น คล้ายกับที่ไทยผูกข้อกำหนดขั้นต่ำตามระดับผลกระทบ (ต่ำ/กลาง/สูง) ในมาตรฐานฯ 2567"},
+  {id:"in", flag:"🇮🇳", name:"อินเดีย",
+   agency:"MeitY (Ministry of Electronics and Information Technology)",
+   standard:"Cloud Security Guidelines / Cloud Security Baseline",
+   tiers:"ไม่ได้ระบุการแบ่งระดับตามขนาดองค์กรไว้ชัดเจน แนะนำให้ปรับใช้ตามขนาด ความซับซ้อน และความเสี่ยงขององค์กรเอง",
+   scope:"บังคับกับ CSP ที่ให้บริการหน่วยงานรัฐ ต้องผ่านการรับรองจากหน่วยงานที่ MeitY แต่งตั้ง หน่วยงานรัฐต้องเลือกใช้ CSP ที่ผ่านการรับรองแล้วเท่านั้น ภาคเอกชนไม่บังคับ",
+   refs:"ISO/IEC 27001, ISO/IEC 27002, NIST SP 800-144, NIST SP 800-53, CSA Cloud Controls Matrix",
+   pros:"ครอบคลุมประเด็นสำคัญหลากหลายด้าน เปิดให้ภาคเอกชนนำไปใช้สร้างความน่าเชื่อถือได้",
+   cons:"รายละเอียดซับซ้อนโดยเฉพาะด้านการเข้ารหัส ขาดแคลนผู้เชี่ยวชาญ และเอกสารอ้างอิงยังมีจำกัดเพราะเป็นมาตรฐานที่ค่อนข้างใหม่",
+   laws:"Information Technology Act 2000, National Cyber Security Policy 2013, (ขณะจัดทำรายงานนี้) ร่าง Data Protection Bill 2021",
+   crossborder:"ในช่วงที่จัดทำรายงานฉบับนี้ กฎหมายคุ้มครองข้อมูลส่วนบุคคลของอินเดียยังอยู่ระหว่างพัฒนา (หมายเหตุ: สถานะกฎหมายต่างประเทศอาจเปลี่ยนแปลงไปแล้วนับแต่วันที่จัดทำรายงาน ควรตรวจสอบสถานะปัจจุบันแยกต่างหาก)",
+   takeaway:"อินเดียเปิดให้เอกชนนำมาตรฐานไปใช้โดยสมัครใจเพื่อสร้างความน่าเชื่อถือ เป็นแนวทางหนึ่งที่ไทยอาจพิจารณาส่งเสริมเพิ่มเติมนอกเหนือจากหน่วยงานที่ถูกบังคับ"}
+];
+
+const FINDINGS = [
+  {area:"การกำกับดูแลและโครงสร้างองค์กร", flagged:true,
+   found:"สิงคโปร์และออสเตรเลียมีหน่วยงานกำกับดูแลที่ชัดเจนและเข้มงวด ส่วนสหรัฐฯ และอินเดียเน้นกำหนดกรอบการทำงานพร้อมบทบาทหน้าที่ที่ชัดเจน",
+   propose:"สกมช. กำกับดูแล CSC ได้โดยตรงตาม พ.ร.บ.ไซเบอร์ 2562 แต่ <b>ไม่สามารถกำกับดูแล CSP โดยตรงได้</b> เพราะ CSP ไม่ได้มีสถานะเป็นหน่วยงานรัฐ/หน่วยงานควบคุม/CII ตามกฎหมาย จึงต้องใช้กลไกทางอ้อมผ่านหน่วยงานให้บริการตรวจรับรอง (Certify Body) แทน"},
+  {area:"การจัดการความเสี่ยง", flagged:false,
+   found:"ทุกประเทศเน้นบริหารความเสี่ยงทั้งฝั่ง CSC และ CSP บางประเทศ (สิงคโปร์, สหรัฐฯ) ผูกมาตรการกับระดับผลกระทบและระดับความอ่อนไหวของข้อมูล",
+   propose:"สกมช. ควรจัดระดับผลกระทบของข้อมูล/ระบบ (Security Categorization) และคำนึงถึงข้อมูลอ่อนไหวด้วย โดยเฉพาะข้อมูลส่วนบุคคลตาม PDPA"},
+  {area:"มาตรการควบคุม", flagged:false,
+   found:"ทุกประเทศกำหนดมาตรการที่ครอบคลุมตั้งแต่การบริหารจัดการไปจนถึงการกู้คืนระบบหลังเกิดเหตุ",
+   propose:"สกมช. ควรทำมาตรการให้ครอบคลุมด้านบริหารจัดการ-ระบุ-ป้องกัน-เฝ้าระวัง-ตอบสนอง-กู้คืน และเข้ากันได้กับมาตรฐานสากล เช่น ISO/IEC 27001, 27701, 27017, 27018, CSA STAR, NIST, FedRAMP"},
+  {area:"การตรวจและให้การรับรอง", flagged:false,
+   found:"สิงคโปร์ ออสเตรเลีย และอินเดียต้องรับรองตามระดับบริการพร้อมตรวจสอบเข้มงวดสม่ำเสมอ ส่วนสหรัฐฯ ใช้การรับรองและตรวจสอบต่อเนื่องโดยหน่วยงานภายนอก",
+   propose:"สกมช. ควรสร้างกลไกตรวจสอบและรับรองที่เพียงพอและมีคุณภาพตามมาตรฐานสากล พร้อมส่งเสริมการตรวจสอบโดยบุคคลที่สาม (Third Party Auditing) ผ่าน Certify Body หรือหน่วยงานควบคุม/กำกับดูแล"},
+  {area:"การจัดการเหตุการณ์", flagged:false,
+   found:"สิงคโปร์ สหรัฐฯ และอินเดียมีขั้นตอนจัดการเหตุการณ์ละเอียดพร้อมรายงานที่ทันเวลา ออสเตรเลียเน้นแผนจัดการเหตุการณ์ที่ครอบคลุมและชัดเจน",
+   propose:"สกมช. ควรมีกลไกจัดการเหตุการณ์ทั้งระดับประเทศ ระดับภาคส่วน และระดับหน่วยงาน กำหนดบทบาทหน้าที่ของแต่ละฝ่ายให้ชัดเจน พร้อมขั้นตอนรายงานที่ทันเวลาและสอดคล้องกับมาตรฐานสากล"}
+];
+
+const STAKEHOLDERS = [
+  {n:"1", name:"กมช.", full:"คณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ",
+   d:"กำหนดมาตรฐานและแนวทางตามมาตรา 9(4) แห่ง พ.ร.บ.ไซเบอร์ 2562 เป็นผู้ออกประกาศมาตรฐานฯ 2567 ที่เป็นแกนหลักของเรื่องทั้งหมด"},
+  {n:"2", name:"คณะกรรมการเฉพาะด้าน Cloud First Policy", full:"",
+   d:"ขับเคลื่อนนโยบายใช้คลาวด์เป็นหลัก จัดทำนโยบายที่เกี่ยวข้อง กำกับติดตามและประเมินผลการดำเนินงาน เสนอแนะต่อคณะกรรมการดิจิทัลเพื่อเศรษฐกิจและสังคมแห่งชาติ"},
+  {n:"3", name:"คณะกรรมการพัฒนารัฐบาลดิจิทัล", full:"",
+   d:"กำหนดรายละเอียดเชิงปฏิบัติของนโยบายใช้คลาวด์ เช่น การจัดซื้อจัดจ้าง การจัดหาคลาวด์ และกำกับดูแลระบบนิเวศที่เกี่ยวข้อง"},
+  {n:"4", name:"กกม.", full:"คณะกรรมการกำกับดูแลด้านความมั่นคงปลอดภัยไซเบอร์",
+   d:"ตรวจสอบมาตรฐานขั้นต่ำของหน่วยงาน CII ตามมาตรา 53 มีอำนาจสั่งให้แก้ไขหากพบว่าหน่วยงานใดไม่ได้มาตรฐาน"},
+  {n:"5", name:"สำนักงาน (สกมช.)", full:"",
+   d:"ประสานงาน สนับสนุน ให้ความช่วยเหลือหน่วยงานต่าง ๆ เผยแพร่ความรู้และจัดฝึกอบรม เป็นศูนย์กลางความร่วมมือทั้งในและต่างประเทศ"},
+  {n:"6", name:"ผู้ใช้บริการคลาวด์ (CSC)", full:"",
+   d:"หน่วยงานของรัฐ หน่วยงานควบคุม/กำกับดูแล และหน่วยงาน CII ที่มีข้อตกลงทางสัญญาใช้บริการคลาวด์"},
+  {n:"7", name:"ผู้ให้บริการคลาวด์ (CSP)", full:"",
+   d:"หน่วยงานของรัฐหรือเอกชนที่ให้บริการคลาวด์ จัดการทรัพยากรให้พร้อมใช้งาน มั่นคงปลอดภัย และขยายตัวได้สำหรับผู้ใช้บริการของตน"},
+  {n:"8", name:"Certify Body", full:"หน่วยงานให้บริการตรวจรับรอง",
+   d:"ตรวจรับรองในระดับก้าวหน้าหรือสูงกว่า ตามประกาศ กมช. ปี 2566 — ช่วงแรกอาจใช้หน่วยงานตรวจรับรองตามมาตรฐานสากลไปพลางก่อนได้"},
+  {n:"9", name:"Cloud Security Auditor", full:"ผู้ตรวจสอบความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์",
+   d:"บุคคลที่ประเมิน/ตรวจสอบความปลอดภัยของระบบคลาวด์ให้ CSC หรือ CSP โดยใช้เกณฑ์ตามมาตรฐานฯ 2567 หรือแนวปฏิบัติสากล"},
+  {n:"10", name:"Cloud Security Professional", full:"ผู้ปฏิบัติงานด้านความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์",
+   d:"ผู้เชี่ยวชาญที่ปกป้องข้อมูล ระบบ และแอปพลิเคชันบนคลาวด์จากภัยคุกคาม บริหารความเสี่ยง และพัฒนาปรับปรุงระบบรักษาความปลอดภัยให้ทันสมัย"}
+];
+
+const STEPS = [
+  {n:1, title:"กำหนดความต้องการร่วมกัน", en:"Mutually Identify Requirements",
+   desc:"สกมช. รวบรวมสิ่งที่หน่วยงานต่าง ๆ จำเป็นต้องมี เพื่อนำมาตรฐานฯ 2567 ไปปฏิบัติได้จริง แล้วแจ้งเวียนให้หน่วยงานที่เกี่ยวข้องแสดงความเห็นและจัดลำดับความสำคัญ",
+   groups:[
+     {label:"หลักเกณฑ์และวิธีการ", items:["หลักเกณฑ์กำหนดคุณลักษณะความมั่นคงปลอดภัยไซเบอร์","หลักเกณฑ์แบ่งความรับผิดชอบร่วม (Shared Responsibility)","หลักเกณฑ์ตรวจรับรองทั้ง 3 แบบ (Self-assessment / Attestation / Certify Body)","หลักเกณฑ์คัดเลือกหน่วยงานให้บริการตรวจรับรองมาตรฐานสากล"]},
+     {label:"เครื่องมือและบุคลากร", items:["แนวปฏิบัติประกอบมาตรฐาน","เอกสารต้นแบบ (Templates)","บุคลากรที่ทำหน้าที่ Auditor และ Professional","แพลตฟอร์มกลาง/ฐานข้อมูลสนับสนุนหน่วยงาน"]},
+     {label:"โครงสร้างสนับสนุน", items:["กรอบบริหารความเสี่ยงไซเบอร์ต่อระบบคลาวด์","โมเดลสถาปัตยกรรมความมั่นคงปลอดภัย","เอกสาร White Paper อธิบายกฎหมายลำดับรอง","ทีมเฉพาะกิจ สกมช. คอยประสานแก้ปัญหา"]}
+   ],
+   example:"เช่น หน่วยงานรัฐแห่งหนึ่งอาจแจ้งว่าต้องการ \"เอกสารต้นแบบสำหรับทำ Self-assessment\" เพราะยังไม่รู้จะเริ่มกรอกแบบประเมินตนเองอย่างไร — สกมช. รวบรวมความต้องการแบบนี้จากหลายหน่วยงานก่อนนำไปจัดลำดับความสำคัญในขั้นถัดไป"},
+  {n:2, title:"จัดลำดับความสำคัญ", en:"Prioritize",
+   desc:"เนื่องจากทรัพยากรมีจำกัดและมาตรฐานฯ 2567 จะมีผลบังคับใช้เมื่อพ้น 2 ปีนับแต่วันประกาศ (คือ 10 กันยายน 2569) สกมช. จึงต้องจัดลำดับว่าอะไรควรทำก่อน-หลัง แล้วแจ้งเวียนผลสรุปพร้อมระบุหน่วยงานเจ้าภาพร่วม",
+   example:"เช่น \"หลักเกณฑ์การตรวจรับรองโดย Certify Body\" อาจถูกจัดลำดับความสำคัญสูงกว่ารายการอื่น เพราะ CSP ทุกระดับผลกระทบต้องผ่านการรับรองแบบนี้อยู่แล้วตามตารางในมาตรฐานฯ 2567 จึงควรมีความชัดเจนเรื่องนี้ก่อนเป็นอันดับต้น ๆ"},
+  {n:3, title:"จัดทำแผน", en:"Plan",
+   desc:"สกมช. จัดทำแผนบูรณาการระยะ 5 ปี ระบุยุทธศาสตร์ เป้าหมาย กลยุทธ์ ตัวชี้วัด โครงการ และหน่วยรับผิดชอบ ก่อนเสนอขออนุมัติต่อ กมช. คณะกรรมการเฉพาะด้าน Cloud First Policy และคณะรัฐมนตรี",
+   groups:[
+     {label:"ยุทธศาสตร์ที่ 1", items:["รวมพลังภาครัฐ-เอกชน","สร้างเครือข่ายผู้เชี่ยวชาญอาสาสมัครช่วยจัดทำหลักเกณฑ์ต่าง ๆ"]},
+     {label:"ยุทธศาสตร์ที่ 2", items:["สร้างสภาพแวดล้อมที่เอื้อต่อการดำเนินการ","พัฒนากลไกตรวจรับรอง ลดอุปสรรคให้ CSP ทั้งในและต่างประเทศ","สร้างความร่วมมือกับ CSA, ISO, NIST"]},
+     {label:"ยุทธศาสตร์ที่ 3", items:["พัฒนาขีดความสามารถบุคลากร","อบรมหลักสูตร Lead Auditor / Cloud Security Professional","ให้คำปรึกษาผ่าน NCSA Cyber Clinic (SMART)","บริการ Cloud Security Health Check"]}
+   ],
+   example:"เช่น ภายใต้ยุทธศาสตร์ที่ 3 หน่วยงานรัฐอาจส่งเจ้าหน้าที่ IT เข้าอบรมหลักสูตร Lead Auditor แล้วขอรับคำปรึกษาผ่าน NCSA Cyber Clinic ก่อนเริ่มทำ Self-assessment จริง"},
+  {n:4, title:"ดำเนินการตามแผน", en:"Execute",
+   desc:"ลงมือทำตามแผนที่วางไว้ โดย สกมช. อาจตั้งทีมเฉพาะกิจคอยประสานแก้ปัญหาและอุปสรรคระหว่างทาง ทีมนี้อยู่ภายใต้การบังคับบัญชาของเลขาธิการ กมช. และการกำกับดูแลของ กกม./กมช. รวมถึงต้องสอดคล้องกับทิศทางของคณะกรรมการเฉพาะด้าน Cloud First Policy",
+   example:"หากหน่วยงานรัฐแห่งหนึ่งติดปัญหาตีความข้อกำหนดขั้นต่ำข้อใดข้อหนึ่งระหว่างดำเนินการ ทีมเฉพาะกิจของ สกมช. จะเป็นช่องทางให้ติดต่อขอความช่วยเหลือได้โดยตรง"},
+  {n:5, title:"ประเมินผลอย่างต่อเนื่อง", en:"Evaluate",
+   desc:"เนื่องจากกิจกรรมและแผนมีกรอบเวลาจำกัด สกมช. ต้องติดตามประเมินผลอย่างใกล้ชิดและต่อเนื่อง อาจต้องปรับแผนให้สอดคล้องกับนโยบายของคณะกรรมการเฉพาะด้าน Cloud First Policy และเผยแพร่ความเปลี่ยนแปลงผ่านแพลตฟอร์มกลาง โดยขึ้นอยู่กับงบประมาณที่ได้รับด้วย",
+   example:"เช่น หากพบว่าหน่วยงานส่วนใหญ่ยังไม่พร้อมทำ Self-assessment ตามกำหนดเดิม สกมช. อาจต้องปรับตารางเวลาการอบรมหรือเพิ่มช่องทางให้คำปรึกษา ก่อนถึงวันที่มาตรฐานมีผลบังคับใช้จริง"}
+];
+
+/* ======================= RENDER: COUNTRY TABS ======================= */
+const tabsEl = document.getElementById('countryTabs');
+const panelsEl = document.getElementById('countryPanels');
+tabsEl.innerHTML = COUNTRIES.map((c,i)=>`<button class="country-tab" data-id="${c.id}" aria-selected="${i===0?'true':'false'}"><span class="flag">${c.flag}</span>${c.name}</button>`).join('');
+panelsEl.innerHTML = COUNTRIES.map((c,i)=>`
+  <div class="country-panel ${i===0?'active':''}" id="panel-${c.id}">
+    <h3>${c.flag} ${c.name}</h3>
+    <div class="agency">${c.agency}</div>
+    <div class="cp-grid">
+      <div class="cp-block"><h5>มาตรฐานหลัก</h5><p>${c.standard}</p></div>
+      <div class="cp-block"><h5>การแบ่งระดับ</h5><p>${c.tiers}</p></div>
+      <div class="cp-block"><h5>ขอบเขตการบังคับใช้</h5><p>${c.scope}</p></div>
+      <div class="cp-block"><h5>อ้างอิงมาตรฐานสากล</h5><p>${c.refs}</p></div>
+    </div>
+    <div class="cp-proscons">
+      <div class="cp-pros"><h5>ข้อดี</h5><p>${c.pros}</p></div>
+      <div class="cp-cons"><h5>ข้อเสีย</h5><p>${c.cons}</p></div>
+    </div>
+    <div class="cp-block" style="margin-bottom:1rem;"><h5>กฎหมายที่เกี่ยวข้อง</h5><p>${c.laws}</p></div>
+    <div class="cp-block" style="margin-bottom:1rem;"><h5>การบังคับใช้กฎหมายข้ามประเทศ</h5><p>${c.crossborder}</p></div>
+    <div class="cp-takeaway"><span class="pin">💡</span><div><h5>ความเกี่ยวข้องกับไทย</h5><p>${c.takeaway}</p></div></div>
+  </div>
+`).join('');
+tabsEl.querySelectorAll('.country-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabsEl.querySelectorAll('.country-tab').forEach(b=>b.setAttribute('aria-selected','false'));
+    btn.setAttribute('aria-selected','true');
+    panelsEl.querySelectorAll('.country-panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+btn.dataset.id).classList.add('active');
+  });
+});
+
+/* ======================= RENDER: FINDINGS ======================= */
+document.getElementById('findingsContainer').innerHTML = FINDINGS.map(f=>`
+  <div class="finding-card ${f.flagged?'flagged':''}">
+    ${f.flagged?'<span class="flagtag">จุดสำคัญที่ต้องระวัง</span>':''}
+    <h4>${f.area}</h4>
+    <div class="fc-cols">
+      <div class="fc-col fc-found"><h5>พบจากต่างประเทศ</h5><p>${f.found}</p></div>
+      <div class="fc-col fc-propose"><h5>ข้อเสนอแนะสำหรับไทย</h5><p>${f.propose}</p></div>
+    </div>
+  </div>
+`).join('');
+
+/* ======================= RENDER: STAKEHOLDERS ======================= */
+document.getElementById('stakeGrid').innerHTML = STAKEHOLDERS.map(s=>`
+  <details class="stake">
+    <summary><span class="stake-num">${s.n}</span><span class="stake-title">${s.name}</span></summary>
+    <p>${s.full?('<b>'+s.full+'</b> — '):''}${s.d}</p>
+  </details>
+`).join('');
+
+/* ======================= RENDER: STEPPER ======================= */
+document.getElementById('stepperContainer').innerHTML = STEPS.map(s=>{
+  const groups = s.groups ? `<div class="step-groups">${s.groups.map(g=>`
+    <div class="step-group"><h5>${g.label}</h5><ul>${g.items.map(it=>`<li>${it}</li>`).join('')}</ul></div>
+  `).join('')}</div>` : '';
+  return `
+  <div class="step">
+    <div class="step__num">${s.n}</div>
+    <details class="step-card">
+      <summary><div class="step-card__title"><b>${s.title}</b><em>${s.en}</em></div></summary>
+      <div class="step-card__body">
+        <p>${s.desc}</p>
+        ${groups}
+        <div class="step-example"><span class="pin">📌</span><div><h5>ตัวอย่าง</h5><p>${s.example}</p></div></div>
+      </div>
+    </details>
+  </div>`;
+}).join('');
+
+/* ======================= TOC ACTIVE STATE ======================= */
+const tocLinks = document.querySelectorAll('.toc a');
+const sections = [...document.querySelectorAll('main section')];
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      tocLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+id));
+    }
+  });
+}, {rootMargin:'-15% 0px -70% 0px'});
+sections.forEach(s=>io.observe(s));
+
+/* ======================= BACK TO TOP ======================= */
+const backtop = document.getElementById('backtop');
+window.addEventListener('scroll', ()=>{ backtop.classList.toggle('show', window.scrollY>600); });
+backtop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>

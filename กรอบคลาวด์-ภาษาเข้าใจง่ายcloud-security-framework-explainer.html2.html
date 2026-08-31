@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>กรอบความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์ของไทย — ฉบับอ่านง่าย</title>
+  <style>
+    :root {
+      --ink: #161410; --muted: #5b554b; --line: #e6dfd2;
+      --paper: #fffdf8; --bg: #f3efe6;
+      --teal: #0d5c51; --teal2: #14806f; --soft: #e5f4f0;
+      --amber: #b45309; --amber-soft: #fff3e0;
+      --blue: #1e4d8c; --blue-soft: #e7f0fb;
+      --rose: #9f1239; --rose-soft: #fde8ee;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: "Sarabun","Noto Sans Thai","Segoe UI",sans-serif; background: var(--bg); color: var(--ink); line-height: 1.7; }
+    header.hero { background: linear-gradient(135deg,#08352f,#0d5c51 50%,#1e4d8c); color: #fff; padding: 2.2rem 1.1rem 1.8rem; }
+    .wrap { max-width: 1040px; margin: 0 auto; }
+    .badge { display: inline-block; border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.12); padding: .15rem .7rem; border-radius: 999px; font-size: .85rem; }
+    header.hero h1 { margin: .55rem 0 .35rem; font-size: clamp(1.35rem,3vw,2rem); line-height: 1.3; }
+    nav.toc { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+    nav.toc .wrap { display: flex; flex-wrap: wrap; gap: .35rem .75rem; padding: .65rem 1.1rem; }
+    nav.toc a { color: var(--teal); font-weight: 700; text-decoration: none; font-size: .9rem; }
+    main { padding: 1.2rem 1.1rem 3.5rem; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem 1.25rem 1.4rem; margin: 0 0 1rem; box-shadow: 0 8px 22px rgba(22,20,16,.04); }
+    h2 { margin: 0 0 .55rem; color: var(--teal); font-size: 1.28rem; }
+    h3 { margin: 1rem 0 .4rem; font-size: 1.05rem; }
+    .ex, .note, .warn { border-radius: 12px; padding: .8rem .95rem; margin: .7rem 0; }
+    .ex { background: var(--soft); border-left: 4px solid var(--teal); }
+    .note { background: var(--blue-soft); border-left: 4px solid var(--blue); }
+    .warn { background: var(--amber-soft); border-left: 4px solid var(--amber); }
+    .ex strong, .note strong, .warn strong { display: block; margin-bottom: .15rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; margin: .5rem 0 1rem; }
+    th, td { border: 1px solid var(--line); padding: .5rem .55rem; text-align: left; vertical-align: top; }
+    th { background: #f0ebe2; }
+    .tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin: .4rem 0 .7rem; }
+    .tabs button { border: 1px solid var(--line); background: #fff; border-radius: 999px; padding: .3rem .75rem; cursor: pointer; font-family: inherit; font-weight: 700; }
+    .tabs button.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .panel { display: none; }
+    .panel.show { display: block; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+    .box { border: 1px solid var(--line); border-radius: 12px; padding: .75rem .85rem; background: #fff; }
+    details { border: 1px solid var(--line); border-radius: 10px; padding: .55rem .8rem; margin: .4rem 0; background: #fff; }
+    details summary { cursor: pointer; font-weight: 700; }
+    .quiz { background: #fff; border: 1px dashed #c9c0b0; border-radius: 12px; padding: .85rem; margin: .7rem 0; }
+    .quiz button { margin-top: .45rem; background: var(--teal); color: #fff; border: 0; border-radius: 8px; padding: .4rem .8rem; cursor: pointer; font-family: inherit; }
+    .ok { color: #166534; font-weight: 700; }
+    .no { color: #9f1239; font-weight: 700; }
+    footer { text-align: center; color: var(--muted); font-size: .86rem; padding: 0 1rem 2.4rem; }
+    .step { counter-increment: st; }
+    .step h3::before { content: counter(st) ". "; }
+    ol.work { counter-reset: st; }
+    .small { color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <span class="badge">Thailand’s National Cloud Security Framework · เวอร์ชัน 1.0 · ฉบับอ่านง่าย</span>
+      <h1>กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์</h1>
+      <p>ประกาศสำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ วันที่ 10 มีนาคม 2568 โดย พลอากาศตรี อมร ชมเชย เลขาธิการ สกมช.</p>
+      <p>มีผลตั้งแต่วันประกาศ · ใช้เป็นแนวทางเตรียมความพร้อมก่อนมาตรฐานคลาวด์ พ.ศ. 2567 มีผลบังคับใช้ 10 กันยายน 2569</p>
+    </div>
+  </header>
+  <nav class="toc"><div class="wrap">
+    <a href="#ch1">บทที่ 1</a>
+    <a href="#ch2">บทที่ 2 ต่างประเทศ</a>
+    <a href="#ch3">บทที่ 3 เปรียบเทียบ</a>
+    <a href="#ch4">บทที่ 4 ข้อเสนอ</a>
+    <a href="#ch5">บทที่ 5 กรอบทำจริง</a>
+    <a href="#do">คู่มือลงมือ</a>
+  </div></nav>
+
+  <main class="wrap">
+    <article class="card" id="ch1">
+      <h2>บทที่ 1 หนังสือเล่มนี้คืออะไร</h2>
+      <p>เล่มนี้ไม่ใช่ตัวมาตรฐานบังคับ แต่เป็น <strong>กรอบทำงาน</strong> ที่ สกมช. ออกตามข้อ 7 ของมาตรฐานคลาวด์ พ.ศ. 2567 เพื่อให้หน่วยงานรู้ว่าต้องเตรียมอะไร ใครทำอะไร และเรียนจากประเทศอื่นอย่างไร</p>
+      <div class="note">
+        <strong>จำคู่กันสองฉบับ</strong>
+        มาตรฐานคลาวด์ พ.ศ. 2567 = กติกาขั้นต่ำที่ต้องทำเมื่อมีผล 10 ก.ย. 2569<br>
+        กรอบนี้ (มี.ค. 2568) = แผนเตรียมตัวและแนวทางขับเคลื่อนให้กติกานั้นเกิดจริง
+      </div>
+      <h3>ทำไมต้องมี</h3>
+      <p>รัฐผลักดัน Cloud First ให้หน่วยงานย้ายงานขึ้นคลาวด์ แต่ภัยไซเบอร์ปี 2023 โดยเฉพาะการศึกษาและหน่วยงานรัฐเพิ่มขึ้น กรอบนี้เลยต้องการให้ทั้งลูกค้าคลาวด์ (CSC) และผู้ให้บริการ (CSP) พร้อมด้านคน กระบวนการ และเทคโนโลยี</p>
+      <h3>วัตถุประสงค์การศึกษา 3 ข้อ</h3>
+      <ol>
+        <li>เปรียบเทียบนโยบายและ National Cloud Security Framework ของต่างประเทศ</li>
+        <li>เปรียบเทียบแนวทางและมาตรฐาน Cloud Security</li>
+        <li>สนับสนุนการร่างกฎและมาตรฐานของไทย</li>
+      </ol>
+      <div class="ex">
+        <strong>ตัวอย่างสำหรับผู้ศึกษา</strong>
+        ถ้าอาจารย์ให้รายงาน “ทำไมไทยไม่ลอก FedRAMP ทั้งดุ้น” คำตอบจากเล่มนี้คือ ไทยดูสิงคโปร์เรื่องแบ่งระดับ, สหรัฐเรื่องควบคุมละเอียด, ออสเตรเลียเรื่องคู่มือรัฐ, อินเดียเรื่องแนวทางภาครัฐ แล้วตัดให้เข้ากับ พ.ร.บ. ไซเบอร์ของไทย
+      </div>
+    </article>
+
+    <article class="card" id="ch2">
+      <h2>บทที่ 2 ประเทศอื่นทำอย่างไร</h2>
+      <p>กดแท็บดูทีละประเทศ เหลือแต่สาระที่ต้องจำ</p>
+      <div class="tabs" id="tabs-c">
+        <button class="active" data-p="sg">สิงคโปร์</button>
+        <button data-p="us">สหรัฐฯ</button>
+        <button data-p="au">ออสเตรเลีย</button>
+        <button data-p="in">อินเดีย</button>
+      </div>
+      <div id="sg" class="panel show">
+        <p><strong>หน่วยงานหลัก:</strong> IMDA กำหนดมาตรฐาน · CSA Singapore กำกับ MTCS</p>
+        <p><strong>เครื่องมือ:</strong> MTCS SS / SS 584 แบ่งหลายระดับความปลอดภัย</p>
+        <p><strong>ใครต้องทำ:</strong> CSP ที่ให้บริการในสิงคโปร์ต้องรับรองระดับที่เหมาะสม · ลูกค้าควรเลือกผู้ให้บริการที่ผ่าน MTCS</p>
+        <p><strong>อ้างอิงมาตรฐาน:</strong> ISO 27001, 27017, CSA CCM, NIST 800-53</p>
+        <p><strong>จุดเด่น:</strong> ยืดหยุ่นตามความสำคัญข้อมูล (เอกสารเล่มนี้พูดทั้งแบบ 3 ระดับและ 4 ระดับ ตามบริบท MTCS)</p>
+        <div class="ex"><strong>ตัวอย่างเทียบไทย</strong> ระดับต่ำ/กลาง/สูงของมาตรฐานไทย 2567 คล้ายแนวคิด “ข้อมูลยิ่งสำคัญ ต้องรับรองเข้มขึ้น” ของสิงคโปร์</div>
+      </div>
+      <div id="us" class="panel">
+        <p><strong>หน่วยงานหลัก:</strong> NIST เขียนมาตรฐาน · FedRAMP รับรองคลาวด์สำหรับรัฐบาลกลาง</p>
+        <p><strong>เครื่องมือ:</strong> NIST SP 800-53 (ชุดควบคุม), NIST SP 800-144 (แนวคลาวด์สาธารณะ)</p>
+        <p><strong>ใครต้องทำ:</strong> หน่วยงานรัฐกลางต้องใช้คลาวด์ที่ผ่าน FedRAMP · เอกชนไม่ถูกบังคับแต่ยึดเป็นแนวทาง</p>
+        <p><strong>จุดเด่น:</strong> ควบคุมละเอียดมาก (เอกสารระบุราว 20 ครอบครัวควบคุม / 265 รายการ) มี 3PAO ประเมิน</p>
+        <p><strong>จุดอ่อนที่เล่มนี้เตือน:</strong> เอกสารยาว ซับซ้อน ค่าใช้จ่ายและเวลารับรองสูง</p>
+        <div class="ex"><strong>ตัวอย่าง</strong> กระทรวงในสหรัฐจะใช้ SaaS ใหม่ ต้องดูว่าบริการนั้นอยู่ในตลาด FedRAMP ไม่ใช่แค่ถูกและใช้ง่าย</div>
+      </div>
+      <div id="au" class="panel">
+        <p><strong>หน่วยงานหลัก:</strong> ASD / ACSC จัดทำ Information Security Manual (ISM)</p>
+        <p><strong>ใครต้องทำ:</strong> บังคับหน่วยงานรัฐบาลกลาง · เอกชนใช้เป็นแนวทาง</p>
+        <p><strong>การจัดชั้นข้อมูล:</strong> Unclassified / Protected / Secret / Top Secret</p>
+        <p><strong>จุดเด่น:</strong> รวม ISO 27000 กับแนว NIST แล้วปรับเป็นคู่มือรัฐ อัปเดตบ่อย</p>
+        <p><strong>จุดอ่อน:</strong> บางส่วนเป็นข้อมูลความมั่นคง เผยแพร่ไม่หมด องค์กรเล็กทำตามยาก</p>
+        <div class="ex"><strong>ตัวอย่าง</strong> หน่วยงานภาษีออสเตรเลียใช้คลาวด์ได้ ถ้าผู้ให้บริการผ่านการประเมินสอดคล้อง ISM</div>
+      </div>
+      <div id="in" class="panel">
+        <p><strong>หน่วยงานหลัก:</strong> MeitY · มี Cloud Security Guidelines / Baseline และระบบขึ้นทะเบียน CSP สำหรับงานรัฐ</p>
+        <p><strong>ใครต้องทำ:</strong> ภาครัฐต้องเลือก CSP ที่ผ่านเกณฑ์ MeitY · เอกชนใช้เป็นแนวทาง</p>
+        <p><strong>อ้างอิง:</strong> ISO 27001/27002, NIST 800-53/800-144, CSA CCM, แนว DevSecOps</p>
+        <p><strong>จุดอ่อนที่เล่มนี้เตือน:</strong> ข้อกำหนดเข้ารหัสละเอียด คนเชี่ยวชาญขาด เอกสารอ้างอิงสาธารณะน้อย</p>
+      </div>
+      <h3>ข้อดี–ข้อเสียมาตรฐานที่ประเทศเหล่านี้หยิบใช้ (สรุป)</h3>
+      <table>
+        <tr><th>มาตรฐาน</th><th>ดีอย่างไร</th><th>ยากอย่างไร</th></tr>
+        <tr><td>ISO 27001/27017/27018</td><td>โครงสร้างชัด ประเมินความเสี่ยงเป็นระบบ 27018 เน้นข้อมูลส่วนบุคคลบนคลาวด์</td><td>ค่าใช้จ่ายรักษาใบรับรองสูง ต้องรวมหลายฉบับ</td></tr>
+        <tr><td>CSA STAR / CCM</td><td>ยืดหยุ่น หลายระดับ ทำมาเพื่อคลาวด์โดยตรง</td><td>ประเมินซับซ้อน CCM เป็นเมทริกซ์แนวทาง ไม่ใช่กฎหมาย</td></tr>
+        <tr><td>NIST 800-53 / 800-144</td><td>ละเอียด เป็นที่ยอมรับกว้าง 800-144 เน้นคลาวด์สาธารณะ</td><td>ยาว ปรับเข้าองค์กรยาก 800-144 ไม่ครอบคลุม private/hybrid ทั้งหมด</td></tr>
+        <tr><td>CIS Controls</td><td>ทำได้เร็ว ประเมินเองได้</td><td>ไม่ครอบคลุมทุกความต้องการองค์กร</td></tr>
+      </table>
+      <div class="quiz" data-q="q1">
+        <strong>ทดสอบความเข้าใจ</strong>
+        <p>หน่วยงานรัฐไทยจะย้ายระบบทะเบียนที่มีข้อมูลส่วนบุคคลขึ้นคลาวด์สาธารณะ แนวคิดจากบทที่ 2 ที่ใกล้ที่สุดคือข้อใด</p>
+        <label><input type="radio" name="q1" value="a"> ใช้คลาวด์ราคาถูกที่สุดโดยไม่ดูใบรับรอง</label><br>
+        <label><input type="radio" name="q1" value="b"> เลือกระดับความปลอดภัยให้ตรงความสำคัญของข้อมูล แล้วเลือก CSP ที่ผ่านการรับรองระดับนั้น</label><br>
+        <label><input type="radio" name="q1" value="c"> ใช้เฉพาะคลาวด์ในประเทศที่ไม่ต้องมีมาตรฐานสากล</label><br>
+        <button type="button" onclick="grade(this,'b')">ตรวจคำตอบ</button>
+        <div class="result"></div>
+      </div>
+    </article>
+
+    <article class="card" id="ch3">
+      <h2>บทที่ 3 เปรียบเทียบกฎหมายและปัญหาจริง</h2>
+      <h3>3.1 กฎหมายที่มักพัน CSP</h3>
+      <table>
+        <tr><th>ประเทศ</th><th>กติกาหลักที่ CSP ชน</th></tr>
+        <tr><td>สิงคโปร์</td><td>MTCS + PDPA + Cybersecurity Act + ETA + กติกาโทรคมนาคม/IMDA</td></tr>
+        <tr><td>สหรัฐฯ</td><td>NIST 800-53/800-144 ผูกกับ FISMA, Privacy Act, HIPAA (ข้อมูลสุขภาพ), FedRAMP, ยุทธศาสตร์คลาวด์รัฐ, OMB A-130</td></tr>
+        <tr><td>ออสเตรเลีย</td><td>ISM + Privacy Act 1988 + Security of Critical Infrastructure Act 2018</td></tr>
+        <tr><td>อินเดีย</td><td>IT Act 2000, ระบบขึ้นทะเบียน CSP ของ MeitY, แนวสัญญาภาครัฐ, นโยบายไซเบอร์แห่งชาติ, ร่างกฎหมายข้อมูลส่วนบุคคล</td></tr>
+      </table>
+      <h3>3.2 กฎหมายที่มักพัน CSC (ลูกค้า)</h3>
+      <p>ลูกค้าไม่ได้ปล่อยให้ CSP รับผิดแทนทั้งหมด ต้องมั่นใจว่าข้อมูลคน, ข้อมูลสุขภาพ, ข้อมูล CII และการโอนข้อมูลข้ามประเทศถูกกฎหมายของตัวเอง</p>
+      <div class="ex">
+        <strong>ตัวอย่างไทย</strong>
+        มหาวิทยาลัยรัฐใช้ Microsoft 365 เก็บข้อมูลนักศึกษา ต้องดูทั้งมาตรฐานคลาวด์ไทย, พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล และสัญญาว่าข้อมูลอยู่ประเทศใด — แนวเดียวกับสิงคโปร์ที่ PDPA ตามไปถึงข้อมูลที่เก็บนอกประเทศ
+      </div>
+      <h3>3.3 ตัวอย่างหน่วยงานที่ถูกกรอบเหล่านี้จับ</h3>
+      <p>เล่มนี้ยกตัวอย่างกว้าง เช่น กระทรวงกลาโหม, หน่วยงานข่าวกรอง, สรรพากร, โรงพยาบาล, ธนาคาร, ผู้ให้บริการคลาวด์อย่าง AWS/Microsoft เพื่อชี้ว่า “งานรัฐ + งานอ่อนไหว” คือกลุ่มที่มาตรฐานเข้ม</p>
+      <h3>3.4 ปัญหาซ้ำทุกประเทศ</h3>
+      <ul>
+        <li>ข้อกำหนดซับซ้อน หลายระดับ</li>
+        <li>ต้องปรับปรุงระบบต่อเนื่อง ไม่ใช่สอบผ่านครั้งเดียว</li>
+        <li>ตรวจประเมินและตรวจซ้ำมีค่าใช้จ่าย</li>
+        <li>คนเชี่ยวชาญไม่พอ โดยเฉพาะเรื่องเข้ารหัส</li>
+        <li>เทคโนโลยีเปลี่ยนเร็ว มาตรฐานตามไม่ทัน</li>
+      </ul>
+      <div class="warn">
+        <strong>ตัวอย่างปัญหาที่หน่วยงานไทยเจอได้</strong>
+        ซื้อคลาวด์แล้ว แต่ไม่มีคนทำ Self-assessment, สัญญาไม่ระบุเขตข้อมูล, แอดมินไม่มี MFA — นี่คืออุปสรรคแบบเดียวกับที่เล่มนี้สรุปจากต่างประเทศ ไม่ใช่แค่ “ยังไม่มีงบซื้อใบรับรอง”
+      </div>
+      <h3>3.5 กฎหมายข้ามประเทศ</h3>
+      <p>ข้อมูลบนคลาวด์อาจถูกกฎหมายของประเทศผู้ให้บริการและประเทศเจ้าของข้อมูลพร้อมกัน</p>
+      <ul>
+        <li>สิงคโปร์: PDPA ตามข้อมูลคนสิงคโปร์แม้เก็บนอกประเทศ · CSA มีอำนาจสั่งเข้าถึงระบบในสิงคโปร์</li>
+        <li>สหรัฐฯ: CLOUD Act ให้อำนาจเข้าถึงข้อมูลบนคลาวด์แม้เก็บนอกสหรัฐถ้ามีหมายศาล · มี HIPAA/CCPA/COPPA แยกเรื่อง</li>
+        <li>ออสเตรเลีย: APP 8 เรื่องโอนข้อมูลออกนอกประเทศต้องคุ้มครองพอ</li>
+        <li>อินเดีย: IT Act + ร่างกฎหมายข้อมูลส่วนบุคคล + กฎตัวกลาง</li>
+      </ul>
+      <div class="ex">
+        <strong>ตัวอย่างคำถามที่ต้องใส่ในสัญญา</strong>
+        ถ้าศาลต่างประเทศขอข้อมูลหน่วยงานไทย ผู้ให้บริการจะแจ้งเราไหม ปฏิเสธได้แค่ไหน ข้อมูลสำรองอยู่ประเทศใด
+      </div>
+    </article>
+
+    <article class="card" id="ch4">
+      <h2>บทที่ 4 สิ่งที่ไทยควรหยิบมาใช้</h2>
+      <h3>4.1 สิ่งที่ต่างประเทศทำแล้วไทยทำตามได้</h3>
+      <ul>
+        <li>มีหน่วยงานกำกับ CSP และ CSC ให้ชัด</li>
+        <li>บริหารความเสี่ยงทั้งสองฝ่าย และแบ่งตามระดับผลกระทบ/ความอ่อนไหว</li>
+        <li>มาตรการครบวงจร: บริหาร ระบุ ป้องกัน เฝ้าระวัง ตอบสนอง กู้คืน</li>
+        <li>รับรองตามระดับบริการ และตรวจซ้ำเป็นประจำ</li>
+        <li>มีขั้นตอนแจ้งเหตุที่ชัดและทันเวลา</li>
+      </ul>
+      <h3>4.2 ข้อเสนอเชิงนโยบายในเล่มนี้</h3>
+      <div class="grid">
+        <div class="box"><h3>กำกับดูแล</h3><p>สกมช. กำกับ CSC ที่เป็นหน่วยงานตาม พ.ร.บ. ไซเบอร์ และ CSP ที่ขายงานให้หน่วยงานเหล่านั้น โดยตรงกับ CSP เอกชนอาจทำไม่ได้ จึงกำกับผ่านหน่วยงานรัฐ / ผู้ตรวจรับรองตามประกาศ พ.ศ. 2566</p></div>
+        <div class="box"><h3>ความเสี่ยง</h3><p>ใช้มาตรการในมาตรฐานคลาวด์ 2567 ทั้ง CSC และ CSP จัดระดับผลกระทบ และแยกข้อมูลอ่อนไหวโดยเฉพาะข้อมูลส่วนบุคคลตาม PDPA</p></div>
+        <div class="box"><h3>มาตรการควบคุม</h3><p>ให้ครบ Identify–Protect–Detect–Respond–Recover และเข้ากันได้กับ ISO 27001/27701/27017/27018, CSA STAR, NIST, FedRAMP</p></div>
+        <div class="box"><h3>รับรองและเหตุการณ์</h3><p>มีกลไก Self-assessment / Attestation / Certify Body คุณภาพระดับสากล และกลไกจัดการเหตุระดับประเทศ ภาคส่วน และหน่วยงาน</p></div>
+      </div>
+      <div class="ex">
+        <strong>ตัวอย่างแปลงข้อเสนอเป็นงาน</strong>
+        หน่วยงานไม่ต้องรอ สกมช. ครบทุกเครื่องมือก่อน เริ่มจัดระดับข้อมูล, เขียนตารางแบ่งหน้าที่กับ CSP, เปิด MFA, ตรวจที่ตั้งศูนย์ข้อมูลไทย ได้เลย
+      </div>
+    </article>
+
+    <article class="card" id="ch5">
+      <h2>บทที่ 5 กรอบดำเนินงานของไทย — ส่วนที่ต้องทำตาม</h2>
+      <h3>5.1 วัตถุประสงค์กรอบนี้</h3>
+      <ol>
+        <li>ผลักดันมาตรฐานคลาวด์ 2567 ให้เกิดเร็ว สะดวก มีประสิทธิภาพ</li>
+        <li>ยกระดับความปลอดภัยทั้ง CSC และ CSP</li>
+        <li>บูรณาการงานระหว่าง สกมช. กับหน่วยงานอื่น</li>
+      </ol>
+      <h3>5.2 ประโยชน์ที่เล่มนี้สัญญาไว้</h3>
+      <ul>
+        <li>ลดงานซ้ำ คนละมาตรฐาน คนละเช็คลิสต์</li>
+        <li>รัฐ–เอกชนร่วมกันทำคลาวด์ให้ปลอดภัยขึ้น</li>
+        <li>หน่วยงานย้ายขึ้นคลาวด์ได้เร็วขึ้น เพราะกติกาโปร่งใส</li>
+      </ul>
+      <h3>5.3 เอกสารที่ต้องวางคู่กัน</h3>
+      <ul>
+        <li>มาตรฐานคลาวด์ พ.ศ. 2567</li>
+        <li>มาตรฐานจัดคุณลักษณะข้อมูล/ระบบ พ.ศ. 2566</li>
+        <li>มาตรฐานผู้ให้บริการด้านไซเบอร์ พ.ศ. 2566</li>
+        <li>หลักเกณฑ์หน่วยงาน CII พ.ศ. 2564</li>
+        <li>หน้าที่ CII และหน่วยงานกำกับ พ.ศ. 2567</li>
+        <li>แนวทางจัดทำแผนรักษาความมั่นคงปลอดภัยไซเบอร์ พ.ศ. 2567</li>
+      </ul>
+      <h3>5.4 ใครคือใคร</h3>
+      <details open><summary>1. กมช.</summary><p>คณะกรรมการระดับชาติ ออกมาตรฐานขั้นต่ำตามมาตรา 9(4) พ.ร.บ. ไซเบอร์</p></details>
+      <details><summary>2. คณะกรรมการเฉพาะด้าน Cloud First</summary><p>ขับเคลื่อนนโยบายใช้คลาวด์เป็นหลัก จัดทำแนวจัดซื้อ ข้อมูล เลือกคลาวด์ ย้ายระบบ ติดตามผล</p></details>
+      <details><summary>3. คณะกรรมการพัฒนารัฐบาลดิจิทัล</summary><p>รายละเอียดการใช้คลาวด์ภาครัฐ จัดหา กำกับระบบนิเวศการจัดซื้อ</p></details>
+      <details><summary>4. กกม.</summary><p>กำกับ CII ตามมาตรา 53 ถ้าต่ำกว่ามาตรฐานและเพิกเฉย ส่งเรื่องให้สั่งแก้ไข</p></details>
+      <details><summary>5. สกมช.</summary><p>ประสาน ช่วยเหลือ เป็นศูนย์กลางความร่วมมือ เผยแพร่ความรู้ ฝึกอบรม ตามมาตรา 22</p></details>
+      <details><summary>6–7. CSC และ CSP</summary><p>CSC = หน่วยงานที่มีสัญญาใช้คลาวด์ · CSP = ผู้ทำให้บริการคลาวด์ใช้ได้และดูแลทรัพยากรให้พร้อม ปลอดภัย ขยายได้</p></details>
+      <details><summary>8–10. ผู้ตรวจและผู้ปฏิบัติ</summary><p>Certify Body ระดับก้าวหน้าขึ้นไป (ช่วงแรกใช้นานาชาติที่ สกมช. กำหนดได้) · Cloud Security Auditor ประเมินตามมาตรฐานหรือแนวสากล · Cloud Security Professional ปกป้องระบบคลาวด์และวางแผนรับมือภัย</p></details>
+      <div class="ex">
+        <strong>ตัวอย่างบทบาท</strong>
+        มหาวิทยาลัย = CSC · AWS/Azure/Google หรือคลาวด์ไทยที่ขายงานรัฐ = CSP · บริษัทตรวจ ISO ที่ สกมช. ยอมรับ = Certify Body · เจ้าหน้าที่รักษาความมั่นคงปลอดภัยสารสนเทศของมหาวิทยาลัย = Cloud Security Professional
+      </div>
+
+      <h3>5.5 ห้าขั้นทำงาน (ส่วนปฏิบัติหลักของเล่มนี้)</h3>
+      <ol class="work">
+        <li class="step">
+          <h3>กำหนดความต้องการร่วมกัน</h3>
+          <p>สกมช. สำรวจว่าทุกฝ่ายต้องการเครื่องมืออะไรเพื่อเอามาตรฐาน 2567 ไปใช้จริง เช่น</p>
+          <ul>
+            <li>วิธีจัดระดับข้อมูล/ระบบ</li>
+            <li>วิธีแบ่งความรับผิดชอบ CSC–CSP</li>
+            <li>วิธี Self-assessment / Attestation / Certify Body</li>
+            <li>วิธี สกมช. รับรองตัว Certify Body และรายชื่อมาตรฐานสากลที่ยอมรับ</li>
+            <li>แนวปฏิบัติประกอบ, เทมเพลต, แพลตฟอร์มกลาง</li>
+            <li>กรอบบริหารความเสี่ยงคลาวด์, โมเดลสถาปัตยกรรม, White paper</li>
+            <li>พัฒนา Auditor และ Professional</li>
+            <li>ทีมเฉพาะกิจแก้ปัญหา</li>
+          </ul>
+          <div class="ex"><strong>ตัวอย่างที่หน่วยงานทำได้ทันที</strong> ส่งรายการระบบคลาวด์ที่ใช้อยู่ + ระดับข้อมูล + ช่องว่างในสัญญา กลับไป สกมช. เมื่อมีการเวียนขอความเห็น</div>
+        </li>
+        <li class="step">
+          <h3>จัดลำดับความสำคัญ</h3>
+          <p>ของมีจำกัด เวลาก่อนบังคับใช้มีสองปี ต้องเลือกงานที่จำเป็นก่อน แล้วประกาศเจ้าภาพให้ทุกฝ่ายวางแผนและสื่อสารผู้บริหารชุดเดียวกัน</p>
+        </li>
+        <li class="step">
+          <h3>จัดทำแผน (ตัวอย่างในเล่มเป็นแผน 5 ปี)</h3>
+          <p>ยุทธศาสตร์ตัวอย่าง 3 ก้อน</p>
+          <ul>
+            <li><strong>รวมพลังรัฐ–เอกชน:</strong> เครือข่ายอาสาสมัครผู้เชี่ยวชาญช่วยร่างหลักเกณฑ์ให้เร็วและเข้ากับหน่วยงานกำกับ</li>
+            <li><strong>สร้างสภาพแวดล้อม:</strong> กลไกตรวจรับรอง, สกมช. รับรอง Certify Body, ลดอุปสรรค CSP ในและนอกประเทศ, ร่วมมือ CSA/ISO/NIST</li>
+            <li><strong>พัฒนาคน:</strong> หลักสูตร Lead Auditor/Implementer, Cloud Security Professional, NCSA Cyber Clinic (SMART), health check, ช่องถามเรื่อง implement, Self-assessment</li>
+          </ul>
+        </li>
+        <li class="step">
+          <h3>ลงมือตามแผน</h3>
+          <p>มีทีมเฉพาะกิจอยู่ภายใต้เลขาธิการ สกมช. กำกับโดย กกม. และ กมช. และสอดคล้องทิศทาง Cloud First</p>
+        </li>
+        <li class="step">
+          <h3>ประเมินผลต่อเนื่อง</h3>
+          <p>เวลาจำกัด ต้องวัดผลใกล้ชิด ปรับแผนได้ และเผยแพร่การเปลี่ยนผ่านแพลตฟอร์มกลางตามงบที่มี</p>
+        </li>
+      </ol>
+      <div class="quiz" data-q="q2">
+        <strong>ทดสอบความเข้าใจ</strong>
+        <p>กรอบห้าขั้นนี้ใกล้กระบวนการใดที่สุด</p>
+        <label><input type="radio" name="q2" value="a"> ซื้อคลาวด์ก่อน แล้วค่อยคิดมาตรฐาน</label><br>
+        <label><input type="radio" name="q2" value="b"> ร่วมกันระบุของที่ขาด → เรียงงานสำคัญ → ทำแผน → ลงมือ → วัดผลแล้วปรับ</label><br>
+        <label><input type="radio" name="q2" value="c"> รอให้ Certify Body ในประเทศครบก่อนจึงเริ่มจัดระดับข้อมูล</label><br>
+        <button type="button" onclick="grade(this,'b')">ตรวจคำตอบ</button>
+        <div class="result"></div>
+      </div>
+    </article>
+
+    <article class="card" id="do">
+      <h2>คู่มือลงมือสำหรับผู้ที่จะทำตาม</h2>
+      <p>รวมบทที่ 5 กับมาตรฐานคลาวด์ 2567 เป็นลำดับงานที่หน่วยงานทำได้เลย</p>
+      <ol>
+        <li>ทำบัญชีบริการคลาวด์สาธารณะทั้งหมด (SaaS, PaaS, IaaS, ไฮบริด)</li>
+        <li>จัดระดับผลกระทบตามประกาศ พ.ศ. 2566 — ข้อมูลส่วนบุคคลอย่างน้อยระดับกลาง</li>
+        <li>เขียนตารางแบ่งหน้าที่ CSC–CSP ตามประเภทบริการ</li>
+        <li>ตรวจสัญญา: ที่ตั้งศูนย์ข้อมูลหลักในไทย, เขตอำนาจศาล, การแจ้งเหตุ, การลบข้อมูลเมื่อเลิกสัญญา, ผู้รับจ้างช่วง</li>
+        <li>เปิด MFA บัญชีสิทธิสูง, ปิดบัญชีที่ไม่ใช้, เก็บ log</li>
+        <li>วางการเข้ารหัสและกุญแจ — ถ้าใช้กุญแจของหน่วยงาน ห้ามให้ CSP ถือกุญแจนั้น</li>
+        <li>เก็บหลักฐานเพื่อ Self-assessment หรือยื่นตรวจตามระดับ</li>
+        <li>ซ้อมแจ้งเหตุร่วมกับ CSP ปีละครั้ง</li>
+        <li>เมื่อดำเนินการเสร็จตามมาตรฐาน ส่งสรุปให้ สกมช. ภายใน 30 วัน</li>
+      </ol>
+      <div class="warn">
+        <strong>ข้อจำกัดของหน้านี้</strong>
+        เป็นคำอธิบายเพื่อการศึกษา ไม่ใช่สำเนากฎหมาย การตีความประกาศกรอบนี้เป็นอำนาจเลขาธิการ สกมช. และรายงาน กมช. คำวินิจฉัยของเลขาธิการเป็นที่สุด
+      </div>
+    </article>
+  </main>
+  <footer>
+    สรุปภาษาเข้าใจง่ายจากประกาศ สกมช. เรื่อง กรอบการทำงานด้านการรักษาความมั่นคงปลอดภัยไซเบอร์ระบบคลาวด์<br>
+    (Thailand’s National Cloud Security Framework) เวอร์ชัน 1.0 · ประกาศ 10 มีนาคม พ.ศ. 2568
+  </footer>
+  <script>
+    document.querySelectorAll('#tabs-c button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#tabs-c button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        ['sg','us','au','in'].forEach(id => {
+          document.getElementById(id).classList.toggle('show', id === btn.dataset.p);
+        });
+      });
+    });
+    function grade(btn, ans) {
+      const box = btn.closest('.quiz');
+      const picked = box.querySelector('input:checked');
+      const out = box.querySelector('.result');
+      if (!picked) { out.innerHTML = '<p class="no">เลือกคำตอบก่อน</p>'; return; }
+      out.innerHTML = picked.value === ans
+        ? '<p class="ok">ถูกต้อง แนวนี้คือสิ่งที่กรอบต้องการให้หน่วยงานทำ</p>'
+        : '<p class="no">ยังไม่ใช่ ลองอ่านคำอธิบายเหนือข้อนี้อีกครั้ง</p>';
+    }
+  </script>
+</body>
+</html>
