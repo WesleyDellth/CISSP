@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สื่อสารภายใต้แรงกดดัน — คู่มือสำหรับผู้ให้บริการ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0b2a4a;
+      --blue: #1a5f9e;
+      --sky: #2b7de9;
+      --gold: #c9a227;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #1c2430;
+      --muted: #5b6775;
+      --line: #d7e0ea;
+      --ok: #0f7a4a;
+      --warn: #b45309;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans Thai", "IBM Plex Sans Thai", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    header.hero {
+      background:
+        linear-gradient(180deg, rgba(11,42,74,.88), rgba(11,42,74,.92)),
+        radial-gradient(circle at 20% 20%, #1a5f9e 0, transparent 50%);
+      color: #fff;
+      padding: 28px 20px 36px;
+    }
+    .wrap { max-width: 880px; margin: 0 auto; }
+    .meta-row {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      font-size: 12px; letter-spacing: .02em; opacity: .92;
+    }
+    .pill {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .tlp { background: #fff; color: #111; font-weight: 700; }
+    h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      line-height: 1.25;
+      margin: 16px 0 10px;
+      font-weight: 700;
+    }
+    .sub { color: #d7e6f5; font-size: 15px; max-width: 640px; }
+    .agencies {
+      margin-top: 18px; font-size: 12px; color: #c5d6e8;
+    }
+    nav.toc {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 20;
+    }
+    nav.toc .wrap {
+      display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px;
+    }
+    nav.toc a {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    nav.toc a:hover { background: #eaf2fb; }
+    main { padding: 22px 16px 80px; }
+    section.card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(16,40,70,.04);
+    }
+    h2 {
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    h3 { font-size: 16px; color: var(--blue); margin: 14px 0 6px; }
+    p { margin: 8px 0; color: #2a3340; }
+    .lead { font-size: 16.5px; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (min-width: 680px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+    .item {
+      background: #f7fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .item strong { display: block; color: var(--navy); margin-bottom: 4px; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      margin: 8px 0;
+    }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 13px 16px;
+      font-weight: 600;
+      color: var(--navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--sky); font-size: 20px; }
+    details[open] summary::after { content: "–"; }
+    details .body { padding: 0 16px 14px; color: #334155; }
+    ul.simple { padding-left: 18px; }
+    ul.simple li { margin: 6px 0; }
+    .do { border-left: 4px solid var(--ok); }
+    .dont { border-left: 4px solid #c24141; }
+    .check {
+      display: flex; gap: 10px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px dashed var(--line);
+    }
+    .check input { margin-top: 6px; transform: scale(1.2); }
+    .note {
+      font-size: 13px; color: var(--muted); margin-top: 12px;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 10px 16px 28px;
+    }
+    .badge {
+      display: inline-block;
+      background: #e8f1fb;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="meta-row">
+        <span class="pill tlp">TLP:CLEAR</span>
+        <span class="pill">เผยแพร่ 2 ก.ย. 2026</span>
+        <span class="pill">เอกสารร่วม 6 หน่วยงาน</span>
+      </div>
+      <h1>สื่อสารภายใต้แรงกดดัน</h1>
+      <p class="sub">แนวทางปฏิบัติสำหรับผู้ให้บริการ เมื่อระบบ IT / OT ล่ม หรือเกิดเหตุที่กระทบลูกค้า — อธิบายง่าย เป็นขั้นตอน กดอ่านได้</p>
+      <p class="agencies">
+        CISA · FBI · ASD’s ACSC · Canadian Centre for Cyber Security · NCSC-NZ · NCSC-UK
+      </p>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <div class="wrap">
+      <a href="#why">ทำไมสำคัญ</a>
+      <a href="#glance">สรุปสั้น</a>
+      <a href="#prepare">เตรียมก่อนเกิดเหตุ</a>
+      <a href="#say">จะพูดอะไร</a>
+      <a href="#do">ทำ / อย่าทำ</a>
+      <a href="#check">เช็กลิสต์</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="card" id="why">
+      <span class="badge">ภาพรวม</span>
+      <h2>เหตุระบบล่ม ไม่ใช่แค่ปัญหาเทคนิค</h2>
+      <p class="lead">เมื่อบริการ IT หรือระบบปฏิบัติการ (OT) หยุดทำงาน ลูกค้า ผู้ดูแลเครือข่าย เจ้าของโครงสร้างพื้นฐานสำคัญ และประชาชนทั่วไปได้รับผลกระทบทันที</p>
+      <p>ไม่ว่าเหตุจะมาจากโจมตีหรืออุบัติเหตุ ผู้ให้บริการต้องสื่อสารให้ชัด เพื่อให้ผู้ใช้ลดความเสียหายได้เอง เช่น สำรองงาน เปลี่ยนช่องทาง หรือรออย่างมีข้อมูล</p>
+    </section>
+
+    <section class="card" id="glance">
+      <h2>สรุปในหนึ่งหน้า</h2>
+      <div class="grid two">
+        <div class="item">
+          <strong>เริ่มจากข้อเท็จจริง</strong>
+          บอกสิ่งที่รู้แล้ว สิ่งที่ยังไม่รู้ และสิ่งที่กำลังทำ อย่าแต่งเรื่องให้ดูดี
+        </div>
+        <div class="item">
+          <strong>ห้าม PR spin</strong>
+          อย่าใช้ประโยคกลบเกลื่อน เช่น “ไม่มีอะไรน่ากังวล” ถ้ายังไม่ยืนยัน
+        </div>
+        <div class="item">
+          <strong>โปร่งใสตามกฎ</strong>
+          เปิดเผยในระดับที่กฎหมายและสัญญาอนุญาต โดยไม่ทำลายการสอบสวน
+        </div>
+        <div class="item">
+          <strong>อัปเดตบ่อย เป็นชุด</strong>
+          ส่งข่าวซ้ำเป็นจังหวะ เมื่อข้อมูลเปลี่ยน อย่ารอจนจบเหตุ
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="prepare">
+      <h2>เตรียมก่อนเกิดเหตุ</h2>
+      <p>หัวใจของเอกสารคือ: อย่ารอจนระบบล่มแล้วค่อยคิดว่าจะพูดกับใคร</p>
+
+      <details open>
+        <summary>1. ทำแผนสื่อสารล่วงหน้า</summary>
+        <div class="body">
+          <ul class="simple">
+            <li>กำหนดเกณฑ์ว่าเหตุระดับไหนต้องแจ้งลูกค้า / หน่วยงานกำกับ / สาธารณะ</li>
+            <li>ระบุกลุ่มเป้าหมายแต่ละช่องทาง เช่น ลูกค้าองค์กร, ผู้ใช้ทั่วไป, สื่อ, หน่วยงานรัฐ</li>
+            <li>เตรียมข้อความตั้งต้น (holding statement) ที่แก้ตัวเลข/เวลาได้ทันที</li>
+            <li>กำหนดผู้มีสิทธิอนุมัติข้อความ เพื่อไม่ให้ข่าวออกช้าหรือขัดกัน</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>2. รู้ช่องทางสำรองเมื่อระบบตัวเองล่ม</summary>
+        <div class="body">
+          <p>เว็บสถานะ, โซเชียล, อีเมลสำรอง, สายด่วน, หน้าสถานะของบุคคลที่สาม ต้องใช้ได้แม้ระบบหลักพัง</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>3. ซ้อมกับทีมเทคนิค กฎหมาย และสื่อสาร</summary>
+        <div class="body">
+          <p>ทีมที่แก้ระบบกับทีมที่พูดกับลูกค้าต้องใช้ภาษาเดียวกัน ซ้อมสถานการณ์ทั้งเหตุโจมตีและเหตุไม่ใช่โจมตี</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" id="say">
+      <h2>โครงข้อความที่แนะนำ</h2>
+      <p>ทุกครั้งที่ออกข่าว ควรมี 4 ก้อนนี้:</p>
+      <div class="grid two">
+        <div class="item"><strong>1. เกิดอะไรขึ้น</strong>ข้อเท็จจริงที่ยืนยันแล้วเท่านั้น</div>
+        <div class="item"><strong>2. รู้แค่ไหน</strong>ยอมรับส่วนที่ยังไม่ชัด</div>
+        <div class="item"><strong>3. กำลังทำอะไร</strong>ขั้นตอนกู้คืน / สอบสวน / ป้องกันลุกลาม</div>
+        <div class="item"><strong>4. ผู้ใช้ควรทำอะไร</strong>คำสั่งที่ทำตามได้ทันที</div>
+      </div>
+      <h3>ตัวอย่างโทนที่เข้าใจง่าย</h3>
+      <div class="item">
+        “บริการ X หยุดบางส่วนตั้งแต่ 21:10 น. สาเหตุอยู่ระหว่างตรวจสอบ ลูกค้าที่ใช้ระบบ Y อาจเข้าไม่ได้ แนะนำให้ใช้ช่องทางสำรอง Z เราจะอัปเดตอีกครั้งภายใน 60 นาที หรือเร็วกว่านั้นหากมีข้อมูลใหม่”
+      </div>
+    </section>
+
+    <section class="card" id="do">
+      <h2>ทำ / อย่าทำ</h2>
+      <div class="grid two">
+        <div class="item do">
+          <strong>ทำ</strong>
+          <ul class="simple">
+            <li>พูดตรง ใช้ภาษาธรรมดา</li>
+            <li>บอกเวลาอัปเดตรอบหน้า</li>
+            <li>แยกกลุ่มผู้รับข้อความ</li>
+            <li>บันทึกทุกข้อความที่ออกไป</li>
+            <li>ประสานกับหน่วยงานกำกับตามกำหนด</li>
+          </ul>
+        </div>
+        <div class="item dont">
+          <strong>อย่าทำ</strong>
+          <ul class="simple">
+            <li>โทษใครก่อนมีหลักฐาน</li>
+            <li>รับประกันว่า “ข้อมูลไม่รั่ว” ทั้งที่ยังไม่รู้</li>
+            <li>เงียบนานแล้วค่อยออกมาทีเดียว</li>
+            <li>ใช้คำสวยที่ไม่มีสาร</li>
+            <li>ปล่อยทีมต่างหน่วยงานพูดคนละเรื่อง</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="check">
+      <h2>เช็กลิสต์สำหรับผู้ให้บริการ</h2>
+      <p>แตะช่องเพื่อติ๊กระหว่างเตรียมทีม</p>
+      <div class="check"><input type="checkbox"><div>มีแผนสื่อสารพร้อมเกณฑ์แจ้งเหตุและรายชื่อกลุ่มเป้าหมาย</div></div>
+      <div class="check"><input type="checkbox"><div>มีข้อความตั้งต้นที่อนุมัติล่วงหน้า แก้เวลา/บริการได้ทันที</div></div>
+      <div class="check"><input type="checkbox"><div>มีช่องทางแจ้งลูกค้าที่ยังใช้ได้เมื่อระบบหลักล่ม</div></div>
+      <div class="check"><input type="checkbox"><div>รู้ว่ากฎหมาย/สัญญาบังคับให้แจ้งใครภายในกี่ชั่วโมง</div></div>
+      <div class="check"><input type="checkbox"><div>ทีมเทคนิค กฎหมาย และสื่อสารซ้อมด้วยกันแล้ว</div></div>
+      <div class="check"><input type="checkbox"><div>กำหนดจังหวะอัปเดตซ้ำแม้ยังไม่มีข่าวใหม่</div></div>
+      <p class="note">นี่คือฉบับย่อภาษาไทยเพื่อความเข้าใจ ไม่ใช่คำแปลทางการครบ 9 หน้า และไม่แทนที่ต้นฉบับ TLP:CLEAR ของหน่วยงานต้นทาง</p>
+    </section>
+  </main>
+  <footer>
+    สรุปเชิงโต้ตอบจากแนวทางร่วม CISA / FBI / ACSC / Cyber Centre / NCSC-NZ / NCSC-UK · 2 กันยายน 2026
+  </footer>
+</body>
+</html>
